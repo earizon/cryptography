@@ -1,0 +1,585 @@
+-----------------------------------
+https://martin.kleppmann.com/2020/11/18/distributed-systems-and-elliptic-curves.html
+
+New courses on distributed systems and elliptic curve cryptography
+Published by Martin Kleppmann on 18 Nov 2020.
+
+I have just published new educational materials that might be of 
+interest to computing people: a new 8-lecture course on distributed 
+systems, and a tutorial on elliptic curve cryptography.
+-----------------------------------
+What Is the Signal Encryption Protocol? | WIRED
+https://www.wired.com/story/signal-encryption-protocol-hacker-lexicon/ 
+-----------------------------------
+https://sequoia-pgp.org/
+Open PGP library focusing on safety and correctness.
+-----------------------------------
+https://www.infoq.com/news/2021/01/hashicorp-cloud-vault-beta/
+-----------------------------------
+https://docs.aws.amazon.com/cognito/latest/developerguide/amazon-cognito-user-pools-using-tokens-verifying-a-jwt.html
+-----------------------------------
+https://www.researchgate.net/scientific-contributions/Ben-Fisch-2124481134
+-----------------------------------
+Themis Crytpo library
+
+https://github.com/cossacklabs/themis
+Cross-platform library for secure data storage, message exchange, 
+socket connections, and authentication
+One cryptographic library that fits them all: Themis is the best fit 
+for multi-platform apps (e.g., iOS+Android+Electron app with Node.js 
+backend) because it provides 100% compatible API and works in the 
+same way across all supported platforms.
+- used for example by https://github.com/cossacklabs/pg_themis
+  PostgreSQL (9.1+) extension for data encryption.
+</pre>
+
+<pre zoom labels="blockchain,software,qa.blockchain,_PM.backlog">
+<span xsmall>Rekor: Immutable Ledger for Soft. Artifacts</span>
+@[https://github.com/sigstore/rekor]
+- Allow soft.maintainers record signed metadata to tamper resistant immutable record.
+- CLI application + RESTFul API for validation and a transparency log for storage.
+</pre>
+
+####################
+- original description was intended for use as part of a
+  signature scheme, with an static message agreed upon
+  by two parties out of band.
+- Crosby and Wallach [1] and, independently, Laurie et al.
+  [2], proposed procedures to extend MHTs to append-only data
+  structures that main- tain MHTs’ desirable security invariants.
+ 
+  - as some element Xn is added to a tree of n elements, it is 
+    appended to the tree and hashes toward the root recalculated,
+    with only O(log2 n) operations during insertion. 
+   - Crosby and Laurie add a new security mechanism:
+     - 0x00 byte input to hash function if result is a leaf.
+     - 0x01 byte input to hash function if result is internal node.
+     This protecta against hacker presenting a tampered tree in
+     which nodes at some depth>0 are presented as leaves, with
+     their values being the concatenated hashes of their actual 
+     children, producing the same root value as original tree,
+     rendering the data garbled.
+
+
+[1] "Efficent data structures for tamper-evident logging", In proceedings 
+    of the 18th Conference on USENIX Security Symposium (USA, 200), SSYM'09, 
+    USENIX Association, p. 317-334
+[2]  draft-ietf-trans-rfc6962-bis-34, Certificate Transparency Version 2.0:
+   https://datatracker.ietf.org/doc/draft-ietf-trans-rfc6962-bis/34/
+
+############
+Crypto nerd's imagination vs real world:
+https://github.com/trimstray/nginx-admins-handbook/blob/master/static/img/crypto_nerds.png
+############
+https://github.com/tum-i4/indistinguishability-obfuscation
+Implementation of Candidate Indistinguishability Obfuscation
+
+This project is a preliminary implementation of the Candidate 
+Indistinguishability Obfuscation algorithm recently proposed by Garg 
+et al. [0]. Each of the steps necessary for the NC_1 candidate is 
+implemented, but not all of them work completely. Especially the 
+implementation of Multilinear Jigsaw Puzzles is still in the early 
+phases of development and not fully functional.
+############
+Cryptographics filesystem for the cloud:
+https://github.com/tldr-pages/tldr/blob/master/pages/common/cryfs.md @ma
+#################
+https://github.com/tldr-pages/tldr/blob/master/pages/common/gpg.md
+https://github.com/tldr-pages/tldr/blob/master/pages/common/gpg2.md
+- https://github.com/tldr-pages/tldr/blob/master/pages/common/gpgv.md
+  Verify OpenPGP signatures. More information: https://www.gnupg.org/documentation/manuals/gnupg/gpgv.html.
+#########################
+##########################
+https://www.passwordstore.org/
+Password management should be simple and follow Unix philosophy. With 
+pass, each password lives inside of a gpg encrypted file whose 
+filename is the title of the website or resource that requires the 
+password. These encrypted files may be organized into meaningful 
+folder hierarchies, copied from computer to computer, and, in 
+general, manipulated using standard command line file management 
+utilities.
+
+https://github.com/tadfisher/pass-otp#readme
+A pass extension for managing one-time-password (OTP) tokens.
+https://github.com/tldr-pages/tldr/blob/master/pages/common/pass.md
+Tool for storing and reading passwords or other sensitive data. All 
+data is GPG-encrypted, and managed with a Git repository. More 
+information: https://www.passwordstore.org.
+########################
+
+Ciphey/Ciphey: ⚡ Automatically decrypt encryptions without knowing the key or cipher, decode encodings, and crack hashes ⚡
+https://github.com/Ciphey/Ciphey 
+
+##################3
+Starred projects at github.
+Includes many related to cryptography
+
+https://github.com/mayakacz?after=Y3Vyc29yOnYyOpK5MjAxNi0wNS0wNlQwNzowNToyMSswMjowMM4DeoYC&tab=stars
+##################
+ [Announce] Libgcrypt 1.9.0 relased
+ https://lists.gnupg.org/pipermail/gnupg-announce/2021q1/000453.html
+###################
+IoT, standards,smart_cards
+https://www.openscdp.org/
+- Why use more than one scripting environment for all your smart card 
+  simulation, testing, data preparation, personalization and key 
+  management needs ?" - Andreas Schwier, OpenSCDP founder
+
+- The Open Smart Card Development Platform (OpenSCDP) is a collection 
+of tools for the development, test and deployment of smart card and 
+public key infrastructure applications. It uses the capabilities of 
+Global Platform Scripting, Profile and Messaging technology to 
+provide unsurpassed flexibility and development speed.
+
+######################
+IoT, standards,
+https://globalplatform.org/
+#####################
+gpg-tui introduction:
+https://orhun.dev/blog/introducing-gpg-tui/
+########################
+@@[https://medium.com/@nodejs/introducing-node-js-12-76c41a1b3f3f]
+
+TLS1.3 is a major update to the TLS protocol, with many security 
+enhancements and should be used over TLS1.2 whenever possible.
+
+TLS1.3 is different enough that even though the OpenSSL APIs are 
+technically API/ABI compatible when TLS1.3 is negotiated, changes in 
+the timing of protocol records and of callbacks broke assumptions 
+hard-coded into the ‘tls’ module. This change introduces no API 
+incompatibilities when TLS1.2 is negotiated. It is the intention that 
+it be backported to current and LTS release lines with the default 
+maximum TLS protocol reset to ‘TLSv1.2’. This will allow users of 
+those lines to explicitly enable TLS1.3 if they want. If you want to 
+read more you can check out these related 
+articles:https://developer.ibm.com/blogs/openssl-111-has-landed-in-nod
+ejs-master-and-why-its-important-for-nodejs-lts-releases/, 
+https://developer.ibm.com/blogs/tls13-is-coming-to-nodejs/
+
+[https://medium.com/@nodejs/introducing-node-js-12-76c41a1b3f3f]
+
+TLS1.3 is a major update to the TLS protocol, with many security 
+enhancements and should be used over TLS1.2 whenever possible.
+
+TLS1.3 is different enough that even though the OpenSSL APIs are 
+technically API/ABI compatible when TLS1.3 is negotiated, changes in 
+the timing of protocol records and of callbacks broke assumptions 
+hard-coded into the ‘tls’ module. This change introduces no API 
+incompatibilities when TLS1.2 is negotiated. It is the intention that 
+it be backported to current and LTS release lines with the default 
+maximum TLS protocol reset to ‘TLSv1.2’. This will allow users of 
+those lines to explicitly enable TLS1.3 if they want. If you want to 
+read more you can check out these related 
+articles:https://developer.ibm.com/blogs/openssl-111-has-landed-in-nod
+ejs-master-and-why-its-important-for-nodejs-lts-releases/, 
+https://developer.ibm.com/blogs/tls13-is-coming-to-nodejs/
+
+################
+<pre zoom labels="_PM.TODO">
+<span title>Auto SSL</span>
+</pre>
+################
+https://crypto.stackexchange.com/tags  @ma Crypto Taxonomy!!!!
+#######################
+https://en.wikipedia.org/wiki/Commitment_scheme#Partial_reveal
+#############################
+What's new: OpenSSL
+https://blog.segu-info.com.ar/2021/09/publicado-openssl-v30.html?m=1
+
+https://www.openssl.org/docs/man3.0/man7/crypto.html
+_____________________________
+Zksnarks and crypto accumulators
+https://blog.coinbase.com/zksnarks-and-cryptographic-accumulators-f840da0b61c6
+________________________________
+Cryptography: « Il suffit d'un laser et d'un peu d'optique pour que le monde de l'information change de paradigme » | larecherche.fr
+https://www.larecherche.fr/cryptographie-photonique-optique/%C2%AB-il-suffit-dun-laser-et-dun-peu-doptique-pour-que-le-monde-de 
+
+Une collaboration internationale impliquant la chaire photonique au sein du laboratoire LMOPS de CentraleSupélec et de l’université de Lorraine (Metz), l’université de Yale (États-Unis), Trinity College Dublin (Irlande), Imperial College London (Royaume-Uni), et Nanyang Technological University (Singapour), a mis au point un laser générant plus de 250 trillions (250 milliards de milliards) de nombres aléatoires par seconde. Un résultat majeur, alors que le précédent record était de 560 milliards de nombres aléatoires en 2014, déjà détenu par la chaire photonique. Marc Sciamanna, enseignant chercheur à CentraleSupélec, nous explique les enjeux d'un tel record.
+____________________________________
+https://ec.europa.eu/cefdigital/wiki/display/CEFDIGITAL/2021/05/27/Secure+eSignatures+at+DigitALL+Public+2021?pk_source=SinglePageBookProject
+_____________________________________
+Google publishes HIBA, an OpenSSH Add-On for Certificate-Based Authorization | Linux Today
+https://www.linuxtoday.com/security/google-publishes-hiba-an-openssh-add-on-for-certificate-based-authorization/ 
+_____________________________________
+GpG: Introducing gpg-tui, a Terminal User Interface for GnuPG – orhun's blog – Some place on the internet.
+https://orhun.dev/blog/introducing-gpg-tui/ 
+_______________________
+Encrypted fs: tldr/gocryptfs.md at main · tldr-pages/tldr · GitHub
+https://github.com/tldr-pages/tldr/blob/main/pages/common/gocryptfs.md 
+___________________________
+
+Google Open-Sources Fully Homomorphic Encryption Transpiler
+https://www.infoq.com/news/2021/06/google-fhe-transpiler/ 
+
+Google has open-sourced a general-purpose transpiler able to convert high-level code to be used with Fully Homomorphic Encryption (FHE).
+
+While FHE is attracting a lot of interest from several companies, including IBM and Microsoft, here Google is attempting a novel approach by creating a transpiler to transform a program written in a high-level language and working with non-encrypted data into an FHE-ready version.
+Google’s transpiler will enable developers to write code for any type of basic computation such as simple string processing or math, and run it on encrypted data.
+________________________
+Europe.eu. eidas: Ver "CEF eSignature Workshop for eIDAS Notifiers" en YouTube
+
+______________________________
+1Password – Password Manager
+https://chrome.google.com/webstore/detail/1password-%E2%80%93-password-mana/aeblfdkhhhdcdjpifhhbdiojplfjncoa?hl=en 
+Developed in Rust. Compiled to wasm.
+_________________________
+Ver "Elliptic Curves and Modular Forms | The Proof of Fermat’s Last Theorem" en YouTube
+https://youtu.be/grzFM5XciAY 
+Ver comentarios!!!
+###############################
+Related projects:
+@[https://jamielinux.com/docs/openssl-certificate-authority/index.html]
+#############################
+<pre zoom labels="standards.pgp,tool.gpg,tool.openssl,protocol.ssh,protocol.tls.ca,_PM.TODO">
+<span xsmall>Convert keys GPG|OpenSsh|OpenSSL</span>
+http://sysmic.org/dotclear/index.php?post/2010/03/24/Convert-keys-betweens-GnuPG%2C-OpenSsh-and-OpenSSL
+</pre>
+#######################
+TODO: Classify all related to use_case.signature.aggregated
+#######################
+@[http://www.xataka.com/privacidad/enigma-renace-el-cifrado-homomorfico-y-el-blockchain-como-base-de-una-internet-mas-privada]
+<pre zoom labels="tool,_PM.TODO">
+<a xsmall TODO href="https://en.wikipedia.org/wiki/BitLocker">BitLocker full disk encryption</a>
+</pre>
+<!-- 
+ TODO:
+  @[https://blog.plan99.net/vntinyram-7b9d5b299097]
+  @[https://medium.com/@VitalikButerin/quadratic-arithmetic-programs-from-zero-to-hero-f6d558cea649]
+  • zero-knowledge proof: cryptographic method where one party 
+    (the prover) can prove to another party (the verifier) that the prover 
+    knows a value x, without conveying any information apart from the fact 
+    that the prover knows the value x.
+
+##########################
+  - Normally zk-SNARKs are used as a way to say "I have a secret" t  
+    someone and prove that you indeed have the secret without tellin  
+    them what the secret is . 
+    What the Baseline Protocol uses it for is a little different.
+    It's more like saying to a specific set of counterparties,
+    "We have a secret" and using a machine that we all can access
+    to tell us that we all have the same secret (or that we do
+    not) without telling that machine anything that would let someone
+    else with access to it discover anything about the secret...or even
+    that we have one.
+
+##########################
+ modulo and comparison operators ( % ˂, ˃, ≤, ≥) NOT supported:
+ NO EFFICIENT WAY TO DO THEM IN FINITE CYCLIC GROUP ARITHMETIC
+ (Otherwise elliptic curve cryptography would be broken)
+##########################
+https://en.wikipedia.org/wiki/Universal_composability
+ universal composability (UC)[1] is a general-purpose model for the 
+analysis of cryptographic protocols. It guarantees very strong 
+security properties. Protocols remain
+
+https://en.wikipedia.org/wiki/Commitment_scheme 
+It is impossible to realize commitment schemes in the universal 
+composability (UC) framework
+##########################
+./WhyAndHow_zkSNARK_Works_1906.07221.pdf  @ma
+##########################
+java keytool / keystore
+$ keytool -list \
+  -keystore $JAVA_HOME/lib/security/cacerts <- List certificates in truststore
+                                               Default password is “changeit”.
+(output contains 100+entries)
+Keystore: file *jks used (by app server,...) to store its private key and site certificate.
+          - Each certificate is associated with a unique alias.
+
+Keystore type: JKS
+Keystore provider: SUN
+Your keystore contains 104 entries
+
+verisignclass2g2ca [jdk] , Aug 25, 2016, trustedCertEntry,        <- alias,  
+Cert.. fingerprint (SHA1): B3:EA:C4:47:76:C9:C8:1C:EA:F2:9D:95:B6:CC:A0:08:1B:67:EC:9D
+
+digicertassuredidg3 [jdk], Aug 25, 2016, trustedCertEntry,
+Certificate fingerprint (SHA1): F5:17:A2:4F:9A:48:C6:C9:F8:A2:00:26:9F:DC:0F:48:2C:AB:30:89
+
+...
+
+A  (server) keystore.jks  contains ussually two entries: (private key, certificate)
+
+
+$ keytool -import -trustcacerts \            <- Add/Import cert to keystore.
+  -file ... -alias $alias \
+  -keystore $JAVA_HOME/lib/security/cacerts
+
+
+https://www.sslshopper.com/article-most-common-java-keytool-keystore-commands.html
+
+Example flow:
+STEP 1): create  .jks file containing only the private key.
+STEP 2): Generate a CSR
+STEP 3): Generate(self-signed) or obtain Signed Certificate. 
+STEP 4): Import it (including any parents -up to root- certificates)
+
+- Create/Update keystore:
+  $ keytool -genkey -alias mydomain -keyalg RSA \    <- Generate a Java keystore and key pair
+    -keystore keystore.jks  -keysize 2048
+  $ keytool -certreq -alias mydomain \               <- Generate Cert.Signing request (CSR) for existing Java keystore
+    -keystore keystore.jks -file mydomain.csr
+  $ keytool -import -trustcacerts -alias root \      <- Import root/intermediate CA certificate 
+    -file Thawte.crt -keystore keystore.jks
+  $ keytool -import -trustcacerts -alias mydomain \  <- Import a signed primary certificate to an existing Java keystore
+    -file mydomain.crt -keystore keystore.jks
+  $ keytool -genkey -keyalg RSA -alias selfsigned \  <- Generate keystore and self-signed certificate 
+    -keystore keystore.jks -storepass password \        (see How to Create a Self Signed Certificate using Java Keytool for more info)
+    -validity 360 -keysize 2048
+
+
+* Checking keystore:
+  $ keytool -printcert -v -file mydomain.crt         <- Check a stand-alone certificate
+  $ keytool -list -v -keystore keystore.jks          <- Check which certificates are in a Java keystore
+  $ keytool -list -v -keystore keystore.jks \        <- Check a particular keystore entry using an alias
+    -alias mydomain
+
+* Other Commands:
+  $ keytool -delete -alias mydomain \                <- Delete Cert from keystore
+    -keystore keystore.jks
+  $ keytool -storepasswd -new new_storepass \        <- Change keystore password
+    -keystore keystore.jks
+  $ keytool -export -alias mydomain \                <- Export a certificate from a keystore
+    -file mydomain.crt -keystore keystore.jks
+
+  $ keytool -list -v \                               <- List Trusted CA Certs
+    -keystore $JAVA_HOME/jre/lib/security/cacerts
+
+  $ keytool -import -trustcacerts \                  <- Import New CA into Trusted Certs
+    -file /path/to/ca/ca.pem \
+    -alias CA_ALIAS \
+    -keystore $JAVA_HOME/jre/lib/security/cacerts
+
+___________________________
+https://github.com/digitalbazaar/forge
+
+----------------------
+• https://www.nucypher.com/proxy-re-encryption
+  Proxy re-encryption (PRE) is a type of public-key encryption (PKE) 
+  that allows a proxy entity to transform or re-encrypt data from one 
+  public key to another, without having access to the underlying 
+  plaintext or private keys.
+  
+  - Alices uses PrivKey_a to decrypt PubKey_a messages.
+  - Alices generates re-encryption PubKey_a_to_b (a_to_b == "Alice 2 Bob") 
+    and sends it to trusted PROXY (e.g: e-mail server)
+  - PROXY uses the PubKey_a_to_b to re-encrypt any messages 
+    arriving signed with PubKey_a. 
+  - Bob not can fetch the new encrypted-with-PubKey_a_to_b message 
+    and decrypt it with its own private key.
+  - The PROXY has no way to decrypt the original or new encrypted messages
+
+_________________________________
+Coinbase publishes Kryptology library of distributed crypto algorithms - itsfoss.nethttps://www.itsfoss.net/coinbase-publishes-kryptology-library-of-distributed-crypto-algorithms/amp/ 
+_______________________________
+Crypto: El algoritmo SHA-256 explicado y visualizado paso a paso, bit a bithttps://www.microsiervos.com/archivo/seguridad/algoritmo-sha-256-explicado-visualizado-paso-a-paso-bit-a-bit.html 
+______________________________
+Linux 5.19 ya fue liberado y estas son sus novedades | Linux Adictoshttps://www.linuxadictos.com/linux-5-19-ya-fue-liberado-y-estas-son-sus-novedades.html 
+El subsistema EFI implementa la capacidad de transferir de forma confidencial información secreta a los sistemas invitados sin revelarla al sistema host. Los datos se proporcionan a través del directorio security/coco en securityfs.
+Tambien se destaca el modo de seguridad de bloqueo, que restringe el acceso de root al kernel y bloquea las rutas de omisión de arranque seguro de UEFI, corrigió una laguna que permitía eludir la seguridad mediante la manipulación del depurador del kernel.
+Por otra parte, se destaca que se agregó soporte para la extensión AMD SEV-SNP (paginación anidada segura), que brinda trabajo seguro con tablas de páginas de memoria anidadas y protege contra ataques «undeSErVed» y «SEVerity» en los procesadores AMD EPYC, que permiten eludir la extensión AMD SEV (virtualización cifrada segura). ) mecanismo de protección.
+Se agregó soporte para el mecanismo Intel TDX (Trusted Domain Extensions), que permite bloquear los intentos de acceso de terceros a la memoria cifrada de la máquina virtual.
+Ademas de ello se continuó trabajando en la integración en la pila de herramientas de la red para rastrear los motivos de la caída de paquetes (códigos de motivo). El código de motivo se envía durante la liberación de la memoria asociada al paquete y permite tener en cuenta situaciones como descartar el paquete por errores en el llenado de campos en la cabecera, detección de spoofing por el filtro rp_filter, checksum incorrecto, out de memoria, activación de reglas IPSec XFRM, número de secuencia incorrecto TCP, etc.
+______________________________
+Airbnb Open Sources Ottr: a Serverless Public Key Infrastructure Framework @ma
+https://www.infoq.com/news/2021/11/airbnb-ottr/
+______________________________
+One Ring -3 to Secure Them All: Computing with Hardware Enclaves
+https://www.infoq.com/presentations/iot-cloud-options-production/
+___________________________
+https://github.com/paulmillr/noble-ed25519
+Fastest JS implementation of ed25519, an elliptic curve that could be 
+used for EDDSA signature scheme and X25519 ECDH key agreement.
+Conforms to RFC7748, RFC8032 and ZIP215. Includes support for 
+ristretto255: a technique for constructing prime order elliptic curve 
+groups with non-malleable encodings.
+Audited by an independent security firm: no vulnerabilities have been 
+found. online demo.
+------------------------------------
+Key Shadowing: secret_mng.wallet
+-  technique of generating key shadows performed by at least one 
+   computing device including at least one tangible computing element. 
+   The method includes receiving an indication of a first number X 
+   representing how many of the key shadows are to be generated, 
+   receiving an indication of a second number Y representing how many of 
+   the key shadows are to be required for decrypting an encrypted 
+   message, determining or receiving a master key for decrypting the 
+   encrypted message, and determining X key shadows of the master key. Y 
+   of those key shadows is sufficient to generate a range of more than 
+   one possible master keys that can be computationally feasibly 
+   searched for the master key. Less than Y of those key shadows is 
+   insufficient to determine any part of a value for the master key. 
+   Also, a technique of decrypting an encrypted message using Y of the 
+   key shadows. Further, associated systems.
+
+2017 @[https://patents.google.com/patent/US9634836]
+---------------------------------------------------
+crypt.zero_knowledge,use_case.privacy
+Homomorphic Encryption:
+@[https://en.wikipedia.org/wiki/Homomorphic_encryption]
+@[http://enigma.media.mit.edu/]
+
+- Fully homomorphic Encrypt.:
+@[https://www.infoq.com/news/2020/06/ibm-fully-homomorphic-encryption/]
+
+•  WARN:  rather young field which attracts with lot of research.
+• Broadly classifiable within secure multi-party computation,
+   Homomorphic Encryption is an approach to secure
+   computation that does not require decrypting your data in order to
+   process them. It enables processing ciphertexts with the guarantee
+   that encrypted results match those that would be produced by
+   first decrypting input data, processing them, and re-encrypting.
+
+• List of SDKs:
+  └ IBM Fully Homomorphic Encryption Toolkit, based on open source HELi  .
+    providing a number of low-level routines such set, add, multiply, shift,
+    ... along with higher-level features for automatic noise management, 
+    multi-threading, and so on.  @[https://github.com/homenc/HElib]
+  └ Microsoft SEAL (Simple Encrypted Arithmetic Library) 
+  @[https://www.microsoft.com/en-us/research/project/microsoft-seal/]
+  └ Google "Private Join and Compute" tool:
+  @[https://github.com/google/private-join-and-compute]
+-----------------------
+[[{101,_PM.TODO]]
+● Elliptic curves intro: @ma
+@[https://blog.cloudflare.com/a-relatively-easy-to-understand-primer-on-elliptic-curve-cryptography/]
+
+@[https://andrea.corbellini.name/2015/05/17/elliptic-curve-cryptography-a-gentle-introduction/]
+[[}]]
+
+-----------------------------
+• Arch.considerations for cryptanalytic hardware:
+@[https://people.eecs.berkeley.edu/~daw/papers/hwkeysearch96-www/chap-10_local.html]
+
+• Extract Key from Java Keystore:[[{tech_stack.java,secret_mng.wallet,use_case.secret_mng}]]
+https://dzone.com/articles/extracting-a-private-key-from-java-keystore-jks
+https://medium.com/java-user-group-malta/importing-existing-certificates-into-a-keystore-using-openssl-905d9e0b7175
+
+• Toplip: Strong File encrypt:[[{use_case.secret_mng,01_PM.low_code,tool}]]
+@[https://www.ostechnix.com/toplip-strong-file-encryption-decryption-cli-utility/]
+
+• Titan: Cli pass.manager:
+https://www.ostechnix.com/titan-command-line-password-manager-linux/
+
+• AMD Sec.Processor: Mem.Encryption[[{use_case.secret_mng,secret_mng.hardware,secret_mng.wallet}]]
+https://www.techpowerup.com/review/amd-epyc-server-architecture/3.html
+
+• Chinesse Standards: SM2, SM3, SM4 replace RSA, SHA , AES
+
+• Post Quantum Guide:
+https://hackernoon.com/a-guide-to-post-quantum-cryptography-d785a70ea04b
+
+• BLS Signature Scheme:[[{use_case.signature,crypt_asymmetric,01_PM.TODO]]
+@[https://medium.com/@srikarv/the-bls-signature-scheme-a-short-intro-801c723afffa]
+... Some prominent encryption schemes in literature and the fundamental
+reasoning behind their formulation include:
+- Boneh — Lynn — Shacham (BLS): Based on the existence of random
+  oracles and the intractability of the computational Diffie-Hellman
+  problem in a gap Diffie-Hellman group.
+- ElGamal: Based on the hardness of the discrete logarithm problem.
+- ECDSA: Based on the fact that given a point A on an elliptic curve
+  and another point P = n*A, it is difficult to find n.
+- Ring signature: Any non-empty subset of a group of n people can
+  sign a message without the identity of any of the participants being
+  leaked. It is a signature scheme built on other schemes.
+- RSA: Factorization of numbers (semi-primes in particular) is hard.
+- Schnorr Signature: Based on the hardness of the discrete logarithm problem.
+[[}]]
+
+• Pairing primitives:
+<pre zoom labels="use_case.signature.aggregated,01_PM.TODO">
+@[https://www.math.uwaterloo.ca/~ajmeneze/publications/pairings.pdf]
+  Bilinear pairings have been used to design ingenious 
+  protocols for such tasks as one-round three-party key agreement, 
+  identity-based encryption,and aggregate signatures. Suitable bilinear 
+  pairings can be constructed fromthe Tate pairing for specially chosen 
+  elliptic curves.  Thisarticle gives anintroduction to the protocols, 
+  Tate pairing computation, and curve selection.
+
+• Trusted Signature Pad: use_case.signature,hardware
+https://www.google.com/search?q=trusted+signature+pad
+
+• OKKA ASA: SSH + PKI:[[{protocol.ssh,qa.automatization,use_case.secret_mng,use_case.identity]]
+@[https://dzone.com/articles/ssh-is-dead-long-live-ssh-one-million-ssh-logins-w]
+
+·  ...more of our customers have come to the realization that server  
+   access is an identity problem first and foremost....  
+   The more you can unify access with identity, the better. 
+
+· "...Our customers use Okta Advanced Server Access  (Okta ASA) to 
+  securely automate identity and access controls for their teams to use 
+  SSH safely. And we've just reached a significant adoption milestone 
+  by registering over 1 million SSH logins per month... and growing!..."
+  With Okta ASA, SSH logins now follow a familiar Single Sign-On experience, 
+
+· SSH transport protocol is inherently secure; however, the backing    [secret_mng]
+  credential mechanism is prone to human error-with potentially 
+  catastrophic results....  companies have traditionally been forced 
+  to do one of the following:
+  - Implement a security policy forcing users to rotate their personal SSH Keys (easiest, least secure).
+  - Operate a secure vault service storing SSH Keys, checked out on demand (harder, more secure).
+  - Purchase and deploy a privileged access management product to act as a gateway for remote access (hardest, most secure).
+
+· traditional Public Key Infrastructure backing SSH was built for a 
+  different time, where a key exchange meant enough to grant trust. 
+
+· OpenSSH introduced in 2011 the capability to authenticate using a
+  Client Certificate (vs SSH Key). Client Certs. metadata carry 
+  cryptographically verifiable metadata to store usernames, roles, ... 
+  and an  expiration date .
+[[}]]
+
+• Aggregated Signatures[[{use_case.signature.aggregated,02_doc_has.comparative,01_PM.WiP]]
+REF: @[https://arxiv.org/pdf/1911.04698.pdf]
+Aggregate Signature protocols:
+.... CoSi protocol is based on SCHNORR SIGNATURE AGGREGATION,
+     which is an INTERACTIVE protocol: 
+     aggregated Schnorr-signature for a single message
+     requires all  the  singers  collaboration to generate
+     1) shared challenge-string in the "Challenge" phase of CoSi-protocol.
+     2) challenge-string of 1) as input for each signer to
+        generate its SIGNATURE SHARE.
+     Hence:
+     - A LEADER IS REQUIRED TO ORCHESTRATE THE WHOLE PROCESS.
+     - protocol  needs  to  take  multiple  rounds.
+
+ ...  our  aggregated  signature  gossip  protocol is based on
+      NON-INTERACTIVE BLS SIGNATURE AGGREGATION SCHEME. 
+     Hence:
+     - coordination  among nodes is eliminated.
+     - instead  of communication tree, gossip protocol is 
+       used to propagate the aggregated signatures.
+     These lead to simple+robust design which could be easier
+     to implement in practice.
+[[}]]
+
+• Fully Homomorphic Encryption (FHE) SDK:
+IBM Launches Fully Homomorphic Encryption (FHE) Toolkit for Linux - 9to5Linux
+@[https://9to5linux.com/ibm-launches-fully-homomorphic-encryption-fhe-toolkit-for-linux]
+
+• Trusted Data Format (TDF):[[{standards.web]]
+@[https://github.com/virtru/tdf-spec]
+
+- Trusted Data Format (TDF) is an Open, Interoperable, JSON encoded 
+   data format for implementing Data Centric Security for objects (such 
+   as files or emails). This repository specifies the protocols and 
+   schemas required for TDF operation. 
+
+- manifest.json  ··(references) ··> encrypted payload file/s
+
+- HTML+css , manifest.json ··(references) ··> Encrypted payload/s
+
+- There are three principle element-types within a TDF's manifest.json:
+  - Encryption Information: for encrypting, signing, or integrity 
+    binding of Payloads and Assertions.
+  - Payload Reference(s): reference(s) to the encrypted payload.
+  - Assertion(s): statement(s) about payload(s); this is optional and 
+    not shown below.
+
+
+• (Quantum)Lamport Signature:[[{use_case.signature,crypt_asymmetric]]
+- quantum-proof cryptographic signatureS
+- Quantum Safe Ethereum proxy with
+  Winternitz One-Time signatures
+  @[https://github.com/tjade273/QEth]
+[[}]]

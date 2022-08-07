@@ -1,9 +1,19 @@
 Cryptography notes:
+
+Source Git: @[https://github.com/earizon/cryptography]
+HTML view : @[https://earizon.github.io/txt_world_domination/viewer.html?payload=../cryptography/notes.txt]
+
 keywords: cryptography,cheat sheet,mind map,tutorial,101,primitives,elliptic curve,
           Curve25519,accumulator,aes,symmetric encryption,asymmetric encryption,
           authentication authorization and access (AAA),cipher,CA,dsa,fingerprint,gpg,
           low code,hash,IV,keystore,repudability,pkcs,pki,rsa,session establishment,
           signature,standards,tls,vault,x509
+
+● TOPIC Acronyms:
+  _PM    : Project Management
+  101    : Core concepts
+  qa     : Quality Assurance
+  qa.UX  : QA User Experience
 
 ● External Links: [[{]]
 -@[https://en.wikipedia.org/wiki/Index_of_cryptography_articles]

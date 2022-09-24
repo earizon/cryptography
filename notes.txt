@@ -588,7 +588,7 @@ keywords: cryptography,cheat sheet,mind map,tutorial,101,primitives,elliptic cur
   └─────────────────┬─────────────────────┘└──────┬────────────┘
                    Sign                        Verify
 
-  [[0_PM.WiP]] RSA Schema (Key-Pair Generation, Signature, Verification) algorithms.
+  [[01_PM.WiP]] RSA Schema (Key-Pair Generation, Signature, Verification) algorithms.
 
 ● (ASYMMETRIC DIGITAL) SIGNATURE: (EC)DSA Summary
   · DSA SIGNATURE:

@@ -1,3 +1,15 @@
+●  Apropos:
+- Visit next Web site for a great experience:
+  https://earizon.github.io/txt_world_domination/viewer.html?payload=../cryptography/notes.txt
+
+- If you want to contribute to great gistory of this
+  document you can take the next flight to:
+@[https://www.github.com/earizon/cryptography]
+  Your commits and pull-request will be immortalized
+  in the Pantheon of the Unicode Gods.
+────────────────────────────────────────────────────────────────────────────────
+
+
 Cryptography notes:
 
 Source Git: @[https://github.com/earizon/cryptography]
@@ -40,7 +52,7 @@ keywords: cryptography,cheat sheet,mind map,tutorial,101,primitives,elliptic cur
 @[http://people.csail.mit.edu/rivest/crypto-security.html]
 - Kevin McCurley's links:
 @[http://www.swcp.com/~mccurley/cryptographers/cryptographers.html]
-- University of Southern California (Information Sciences Institute; 
+- University of Southern California (Information Sciences Institute;
   Global Operating Systems Technology (GOST) Group)
 @[http://nii.isi.edu/gost-group/]
 - Rootshell.be articles on exploits, security alerts, ...:
@@ -55,11 +67,11 @@ keywords: cryptography,cheat sheet,mind map,tutorial,101,primitives,elliptic cur
 - Cryptology ePrint Archive:
   @[https://eprint.iacr.org/]
   - rapid access to recent research in cryptology.
-  - Papers have been placed here by the authors and did 
+  - Papers have been placed here by the authors and did
     not undergo any refereeing process other than verifying
     that the work seems to be within the scope of cryptology
-    and meets some minimal acceptance criteria and publishing 
-    conditions. 
+    and meets some minimal acceptance criteria and publishing
+    conditions.
 
 - SCIPR Lab:
 @[http://www.scipr-lab.org/]
@@ -68,9 +80,9 @@ keywords: cryptography,cheat sheet,mind map,tutorial,101,primitives,elliptic cur
   seeking to bring to practice cryptographic proof systems that
   provide succinct integrity and privacy.
 
-  ################# 
-  # Number Theory # 
-  ################# 
+  #################
+  # Number Theory #
+  #################
 - NumberTheory.org Web
 @[http://numbertheory.org]
 - Number Theory and its History
@@ -81,7 +93,7 @@ keywords: cryptography,cheat sheet,mind map,tutorial,101,primitives,elliptic cur
 @[http://www.shoup.net/ntl]
 
 ● Bibliography/Books:
-- Crypto101 
+- Crypto101
 @[https://www.crypto101.io/]
 - Encyclopedia of Cryptography and Security
 @[https://www.springer.com/us/book/9781441959058]
@@ -119,7 +131,7 @@ keywords: cryptography,cheat sheet,mind map,tutorial,101,primitives,elliptic cur
   no use on their own.
 @[https://en.wikipedia.org/wiki/Secret_sharing]
 
-- AVALANCHE EFFECT: desirable property of cryptographic algorithms, 
+- AVALANCHE EFFECT: desirable property of cryptographic algorithms,
   typically block ciphers and cryptographic hash functions, wherein if an
   input is changed slightly (for example, flipping a single bit), the output
   changes significantly.
@@ -140,23 +152,23 @@ keywords: cryptography,cheat sheet,mind map,tutorial,101,primitives,elliptic cur
   authenticated encryption.
 @[https://en.wikipedia.org/wiki/Sponge_function]
 
-- BRUTE FORCE ATTACKS: 
+- BRUTE FORCE ATTACKS:
 @[https://twitter.com/fermatslibrary/status/969935429712666625]
   According to the second law of thermodynamics, the minimum amount
   of energy required to record a single bit by changing the state
   of a system is:
-  
+
   K x T  (Boltzman-Constant "times" temperature-of-the-system)
-  
+
   Assuming an ideal computer running at 3.2ºK (The temperature
   of the cosmic background radiation), a bit change would consume
   4.4 x 10^-16 erg.
-  - Annual energy output of the Sun: 1.21 x 10^41 Erg, enough to 
+  - Annual energy output of the Sun: 1.21 x 10^41 Erg, enough to
     power 2.7 x 10^56 single bit changes, or enough to put a
     187-bit counter through all its values.
   - To run through a 256-bit key we would need to build Dyson spheres
     and capture the energy of:
-    2^69 = 5.9 x 10^20 Suns during a year!!! 
+    2^69 = 5.9 x 10^20 Suns during a year!!!
 
 - RANDOM NUMBER GENERATORS TYPES: [[{crypt_asymmetric.rsa,protocol.TLS]]
   - True random number generators(quantum, thermal, oscillators,...)
@@ -164,7 +176,7 @@ keywords: cryptography,cheat sheet,mind map,tutorial,101,primitives,elliptic cur
     (Unix /dev/urandom, Windows CryptGenRandom,...)
   - Pseudo-random number generators.
 
-  WARN: Wrong Random number generation can break many systems. Example: 
+  WARN: Wrong Random number generation can break many systems. Example:
   @[https://www.infoq.com/news/2019/12/rsa-iot-vulnerability/]
   !!!!Poor Random Number Generation Makes 1 in every
       172 RSA Certificates Vulnerable!!!! ← !!!!
@@ -194,7 +206,7 @@ keywords: cryptography,cheat sheet,mind map,tutorial,101,primitives,elliptic cur
                                                ├·> XOR ·> C0, C1, ...
       MESSAGE    ···············> M0, M1, ...  ┘
 
-    └ "BUTS": 
+    └ "BUTS":
       · Generate a safe (non predictive) KEY for the stream cipher is "difficult"
     [[}]]
   · BLOCK  CIPHER:                    [[{crypt_symmetric.block_cipher]]
@@ -223,26 +235,26 @@ keywords: cryptography,cheat sheet,mind map,tutorial,101,primitives,elliptic cur
       - The operation mode describes how to repeatedly apply a
         cipher's single-block operation to securely transform N blocks.
       - Most modes require an initialization vector (IV) for each new encrypt.  [[crypt_symmetric.IV]]
-        - IV must be non-repeating and, for some modes, random as well. 
+        - IV must be non-repeating and, for some modes, random as well.
           and unpredictable => Difficult to generate (vs Nonce)                 [[02_doc_has.comparative]]
         - KEYPOINT: IV ENSURE DISTINCT CIPHERTEXTS ARE PRODUCED EVEN FOR THE SAME PLAINTEXT.
                     WHEN REUSING THE SAME PASSWORD.
       - Operation modes include:
         └ ELECTRONIC CODE BLOCK (ECB): ← WARN: Deprecated. Don't use it, if different
-           M1 → |E_k| → C1                      messages share same data information 
+           M1 → |E_k| → C1                      messages share same data information
            M2 → |E_k| → C2                      data leaks cans rise
            M3 → |E_k| → C3
-        └ CIPHER BLOCK CHAINING (CBC): <- "BUTs": 
-          IMPUT                            - NOT PARALELIZABLE.                    
-          _____                            - can not seek randomnly                
-          IV                               - Needs an UNPREDICTABLE IV 
-          M1    → |XOR(IV)| → |E_k| → C1     
-                → |XOR(M2)| → |E_k| → C2   
-                → |XOR(M3)| → C3           
-            
+        └ CIPHER BLOCK CHAINING (CBC): <- "BUTs":
+          IMPUT                            - NOT PARALELIZABLE.
+          _____                            - can not seek randomnly
+          IV                               - Needs an UNPREDICTABLE IV
+          M1    → |XOR(IV)| → |E_k| → C1
+                → |XOR(M2)| → |E_k| → C2
+                → |XOR(M3)| → C3
+
         └ COUNTER MODE (CT):  (Can be paralellized)
-          Nonce + 0 → |E_k| → XOR(M1) → C1  ← Noces are used once         [[crypt.nonce]] 
-          Nonce + 1 → |E_k| → XOR(M2) → C2     
+          Nonce + 0 → |E_k| → XOR(M1) → C1  ← Noces are used once         [[crypt.nonce]]
+          Nonce + 1 → |E_k| → XOR(M2) → C2
           Nonce + 2 → |E_k| → XOR(M3) → C3
 
     - BLOCK CHIPER "BUTS":
@@ -262,7 +274,7 @@ keywords: cryptography,cheat sheet,mind map,tutorial,101,primitives,elliptic cur
   - For each Round: SubBytes -> ShiftRows -> MixColumns
   - Modern CPUs have hardware instruccions to accelerate AES computation.
     REF: study of AES-NI acceleration using (Libre|Open)SSL, 2018-11-08
-    @[https://calomel.org/aesni_ssl_performance.html] 
+    @[https://calomel.org/aesni_ssl_performance.html]
     - AES-NI x86-extension provides
       - MUST BE ENABLED THROUGH THE BIOS. [[01_PM.troubleshoot]]
         $ cat /proc/cpuinfo | grep flags             <- Checking AES-NI enabled on linux
@@ -282,7 +294,7 @@ keywords: cryptography,cheat sheet,mind map,tutorial,101,primitives,elliptic cur
        AES Performance per-CPU-core for TLS v1.2 Ciphers
        (Note, Google opts for ChaCha20 for low-powered devices )
 
-                       ChaCha20  AES-128-GCM  AES-256-GCM  AES-128-CBC  AES-256-CBC  Total Score 
+                       ChaCha20  AES-128-GCM  AES-256-GCM  AES-128-CBC  AES-256-CBC  Total Score
     AMD Ryzen 7 1800X   573       3006         2642         1513         1101        = 8835
     Intel W-2125        565       2808         2426         1698         1235        = 8732
     Intel i7-6700       585       2607         2251         1561         1131        = 8135
@@ -310,13 +322,13 @@ keywords: cryptography,cheat sheet,mind map,tutorial,101,primitives,elliptic cur
 
     - we need at least two CPU cores: one to recieve/decrypt and one for encrypting/send
     - IDEALLY each CPU must be able to sustain 10Gbs/1,250MBs of AES encrypted data/cpu-core.
-    - From previous performance-table, just "AMD Opteron 6380" and  faster ones will be able 
+    - From previous performance-table, just "AMD Opteron 6380" and  faster ones will be able
       to keep to pace.
-      (Note: Opteron-6380 has 16 cores, so it leaves many other CPU cores for network I/O, 
+      (Note: Opteron-6380 has 16 cores, so it leaves many other CPU cores for network I/O,
        firewall rules, ...)
 
     REAL-WORLD:
-      - Clients connect with a variety of ciphers. 
+      - Clients connect with a variety of ciphers.
       - System is not dedicated to just cipher processing.
       - Some ciphers can be paralellized in multiple cpu-cores
         e.g: "Intel Xeon L5630" 4-cores can process up to 701 MB/s AES-128-GCM data (2,804 MBs)
@@ -337,28 +349,28 @@ keywords: cryptography,cheat sheet,mind map,tutorial,101,primitives,elliptic cur
     - 1 Public  key (known to everyone) is used for encryption by sender   Alice
     - 1 Private key (known to owner   ) is used for decryption by receiver Bob
       (and two extra keys for Bob to Alice communication)
-  
+
              PEER 1                                 PEER 2
    ┌-------------------------┐             ┌-----------------------┐
                                                                      PRESETUP:
                                                                      -----------------------
-     + PrivateKey1                           + PrivateKey2           <- Priv.Keys 
+     + PrivateKey1                           + PrivateKey2           <- Priv.Keys
                                                                         generated randomnly
      + Public-Key1 ->···········─┐┌─······<- + Public-Key2           <─ Pub. Keys calculated
                                  └·┐                                    (easely) from Priv.Keys
      + Public-Key2 <············<─┘└─>·····> + Public-Key1           <─ Pub. Keys shared
                                                                         by mail, ...
-  
-    Plain ->│Encrypt with│ → CypherTextA → │Decrypt with│ → Plain    PEER 1 -> PEER 2 
+
+    Plain ->│Encrypt with│ → CypherTextA → │Decrypt with│ → Plain    PEER 1 -> PEER 2
     textA   │Public-Key2 │                 │PrivateKey2 │   textA    -----------------
-                       ^                   
-                                           
+                       ^
+
     Plain <-│Decrypt with│ ← CypherTextB ← │Encrypt with│ ← Plain    PEER 1 <- PEER 2
     textB   │PrivateKey1 │                 │Public-Key1 │   textB    ----------------
-  
-  
-    KEY POINT: Based on computational complexity (vs information theory). 
-               Calculating private keys from public keys is considered a 
+
+
+    KEY POINT: Based on computational complexity (vs information theory).
+               Calculating private keys from public keys is considered a
                computationally intractable mathematical problem (or so we think).
                WARN: Can future Quantum computers can do the computation?
                WARN: REPEATED USE OF KEYS MAKES IT EASIER TO CRACK.
@@ -369,28 +381,28 @@ keywords: cryptography,cheat sheet,mind map,tutorial,101,primitives,elliptic cur
 [[}]]
 [[{crypt_asymmetric.101,use_case.signature,02_doc_has.comparative]]
 [[standards.rsa,standards.dsa,02_doc_has.diagram]]
-● (ASYMMETRIC DIGITAL) SIGNATURE 
+● (ASYMMETRIC DIGITAL) SIGNATURE
   ==============================
 - Private key (known to owner   ) is used for signing.
 - Public  key (known to everyone) is used for checking document signature.
              PEER 1                                 PEER 2           SIGNING PRESETUP:
    ┌-------------------------┐             ┌-----------------------┐ -----------------------
-     + PrivateKey1                                                   <- Priv.Keys 
+     + PrivateKey1                                                   <- Priv.Keys
                                                                         generated randomnly
      + Public-Key1 ->······················> + Public-Key1           <─ Pub. Keys calculated
                                                                         (easely) from Priv.Keys
                                                                         and shared by mail, ...
 
-             PEER 1                                                     PEER 2           
+             PEER 1                                                     PEER 2
    ┌------------------------------------------------------┐   ┌----------------------┐
 
     Arbitrarely   -> Hash-of -> │Sign using │ -> Public  ·····┬·> Validate signature
     large message    Message    │PrivateKey1│    signature    ·   using Public-Key1
     (mail, pdf, ...)                                          ·
-                                                 Public-Key1 ·┘   
+                                                 Public-Key1 ·┘
 
- NOTE: By using the (cryptographically secure) hash-of-message we obtain 
-       data-integrity "for free".  
+ NOTE: By using the (cryptographically secure) hash-of-message we obtain
+       data-integrity "for free".
 
  PENDING PROBLEM: How does Peer 2 knows that received Public-signature and Public-Key1 belongs
                   to real PEER 1 (vs fake signer)?
@@ -399,7 +411,7 @@ keywords: cryptography,cheat sheet,mind map,tutorial,101,primitives,elliptic cur
  ┌─ KEY-POINT: ─────────────────────────────────────────────────────────────
  │   DIGITAL SIGNATURE PROVIDES:
  │   · NON─REPUDIABILITY: Private key owner can not neglect having signed.
- │   · NON─TAMPERING    : message can not be moddified by third parties 
+ │   · NON─TAMPERING    : message can not be moddified by third parties
  │     ^^^^^^^^^^^^^^^^^                          ┌─────────────────┐
  │     NON─REPUDIABILITY + NON─TAMPERING PROVIDES │LEGAL VALIDITY!!!│
  │                                                └─────────────────┘
@@ -456,7 +468,7 @@ keywords: cryptography,cheat sheet,mind map,tutorial,101,primitives,elliptic cur
     └→ DSA Digital Signature Algorithm            1985 (family of discrete-log based sign.schemes)
         ├→ (Used for) DSS Dig.Sig. Standard       1994
         └→ When replacing Mod N by Elliptic Curve 1978
-           ECDSA                                  2005 
+           ECDSA                                  2005
            Used, amongst many others, by
            Bitcoin/Ethereum/... to sign TXs
 
@@ -484,7 +496,7 @@ keywords: cryptography,cheat sheet,mind map,tutorial,101,primitives,elliptic cur
       1985 @[https://link.springer.com/chapter/10.1007%2F3-540-39799-X_31]
       1987 @[https://www.jstor.org/stable/2007884?seq=1] 1987
 
-1988: Shafi Goldwasser, Silvio Micaly and Ronald Rivest rigorously define the 
+1988: Shafi Goldwasser, Silvio Micaly and Ronald Rivest rigorously define the
       security requirements of digital signature schemes.
 
 1989  Schnorr patents its signature method
@@ -557,7 +569,7 @@ keywords: cryptography,cheat sheet,mind map,tutorial,101,primitives,elliptic cur
       NIST national standard due to the influence of NSA, which had
       included a deliberate weakness in the algorithm and the
       recommended EC. RSA Security in September 2013 issued an advisory
-      recommending that its customers discontinue using any software 
+      recommending that its customers discontinue using any software
       based on Dual_EC_DRBG.
       WARN: Cryptography experts have also expressed concerns over the
             security of the NIST recommended elliptic curves, suggesting a
@@ -568,7 +580,7 @@ keywords: cryptography,cheat sheet,mind map,tutorial,101,primitives,elliptic cur
 2015: NSA announces plans to replace some ECDSA Suite B algorithms
       with a new cipher suite due to concerns about quantum-computing
       attacs on ECC.
-      SSH decided to   drop DSS/DSA keys in favor of RSA due to "inherit weakness" 
+      SSH decided to   drop DSS/DSA keys in favor of RSA due to "inherit weakness"
       @[https://www.gentoo.org/support/news-items/2015-08-13-openssh-weak-keys.html]
         - See also critics to DSS @:
         @[http://groups.csail.mit.edu/mac/classes/6.805/articles/froomkin-metaphor/partIAB.html]
@@ -683,12 +695,12 @@ keywords: cryptography,cheat sheet,mind map,tutorial,101,primitives,elliptic cur
   └───────────────────────────────────────────────────────────────────────────┘   └─────────────────────────────────────┘
 
 ● RSA vs DSA Comparative: [[02_doc_has.comparative]]
-RSA                                                 DSA                                       
+RSA                                                 DSA
 --------------------------------------------        -----------------------------------------
 ✓ compatible with integer prime number              - variant of the ElGamal adding secondary
   factorization                                       160-bit modulus(q) to speed up execution
 ✕  In-compatible with Ellip.Curves                    and reduce the size of final signature.
-                                                    ✕ Can NOT be used for encryption 
+                                                    ✕ Can NOT be used for encryption
 ✕ computationally more expensive                    ✓ (EC)DSA allows to recover public key from
 ✓ Does not require a source of randomness             a given message and signature.
   Prefered of embedded systems/smartcards/....      ✕ Requires a high-quality source of randomness
@@ -699,12 +711,12 @@ RSA                                                 DSA
   ✓ both Ed25519 and eCDSA "secp265k1" are EdDSA signature schemes.
    Ed25519 uses SHA-512 (SHA-2) and Curve25519 (vs secp256k1 curve)
    Extracted from @[https://tools.ietf.org/html/rfc6979]
-  "ed25519 deterministic signatures retain the cryptographic       [[{use_case.IOT]]     
+  "ed25519 deterministic signatures retain the cryptographic       [[{use_case.IOT]]
    security features associated with DSA/ECDSA digital signatures
    but can be more easily implemented, since NO NEED FOR A SOURCE
    OF HIGH-QUALITY RANDOMNESS (point of failure) for the "k"
    parameter.  [[}]]
-    NOTE: It is possible to turn DSA and ECDSA into deterministic 
+    NOTE: It is possible to turn DSA and ECDSA into deterministic
     schemes by using a deterministic process for generating the
     "random" value "k" fulfilling some crypto. characteristics.
 
@@ -717,27 +729,27 @@ RSA                                                 DSA
                               public key of (prv.key1)
                             + public key of (prv.key2)
 
-- Ed25519 private-key space is NOT linear. 
-  It uses a twisted Edwards curve bi-rationally equivalent 
-  to the Montgomery curve Curve25519, SINCE PUBLIC-KEY IS 
-  GENERATED FROM PRIVATE KEY BY FIRST HASHING THE PRIVATE KEY 
+- Ed25519 private-key space is NOT linear.
+  It uses a twisted Edwards curve bi-rationally equivalent
+  to the Montgomery curve Curve25519, SINCE PUBLIC-KEY IS
+  GENERATED FROM PRIVATE KEY BY FIRST HASHING THE PRIVATE KEY
   WITH SHA-512.
-    prv.key1            → pub.key of sha512(prv.key1)             
+    prv.key1            → pub.key of sha512(prv.key1)
     prv.key2            → pub.key of sha512(prv.key2)
     prv.key1 + prv.key2 → pub.key of sha512(prv.key1 + prv.key2)
 
   Ed25519 on the other side creates some sort of problems,  [[qa.UX]]
-  for example to create HD Wallets as explained in: 
+  for example to create HD Wallets as explained in:
  @[https://www.jelurida.com/sites/default/files/kcdsa.pdf]
-                             
-  ####################################### 
-  # Schnorr("ed25519 version od EdDSA") # 
-  ####################################### 
+
+  #######################################
+  # Schnorr("ed25519 version od EdDSA") #
+  #######################################
 @[http://ed25519.cr.yp.to/]
 @[http://blog.siphos.be/2015/08/switching-openssh-to-ed25519-keys/]
 @[http://chneukirchen.org/blog/archive/2014/02/the-road-to-openssh-bliss-ed25519-and-the-identitypersist-patch.html]
 - designed by prominent cryptographer Daniel J. Bernstein
-- elliptic curve implementation more optimal and secure than equivalent 
+- elliptic curve implementation more optimal and secure than equivalent
   design schemes based on secp256k1 (Bitcoin/Ethereum/...)
 - Summary of advantages versus secp256k1 curve:
   - Large absolute value for the CM field discriminant
@@ -746,20 +758,20 @@ RSA                                                 DSA
   - Supports simple, fast, complete(http://safecurves.cr.yp.to/complete.html)
     constant-time single-scalar multiplication using a Montgomery ladder
     (http://safecurves.cr.yp.to/ladder.html)
-  - A random curve point can be represented in a way that's indistinguishable 
+  - A random curve point can be represented in a way that's indistinguishable
     (@[http://safecurves.cr.yp.to/ind.html]) from random data.
   - Faster performance.
   - ...  Our initial tests and analysis suggest ...  Curve25519 halves    [[{crypt_asymmetric.performance]]
-    verification time versus secp256k1 based on efficient implementations 
+    verification time versus secp256k1 based on efficient implementations
     of both curves.
-    - These results were achieved with lower variance, which point to the 
+    - These results were achieved with lower variance, which point to the
       constant time properties of Curve25519.
     - the default signature format for Ed25519 allows batch signature
       verification, which promises twice the performance of DSA.
     Benchmarking:
     - @[http://justmoon.github.io/curvebench/benchmark.html] Raw test results
     - @[https://github.com/justmoon/curvebench]              Benchmark source code
-  
+
     - the new curve implementation is expected to quadruple performance versus secp256k1
       based on our preliminary benchmarking.  [[}]]
   - Extracted from @[https://www.mail-archive.com/cypherpunks@cpunks.org/msg02419.html]
@@ -770,7 +782,7 @@ RSA                                                 DSA
 - Summary of advantages versus ECDSA signature schemas:
   - Simpler to securely implement.
   - Composable threshold signatures without multi-party computation.
-  - Verification happens off-network allowing for sophisticated functionality 
+  - Verification happens off-network allowing for sophisticated functionality
     without increasing network load or complexity.
   - Conducive to highly distributed systems. [[qa.UX]]
   - Less constraints allows for more optimal and secure design schemes.
@@ -805,10 +817,10 @@ RSA                                                 DSA
   @[http://safecurves.cr.yp.to/]
   - Browser support
   @[https://security.stackexchange.com/questions/31772/what-elliptic-curves-are-supported-by-browsers]
-  
+
   - TLS-RSA cert. with elliptic curve:
   @[https://crypto.stackexchange.com/questions/30503/tls-rsa-certificate-with-elliptic-curve-negotiation]
-  
+
   - Comparisions of secp256r1-vs-secp256k1 Elliptic Curves:
   @[https://crypto.stackexchange.com/questions/18965/is-secp256r1-more-secure-than-secp256k1]
 
@@ -873,13 +885,13 @@ CipherText + HASH(KEY+CipherText)
   INPUT                                          OUTPUT    STEP 2)
   -----                                          ------
   msg  → sym.cypher → hash → sym.cypher → hash → HMAC
-         inner key           outer key         
+         inner key           outer key
          └───┬───┘           └───┬───┘
    The algorithm provides better immunity against length extension attacks:
-   "with most hash functions, it is easy to append data to the message 
+   "with most hash functions, it is easy to append data to the message
     without knowing the key and obtain another valid MAC".
    (length extension collision malleability).
-   More info at @[https://en.wikipedia.org/wiki/HMAC]. 
+   More info at @[https://en.wikipedia.org/wiki/HMAC].
    With HMAC, because the outer application of the hash function masks the
    intermediate result of the internal hash. The values of ipad and opad are
    not critical to the security of the algorithm, but were defined in such
@@ -901,9 +913,9 @@ CipherText + HASH(KEY+CipherText)
 [[}]]
 
 ● IVs,nonces,Salt [[{101,crypt_oneway.salt,crypt_symmetric.IV,crypt.nonce,02_doc_has.comparative]]
-- Randomness of secret keys is not enough in most scenarios due to 
-  the attacks by replication or repeated XORs of different messages 
-  encoded with the same private shared-by-peers keys. 
+- Randomness of secret keys is not enough in most scenarios due to
+  the attacks by replication or repeated XORs of different messages
+  encoded with the same private shared-by-peers keys.
   Next elements of randomness complements to keys:
 
 • INIT VECTOR (IV) (SYMMETRIC ENC)
@@ -911,40 +923,40 @@ CipherText + HASH(KEY+CipherText)
 @[https://en.wikipedia.org/wiki/Initialization_vector]
   in symmetric encryption is used to ensure distinct ciphertexts are
   produced even when the same plaintext is encrypted multiple times
-  with the same key.  IV must not be repeated, and depending on the 
+  with the same key.  IV must not be repeated, and depending on the
   scheme used must also be cryptographically random.
 
-• SALT (ENCRYPTION, ONEWAY HASHING) 
+• SALT (ENCRYPTION, ONEWAY HASHING)
   =================================
 @[https://en.wikipedia.org/wiki/Salt_(cryptography)]
   Salt: random data used as additional input to a one-way
         function that "hashes" data (ussually password).
   - primary use are:
     - Offline encryption protection.
-    - KEY DERIVATION FUNCTIONS:  
+    - KEY DERIVATION FUNCTIONS:
     - DEFENSE AGAINST TABLE ATTACKS:
       If an atacker can compute/store billions of combinations
-      of dictionary hashes, the salt will force to repeat the 
+      of dictionary hashes, the salt will force to repeat the
       computation/duplicate the storage for each possible salt.
 
-  - closely related to 'nonce': 
+  - closely related to 'nonce':
     · Nonce must not be repeated but can be predictable.
-      Salts can be repeated, and also they must be 
-      cryptographically random. 
+      Salts can be repeated, and also they must be
+      cryptographically random.
     · Nonce protect 'network/on-fly' data against replays.
     · Salts protect 'disk/stored'    data against dict. attacks.
     · Nonce do not need to be secret. Once a "nonce" is consumed
       it is "useless", even for attackers. Salts must be secret
-      (and separated from secret keys) when using for symmetric 
+      (and separated from secret keys) when using for symmetric
       encryption, but can be public when used in one-way hash
-      functions. 
+      functions.
 
 • NONCE (PROTECTION AGAINST ONLINE MESSAGE REPLAY)
   ================================================
 @[https://en.wikipedia.org/wiki/Cryptographic_nonce]
   · arbitrary number that  can only be used once.
   · It can be public or predictable
-  ·  issued in network protocols to protect against replay attacks: 
+  ·  issued in network protocols to protect against replay attacks:
     - An attacker, for example, replays encrypted session
       message (raw data) impersonating the client hopping to
       obtain a server session token. Since the nonce has already
@@ -1002,18 +1014,18 @@ CipherText + HASH(KEY+CipherText)
 - @[https://en.wikipedia.org/wiki/Verifiable_secret_sharing]
   In cryptography, a secret sharing scheme is verifiable if auxiliary    [[{qa.UX]]
   information is included that allows players to verify their shares as
-  consistent.                                                            
+  consistent.
   More formally, verifiable secret sharing ensures that even if the
   dealer is malicious there is a well-defined secret that the players
   can later reconstruct. (In standard secret sharing, the
   dealer is assumed to be honest.)                                       [[}]]
   The concept was first introduced in 1985 by Benny Chor, Shafi
-  Goldwasser, Silvio Micali and Baruch Awerbuch. (Same authors 
+  Goldwasser, Silvio Micali and Baruch Awerbuch. (Same authors
   working of ZKPs)
   In a VSS protocol a distinguished player who wants to share the
   secret is referred to as the dealer. The protocol consists of two
   phases: a sharing phase and a reconstruction phase.
-  
+
   Ex implementation:
   https://github.com/dfinity-side-projects/vss
 [[}]]
@@ -1027,146 +1039,146 @@ NOTE:
   a single signature regardless of total number of parties participating.
 
 • MULTISIGNATURE:
-│@[https://en.wikipedia.org/wiki/Multisignature]                                  
-│- Digital signature scheme which allows a group of users to                      
-│  sign a single document. Usually, a multisignature algorithm produces           
-│  a joint signature that is more compact than a collection of distinct           
-│  signatures from all users                                                      
-│- A tuple of N signatures is the simplest (non-compacted)                        
-│  multisignature scheme                                                          
-│- Multisignature can be considered as generalization of both group               
-│  and ring signatures.                                                           
-│  - Used to add additional security for cryptocurrency transactions              
-│  - The required number of signatures is agreed upfront                          
-│  - Allows for the creation of N-of-M escrow services                            
-│  - Tree-signatures (Aug 24, 2015 by Pieter Wuille, Ph.D.):                      
-│    @[https://www.blockstream.com/2015/08/24/treesignatures/]                    
-│   """Imagine you want to create a 1-of-11 multisig (with 11 known public keys). 
-│   You compute the SHA256 hashes of the public keys involved and put them in     
-│   a Merkle tree. In the graph below, all symbol names represent 32-byte hashes, 
-│   except the 1. The 1 is used as a simple constant instead of a right branch    
-│   when there is none."""                                                        
-│                                 R                                               
-│                              /     \                                           
-│                           /           \                                        
-│                       /                   \                                    
-│                   Z1                          Z2                               
-│                /      \                     /   \                              
-│           Y1              Y2              Y3     1                             
-│          /  \            /  \            /  \                                  
-│       X1      X2      X3      X4      X5      X6                               
-│      / \     / \     / \     / \     / \     / \                               
-│     K1 K2   K3 K4   K5 K6   K7 K8   K9 K10 K11  1                              
-│                                                                                
-│   "" Using the script in our Alpha sidechain, we can build a script that takes 
-│   as input a public key, a signature, and a Merkle path. At verification time, 
-│   it would use the Merkle path to prove that the public key belongs to a tree  
-│   with root R, and that the signature checks out with that public key."""      
+│@[https://en.wikipedia.org/wiki/Multisignature]
+│- Digital signature scheme which allows a group of users to
+│  sign a single document. Usually, a multisignature algorithm produces
+│  a joint signature that is more compact than a collection of distinct
+│  signatures from all users
+│- A tuple of N signatures is the simplest (non-compacted)
+│  multisignature scheme
+│- Multisignature can be considered as generalization of both group
+│  and ring signatures.
+│  - Used to add additional security for cryptocurrency transactions
+│  - The required number of signatures is agreed upfront
+│  - Allows for the creation of N-of-M escrow services
+│  - Tree-signatures (Aug 24, 2015 by Pieter Wuille, Ph.D.):
+│    @[https://www.blockstream.com/2015/08/24/treesignatures/]
+│   """Imagine you want to create a 1-of-11 multisig (with 11 known public keys).
+│   You compute the SHA256 hashes of the public keys involved and put them in
+│   a Merkle tree. In the graph below, all symbol names represent 32-byte hashes,
+│   except the 1. The 1 is used as a simple constant instead of a right branch
+│   when there is none."""
+│                                 R
+│                              /     \
+│                           /           \
+│                       /                   \
+│                   Z1                          Z2
+│                /      \                     /   \
+│           Y1              Y2              Y3     1
+│          /  \            /  \            /  \
+│       X1      X2      X3      X4      X5      X6
+│      / \     / \     / \     / \     / \     / \
+│     K1 K2   K3 K4   K5 K6   K7 K8   K9 K10 K11  1
+│
+│   "" Using the script in our Alpha sidechain, we can build a script that takes
+│   as input a public key, a signature, and a Merkle path. At verification time,
+│   it would use the Merkle path to prove that the public key belongs to a tree
+│   with root R, and that the signature checks out with that public key."""
 └────────────────────────────────────────────────────────────────────────────────
-• THRESHOLD CRYPTOSYSTEM 
-│@[http://en.wikipedia.org/wiki/Threshold_cryptosystem] (TODO)               
-│- In order to decrypt an encrypted message, several parties                 
-│  (more than some threshold number) must cooperate in the decryption        
-│  protocol. The message is encrypted using a public key and the             
-│  corresponding private key is shared among the participating parties.      
+• THRESHOLD CRYPTOSYSTEM
+│@[http://en.wikipedia.org/wiki/Threshold_cryptosystem] (TODO)
+│- In order to decrypt an encrypted message, several parties
+│  (more than some threshold number) must cooperate in the decryption
+│  protocol. The message is encrypted using a public key and the
+│  corresponding private key is shared among the participating parties.
 │  Let "n" be the number of parties. Such a system is called (t,n)-threshold,
-│  if at least t of these parties can efficiently decrypt the ciphertext,    
-│  while less than t have no useful information.                             
-│- Similarly it is possible to define (t,n)-threshold signature scheme,      
-│  where at least t parties are required for creating a signature.           
-│- The most common application is in the storage of secrets in multiple      
-│  locations to prevent the capture of the ciphertext and the subsequent     
-│  cryptanalysis on that ciphertext. Most often the secrets that are         
-│  "split" are the secret key material of a public key cryptography key      
-│  pair or the ciphertext of stored password hashes.                         
-│- In October 2012 after a number of large public website password           
-│  ciphertext compromises, RSA Security announced that it would be           
-│  releasing software that makes the technology available to the general     
-│  public                                                                    
+│  if at least t of these parties can efficiently decrypt the ciphertext,
+│  while less than t have no useful information.
+│- Similarly it is possible to define (t,n)-threshold signature scheme,
+│  where at least t parties are required for creating a signature.
+│- The most common application is in the storage of secrets in multiple
+│  locations to prevent the capture of the ciphertext and the subsequent
+│  cryptanalysis on that ciphertext. Most often the secrets that are
+│  "split" are the secret key material of a public key cryptography key
+│  pair or the ciphertext of stored password hashes.
+│- In October 2012 after a number of large public website password
+│  ciphertext compromises, RSA Security announced that it would be
+│  releasing software that makes the technology available to the general
+│  public
 └────────────────────────────────────────────────────────────────────────────
 
 • GROUP SIGNATURE:
-│@[https://en.wikipedia.org/wiki/Group_signature]                             
-│- A group signature scheme is a method for allowing a member of a group to   
-│  anonymously sign a message on behalf of the group.                         
-│- For example, a group signature scheme could be used by an employee of      
-│  a large company where it is sufficient for a verifier to know a message    
-│  was signed by an employee, but not which particular employee signed it.    
-│- Essential to a group signature scheme is a group manager, who is in charge 
-│  of adding group members and has the ability to reveal the original signer  
-│  in the event of disputes. In some systems the responsibilities of adding   
-│  members and revoking signature anonymity are separated and given to a      
-│  membership manager and revocation manager respectively.                    
+│@[https://en.wikipedia.org/wiki/Group_signature]
+│- A group signature scheme is a method for allowing a member of a group to
+│  anonymously sign a message on behalf of the group.
+│- For example, a group signature scheme could be used by an employee of
+│  a large company where it is sufficient for a verifier to know a message
+│  was signed by an employee, but not which particular employee signed it.
+│- Essential to a group signature scheme is a group manager, who is in charge
+│  of adding group members and has the ability to reveal the original signer
+│  in the event of disputes. In some systems the responsibilities of adding
+│  members and revoking signature anonymity are separated and given to a
+│  membership manager and revocation manager respectively.
 └─────────────────────────────────────────────────────────────────────────────
 
 • PROXY SIGNATURE:
-│ A proxy signature allows a delegator to give partial signing rights 
+│ A proxy signature allows a delegator to give partial signing rights
 │ to other parties called proxy signers. Proxy signatures do not offer
-│ Anonymity                                                           
+│ Anonymity
 └─────────────────────────────────────────────────────────────────────
 • RING SIGNATURE:
-│@[https://en.wikipedia.org/wiki/Ring_signature]                            
-│- Type of digital signature that can be performed by any member of         
-│  a group of users that each have keys.                                    
-│  One of the security properties of a ring signature is                    
-│  that it should be computationally infeasible to determine which of       
-│  the group members' keys was used to produce the signature                
-│- Ring signatures are similar to group signatures but differ in two key    
-│  ways: first, there is no way to revoke the anonymity of an individual    
-│  signature, and second, any group of users can be used as a group without 
-│  additional setup.                                                        
-│- Invented by Ron Rivest, Adi Shamir, and Yael Tauman, and introduced      
-│  at ASIACRYPT in 2001                                                     
-│- Suppose that a group of entities each have public/private key pairs,     
-│  (Pub_1, Secret_1), ..., (Pn, Secret_n).                                  
-│  Party i can compute a ring signature σ on a message "m", on input        
-│  ("m", Secret_i, Pub_1, ..., Pub_n). Anyone can check the                 
-│  validity of a ring signature given σ, m, and the public keys involved,   
-│  P1, ..., Pn. If a ring signature is properly computed, it should pass    
-│  the check. On the other hand, it should be hard for anyone to create a   
-│  valid ring signature on any message for any group without knowing any    
-│  of the private keys for that group.                                      
+│@[https://en.wikipedia.org/wiki/Ring_signature]
+│- Type of digital signature that can be performed by any member of
+│  a group of users that each have keys.
+│  One of the security properties of a ring signature is
+│  that it should be computationally infeasible to determine which of
+│  the group members' keys was used to produce the signature
+│- Ring signatures are similar to group signatures but differ in two key
+│  ways: first, there is no way to revoke the anonymity of an individual
+│  signature, and second, any group of users can be used as a group without
+│  additional setup.
+│- Invented by Ron Rivest, Adi Shamir, and Yael Tauman, and introduced
+│  at ASIACRYPT in 2001
+│- Suppose that a group of entities each have public/private key pairs,
+│  (Pub_1, Secret_1), ..., (Pn, Secret_n).
+│  Party i can compute a ring signature σ on a message "m", on input
+│  ("m", Secret_i, Pub_1, ..., Pub_n). Anyone can check the
+│  validity of a ring signature given σ, m, and the public keys involved,
+│  P1, ..., Pn. If a ring signature is properly computed, it should pass
+│  the check. On the other hand, it should be hard for anyone to create a
+│  valid ring signature on any message for any group without knowing any
+│  of the private keys for that group.
 └───────────────────────────────────────────────────────────────────────────
 
 • BLIND (CHAUMIAN) SIGNATURE *
-│@[https://en.wikipedia.org/wiki/Blind_signature]                            
-│- Blind signature schemes exist for many public key signing protocols       
-│  Blind RSA signatures, Blind ECDSA signatures,                             
-│- Java implementation:                                                      
-│  @[https://archive.is/20130416090835/http://www.maniora.pl/?p=101"]        
-│                                                                            
-│- form of digital signature in which the content of a message is            
-│  disguised/blinded before being signed. The resulting blind signature can  
+│@[https://en.wikipedia.org/wiki/Blind_signature]
+│- Blind signature schemes exist for many public key signing protocols
+│  Blind RSA signatures, Blind ECDSA signatures,
+│- Java implementation:
+│  @[https://archive.is/20130416090835/http://www.maniora.pl/?p=101"]
+│
+│- form of digital signature in which the content of a message is
+│  disguised/blinded before being signed. The resulting blind signature can
 │  be publicly verified against the original, unblinded message in the manner
-│  of a regular digital signature.                                           
-│- Blind signatures are typically employed in privacy-related                
-│  protocols where the signer and message author are different parties.      
-│  Examples include cryptographic election systems and digital cash schemes: 
-│                                                                            
-│  ┌────────────────────────────────────────────────────────────────┐        
-│  │Seq. Diagram                                                    │        
-│  │participant user # creates a message ("vote") and blinds it     │        
-│  │participant signer # authenticates user and sign blinded message│        
-│  │signer → user: authenticate user                                │        
-│  │user   → user: +message                                         │        
-│  │user   → user: message → blind → blinded_message                │        
-│  │user   → signer: blinded_message                                │        
-│  │signer → signer: +signed_blinded_message                        │        
-│  └────────────────────────────────────────────────────────────────┘        
+│  of a regular digital signature.
+│- Blind signatures are typically employed in privacy-related
+│  protocols where the signer and message author are different parties.
+│  Examples include cryptographic election systems and digital cash schemes:
+│
+│  ┌────────────────────────────────────────────────────────────────┐
+│  │Seq. Diagram                                                    │
+│  │participant user # creates a message ("vote") and blinds it     │
+│  │participant signer # authenticates user and sign blinded message│
+│  │signer → user: authenticate user                                │
+│  │user   → user: +message                                         │
+│  │user   → user: message → blind → blinded_message                │
+│  │user   → signer: blinded_message                                │
+│  │signer → signer: +signed_blinded_message                        │
+│  └────────────────────────────────────────────────────────────────┘
 └─────────────────────────────────────────────────────────────────────
 
 • Identity-Based Aggregate Signatures
-│@[https://link.springer.com/chapter/10.1007/11745853_17]            
-│ An aggregate signature is a single short string that convinces any 
-│ verifier that, for all 1 ≤ i ≤ n, signer S i signed message M i ,  
-│ where the n signers and n messages may all be distinct. The main   
-│ motivation of aggregate signatures is compactness. However, while  
-│ the aggregate signature itself may be compact, aggregate signature 
-│ verification might require potentially lengthy additional          
-│ information – namely, the (at most) n distinct signer public keys  
+│@[https://link.springer.com/chapter/10.1007/11745853_17]
+│ An aggregate signature is a single short string that convinces any
+│ verifier that, for all 1 ≤ i ≤ n, signer S i signed message M i ,
+│ where the n signers and n messages may all be distinct. The main
+│ motivation of aggregate signatures is compactness. However, while
+│ the aggregate signature itself may be compact, aggregate signature
+│ verification might require potentially lengthy additional
+│ information – namely, the (at most) n distinct signer public keys
 │ and the (at most) n distinct messages being signed. If the verifier
-│ must obtain and/or store this additional information, the primary  
-│ benefit of aggregate signatures is largely negated.                
+│ must obtain and/or store this additional information, the primary
+│ benefit of aggregate signatures is largely negated.
 └────────────────────────────────────────────────────────────────────
 [[}]]
 
@@ -1180,13 +1192,13 @@ NOTE:
 
 - They are the cryptographic counterpart of Bloom Filters data structure:
   @[https://hal.archives-ouvertes.fr/hal-00999432/document]
-  - A Bloom filter is a space-efficient probabilistic data structure, 
+  - A Bloom filter is a space-efficient probabilistic data structure,
     used to test whether an element is a member of a set.
     Bloom filter setup)
                           bloom-filter0 = 000000000000...........0
-      Element1 → hash1 →  bloom-filter1 = bloom-filter 0   || hash1 
+      Element1 → hash1 →  bloom-filter1 = bloom-filter 0   || hash1
       Element2 → hash2 →  bloom-filter2 = bloom-filter 1      hash2
-      ...                 ...                                           
+      ...                 ...
       ElementN → hashN →  bloom-filterN = bloom-filter N-1    hashN
 
     Bloom filter Ussage)
@@ -1196,7 +1208,7 @@ NOTE:
          else                                  "definetly no"
 
   - Crypto Accumulator Ex:
-    large composite number 
+    large composite number
     CP01 = P1 x P2 x P3 x ... PN
            └────────┬──────────┘
     New members may be added or subtracted to the set of
@@ -1208,10 +1220,10 @@ NOTE:
 -  Use case include: time-stamping schemes , search on encrypteddata ,
    data aggregation in sensor networks [19] and distillation codes.
 - Sanderet al. use RSA accumulator to designblind and auditablea
-  membership proof scheme in the context of e-cash. The ideais that an  
-  accumulator of all the valid electronic coins is created and 
-  published.During coins transfer, anyone can verify the validity of  
-  the exchange thanks tothe accumulator. 
+  membership proof scheme in the context of e-cash. The ideais that an
+  accumulator of all the valid electronic coins is created and
+  published.During coins transfer, anyone can verify the validity of
+  the exchange thanks tothe accumulator.
 
 Extracted from:
 @[https://medium.com/@aurelcode/cryptographic-accumulators-da3aa4561d77]
@@ -1230,77 +1242,77 @@ Extracted from:
 ● Batching Techniques for Accumulators:
 @[https://eprint.iacr.org/2018/1188.pdf]
 Batching Techniques for Accumulators with Applications to IOPs and Stateless Blockchains
-  Abstract: 
-  We  present  batching  techniques  for  cryptographic  accumulators  
-  and  vector  commitments  in  groups  of  unknown  order. 
-  .. tailored for distributed settings where no trusted 
-  accumulator manager exists and up-dates to the accumulator are 
+  Abstract:
+  We  present  batching  techniques  for  cryptographic  accumulators
+  and  vector  commitments  in  groups  of  unknown  order.
+  .. tailored for distributed settings where no trusted
+  accumulator manager exists and up-dates to the accumulator are
   processed in batches.  We develop techniques for non-interactively
-  aggregating  membership  proofs  that  can  be  verified  with  
-  aconstant number of group operations.  We also provide a constant 
-  sized batchnon-membership  proof  for  a  large  number  of  
-  elements. 
-    We use these new accumulator and vector commitment constructions t  
-    design a stateless blockchain, where nodes only need a constant     
-    amount of storage inorder to participate in consensus.              
-    Further, we show how to use these techniquesto reduce the size 
+  aggregating  membership  proofs  that  can  be  verified  with
+  aconstant number of group operations.  We also provide a constant
+  sized batchnon-membership  proof  for  a  large  number  of
+  elements.
+    We use these new accumulator and vector commitment constructions t
+    design a stateless blockchain, where nodes only need a constant
+    amount of storage inorder to participate in consensus.
+    Further, we show how to use these techniquesto reduce the size
   of IOP instantiations, such as STARKs.
 
-  Applications: 
+  Applications:
   - Stateless blockchains
   - Short IOPs.
-      Merkle tree paths contribute significant overhead to both the proof 
-    size of a compiledIOP proof and its verification time. Vector 
-    commitments with smaller openings thanMerkle trees, or batchable 
+      Merkle tree paths contribute significant overhead to both the proof
+    size of a compiledIOP proof and its verification time. Vector
+    commitments with smaller openings thanMerkle trees, or batchable
     openings (i.e.  subvector commitments), can help reducethis overhead
-    ...  our VCs reduce the sizeof the Aurora proofs on a 220size 
-    circuit from 222 KB to less than 100 KB, a 54%reduction,  and  the  
-    size  of  STARK  proofs  for  a  circuit  of  252gates  from  600  
+    ...  our VCs reduce the sizeof the Aurora proofs on a 220size
+    circuit from 222 KB to less than 100 KB, a 54%reduction,  and  the
+    size  of  STARK  proofs  for  a  circuit  of  252gates  from  600
     KBto approximately 222 KB, a 63% reduction.
 
-  Conclusion: 
-  We expect that our techniques and constructions will have more 
-  applications beyond what  was  discussed.   Several  interesting  open 
-   questions  remain:   What  practical limitations occur when deploying 
-  the scheme?  Is it possible to efficiently compute unions  of  
-  accumulators?   This  is  certainly  true  for  Merkle  trees  but  
-  these  do  nothave the batching properties and constant size of RSA 
-  accumulators.  Similarly canone build an accumulator with constant 
-  sized witnesses from a quantum resistant assumption?   Additionally,  
-  we  hope  that  this  research  motivates  further  study  ofclass 
+  Conclusion:
+  We expect that our techniques and constructions will have more
+  applications beyond what  was  discussed.   Several  interesting  open
+   questions  remain:   What  practical limitations occur when deploying
+  the scheme?  Is it possible to efficiently compute unions  of
+  accumulators?   This  is  certainly  true  for  Merkle  trees  but
+  these  do  nothave the batching properties and constant size of RSA
+  accumulators.  Similarly canone build an accumulator with constant
+  sized witnesses from a quantum resistant assumption?   Additionally,
+  we  hope  that  this  research  motivates  further  study  ofclass
   groups as a group of unknown order
 [[}]]
 
 
 ● ZKP Introduction: [[{101,crypt.zero_knowledge,use_case.privacy,01_PM.TODO]]
 - Extracted from @[https://nakamoto.com/cambrian-explosion-of-crypto-proofs/]
-  """ ... we are currently experiencing a Cambrian Explosion in the field 
-    of cryptographic proofs of computational integrity (CI), ☞a subset of 
-    which include zero-knowledge proofs☜ . While a couple of years ago, 
-    there were about 1-3 new systems a year, the rate has picked up so 
-    much that today we are seeing this same amount monthly, if not 
-    weekly.""" 
+  """ ... we are currently experiencing a Cambrian Explosion in the field
+    of cryptographic proofs of computational integrity (CI), ☞a subset of
+    which include zero-knowledge proofs☜ . While a couple of years ago,
+    there were about 1-3 new systems a year, the rate has picked up so
+    much that today we are seeing this same amount monthly, if not
+    weekly."""
 
-- Brief summary from: 
+- Brief summary from:
 @[https://blog.cryptographyengineering.com/2014/11/27/zero-knowledge-proofs-illustrated-primer/]
 @[https://blog.cryptographyengineering.com/2017/01/21/zero-knowledge-proofs-an-illustrated-primer-part-2/]
 WARN: Original source contains many more interesting and important info.
 
 - zero knowledge proof actors(probabilistic Turing machines in practice):
   - Prover  : works to generate a proof about some mathematical
-              statement being true. 
+              statement being true.
               (e.g. a given graph possesses a three-coloring)
   - Verifier: Verifies the proof through a well known and public
               (interactive/non-interactive) protocol/procedure.
 
-  The proof generated by the prover must have next properties: 
+  The proof generated by the prover must have next properties:
   - Completeness: An honest Prover will eventually convince (any) Verifier.
   - Soundness   : Prover can only convince Verifier if statement is true.
   - Zero-knowledge(ness): Verifier learns no information other than statement
                           is true.
 
   - General ZKP impose "lot of computing effort" on Prover, but not in verifier.
-    (vs related Signature schemas, a particular case of ZKP where signer can 
+    (vs related Signature schemas, a particular case of ZKP where signer can
      probe to known the secret key without revealing it, that impose
      few computing efforts in both the prover-signer- and verifier but
      that can not probe any ARBITRARY decision YES/NO NP statement,
@@ -1315,7 +1327,7 @@ WARN: Original source contains many more interesting and important info.
   · p : "big" prime number.
     g : generator of a cyclic group of prime-order q.
 
-                             ┌ priv.key             ┌ q = (prime) order of 
+                             ┌ priv.key             ┌ q = (prime) order of
                              · ("random")           ·     generator.
         1      2      3      4      5       6       7
     ···g······g······g······g······g·······g·······g··· ← order 7 (prime)
@@ -1326,7 +1338,7 @@ WARN: Original source contains many more interesting and important info.
   · pub.key = g^a mod p = "PK_A"
 
    PROTOCOL-Execution) probe to Bob knowledge of private key
-                       corresponding to public key without revealing 
+                       corresponding to public key without revealing
                        any information
 
    participant Alice // prober
@@ -1336,11 +1348,11 @@ WARN: Original source contains many more interesting and important info.
    Alice → Bob  : h = g^k mod p
    Bob   → Alice: c = random[1,q], c stands for "challenge"
    Alice → Bob  : s = ( a·c + k ) mod q *1
-   Bob   → Bob  : Check ( PK_A^c · h ) mod p == g^s 
+   Bob   → Bob  : Check ( PK_A^c · h ) mod p == g^s
 
-     ┌─────┐                    ┌───┐                                
-     │Alice│                    │Bob│                                
-     └──┬──┘                    └─┬─┘                                
+     ┌─────┐                    ┌───┐
+     │Alice│                    │Bob│
+     └──┬──┘                    └─┬─┘
         ──┐ k = random[1,q]       │
         ←─┘                       │
         │──── h = g^k mod p ─────→│
@@ -1351,24 +1363,24 @@ WARN: Original source contains many more interesting and important info.
         │                         │
         │                         ──┐ Check:
         │                         ←─┘ ( PK_A^c · h ) mod p == g^s
-        │                         │   └─────┬──────┘ 
+        │                         │   └─────┬──────┘
      ┌──┴──┐                    ┌─┴─┐       = PK_A = g^a mod p, h = g^k mod p
      │Alice│                    │Bob│ ( (g^a)^c · g^k ) mod p
      └─────┘                    └───┘      └─┬┘ └┬──┘
-                                            ┌┴┐ ┌┴┐ 
+                                            ┌┴┐ ┌┴┐
                                         ( g^a·c + k ) mod p
    *1: WARN: mod q, not p
        k, a, c are all in "mod q namespace" (using IT parlance)
        PK_A, h are in the "mod p namespace"
-  
-   *2: Note if "Extractor" can trick Alice into REUSING THE SAME RANDOM K 
+
+   *2: Note if "Extractor" can trick Alice into REUSING THE SAME RANDOM K
        then he can solve the following simple equation to recover Alice’s secret:
        RUN 1) challenge c1 ---> s1 = a·c1 + k  mod q
        RUN 2) challenge c2 ---> s2 = a·c2 + k  mod q
         ==                s1 - s2  / (c1 - c2) mod q
         == (a·c1 + k) - (a·c2 + k) / (c1 - c2) mod q
         ==            a·( c1 - c2) / (c1 - c2) mod q
-        ==            a                        mod q 
+        ==            a                        mod q
         ==            a
 
        REAL ATTACK ON SYSTEMS WITH BAD RANDOM NUMBER GENERATORS.
@@ -1384,7 +1396,7 @@ WARN: Original source contains many more interesting and important info.
   signatures and stealth addresses, etc. mask the identities of the
   entities involved in a business transaction, ZKP techniques allow to
   prove logical statements without divulging any information and yet
-  proving the validity of such proofs. 
+  proving the validity of such proofs.
 
   -----------------------------
 ● zk-SNARK: "(Z)ero(K)nowledge(S)uccinct(N)onInter(A)ctive A(r)gument of (K)nowledge"
@@ -1401,7 +1413,7 @@ WARN: Original source contains many more interesting and important info.
   - post-quantum secure.
 
   C&P From:
-  https://www.youtube.com/watch?v=_6TqUNVLChc 
+  https://www.youtube.com/watch?v=_6TqUNVLChc
 
 
                    Proof Size    Prover        Verification
@@ -1411,7 +1423,7 @@ SNARKs              288 bytes    2.3s           10ms
 (+  trusted setup )
 
 STARKs              45KB-200KB   1.6s           16ms
- 
+
 Bulletproofs        ~1.3KB      30s           1100ms
 
 Implementations:
@@ -1481,7 +1493,7 @@ Implementations:
   of them are needed in order to reconstruct the secret.
    Counting on all participants to combine the secret might be impractical, and
   therefore sometimes the threshold scheme is used where any "k" of the parts
-  are sufficient to reconstruct the original secret. For example 
+  are sufficient to reconstruct the original secret. For example
   "any 2 out of 3" shared pieces will reproduce the key.
    The essential idea of Adi Shamir's threshold scheme is that 2 points are
   sufficient to define a line, 3 points are sufficient to define a parabola, 4
@@ -1492,7 +1504,7 @@ Implementations:
 [[}]]
 
 [[{use_case.Authentication.remote]]
-● Challenge-response: [[{101]] 
+● Challenge-response: [[{101]]
 - cryptographic primitive
 - Used mostly in communication protocols.
 - Authentication server encrypts a challenge
@@ -1534,7 +1546,7 @@ Implementations:
 ● JWT intro:[[{standards.jwt.troubleshoot,standards.web,use_case.AAA,use_case.signature,02_doc_has.comparative]]
 @[https://tools.ietf.org/html/rfc7519]
 
-- (Very Good) Introduction to JWT!!! 
+- (Very Good) Introduction to JWT!!!
   @[https://jwt.io/introduction/]
 - online JWT debugger to decode, verify and generate JWT,
   detailed list of libraries (Java, Python, C#, Rust,...)
@@ -1554,16 +1566,16 @@ Implementations:
 
 @[https://github.com/tldr-pages/tldr/blob/master/pages/common/jwt.md]
 
-  $ jwt decode {{jwt_string}}       ←  Decode a JWT. 
+  $ jwt decode {{jwt_string}}       ←  Decode a JWT.
                                        -j to decode as JSON string
 
   $ jwt encode --alg {{HS256}} \   ← Encode a JSON string → JWT
-$  --secret {{1234567890}}     \  
-$  '{{json_string}}'              
+$  --secret {{1234567890}}     \
+$  '{{json_string}}'
 
   $ jwt encode --alg {{HS256}} \   ← Encode key pair payload to JWT
-$   --secret {{1234567890}}    \  
-$  -P key=value                   
+$   --secret {{1234567890}}    \
+$  -P key=value
   -----------------------------------------------
   JWT structure  (JWS structure)
   xxxxx.yyyyy.zzzzz ← Base64URL encoded
@@ -1571,7 +1583,7 @@ $  -P key=value
   │  ┌──┘     │     ↖
   │  │  ┌─────┘      ☞ format more compact when compared to
   │  │  │              XML-based standards such as SAML.
-  │  │  SIGNATURE 
+  │  │  SIGNATURE
   │  │ Base64URL (
   │  │   Sign (shared secret or private key,
   │  │         Base64URL encoded HEADER,
@@ -1580,7 +1592,7 @@ $  -P key=value
   │  │ (Using signature algorithm of HEADER)
   │  │
   │  │
-  │  PAYLOAD 
+  │  PAYLOAD
   │  - claims about an entity + additional data.
   │
   │  - types of claims:
@@ -1594,21 +1606,21 @@ $  -P key=value
   │
   │    - private    : custom claims between parties
   │
-  HEADE  
+  HEADE
   typically consists of:
   {
     "alg": "HS256", ← signing algorithm used (HMAC SHA256, RSA, ECDSA...)
     "typ": "JWT"    ← type of tokern (JWT)
   }
 
- JWT common ussage patterns: 
+ JWT common ussage patterns:
 - user agent should send the JWT in the HTTP Authorization header
   using the Bearer schema like:
   Authorization: Bearer <token>
   ( Stateless authorization )
 
-  ☞ By sending in the Authorization header, Cross-Origin Resource Sharin  
-    (CORS) won't be an issue as it doesn't use cookies. 
+  ☞ By sending in the Authorization header, Cross-Origin Resource Sharin
+    (CORS) won't be an issue as it doesn't use cookies.
 
 - A typical OpenID Connect compliant web application will go through the
   /oauth/authorize endpoint using the authorization code flow.
@@ -1634,7 +1646,7 @@ Since JWT are signed, the receiver can be sure the client is really who it
 thinks it is.
 
 
-- COMPARATIVE 
+- COMPARATIVE
   - Signing XML with XML Digital Signature is very complex and error prone
     when compared to the simplicity of signing JSON.
 
@@ -1717,11 +1729,11 @@ thinks it is.
 @[https://tools.ietf.org/html/rfc6749]
 @[https://alexbilbie.com/guide-to-oauth-2-grants/]
 
- Use cases 
+ Use cases
 - application that can read user data from another application
 - application that enables other applications to access its user data
 
- OAuth entities 
+ OAuth entities
 - Resource: (the User)  entity capable of granting access to a
   owner     protected resource.
             When the resource owner is a person, it
@@ -1750,16 +1762,16 @@ thinks it is.
                   of scopes (permission) granted to App
           @[tools.ietf.org/html/rfc6479#section-3.3]
 
- INITIAL (only-once) PRESETUP: 
+ INITIAL (only-once) PRESETUP:
   Register server app to OAuth2 Service provider.
   Write down   'client.id' and 'client.secret' returned from Service provider
   (Keycloak, Cloud Control Panel, Facebook,  ...).
    App Dev → OAuth Server : Register OAuth client
-   App Dev ← OAuth Server :   client.id 
-                              client.secret 
+   App Dev ← OAuth Server :   client.id
+                              client.secret
    App Dev ← App Dev      : write in safe place
 
- OAuth GRANTS TYPES 
+ OAuth GRANTS TYPES
 ┌───────────────────────────────────────────────────┐┌──────────────────────────────────────┐┌──────────────────────────────────┐
 │ RESOURCE OWNER CREDENTIALS GRANT (section 4.3)    ││ client credentials grant (sect.4.4)  ││ refresh token grant (section1.5) │
 │  - "great user experience" for trusted first party││  - simplest oauth 2.0 grants         ││client → auth.Ser: post           │
@@ -1844,9 +1856,9 @@ See also:
 
 - lightweight open-source and self-standing API for handling
   user registration (signup) and authentication and custom user data.
-- based on OAuth2 and JWT. 
+- based on OAuth2 and JWT.
 
-- Configuration through ".env" config file or 
+- Configuration through ".env" config file or
   environment variables (GOTRUE_*)
 
   Config. include options to set (request) rate limits,
@@ -1857,13 +1869,13 @@ See also:
 
   JWT tokens can also be managed by:
   - Audience (group of users)
-  - admin groups 
+  - admin groups
 
 - External Authentication supported for:
   ✓ bitbucket ✓ gitlab
   ✓ github    ✓ google
 
-  Ex. github external config: 
+  Ex. github external config:
   GOTRUE_EXTERNAL_GITHUB_CLIENT_ID=my_app_client_id
   GOTRUE_EXTERNAL_GITHUB_SECRET=client_secret_values_sssh
 
@@ -1872,12 +1884,12 @@ See also:
   GOTRUE_SMTP_HOST=smtp.mandrillapp.com
   GOTRUE_SMTP_USER=smtp-delivery@example.com
   GOTRUE_SMTP_PASS=...
-  GOTRUE_SMTP_MAX_FREQUENCY=...  min secs to wait before re-sending  
+  GOTRUE_SMTP_MAX_FREQUENCY=...  min secs to wait before re-sending
                                  signup confirm/pass reset
   (+ e-mail template file)
 
 - Exposed REST-API endpoints:
-  GET /settings: 
+  GET /settings:
   POST /signup  (email + password)
   POST /invite  (email)
   POST /verify  (type:=singup|recovery, token, ...)
@@ -1887,7 +1899,7 @@ See also:
                  and authorization_code grant types)
   PUT /user     (Update a user).
   POST /logout  (revoke all refresh tokens for user).
-         WARN : JWT tokens will still be valid for stateless auth 
+         WARN : JWT tokens will still be valid for stateless auth
                 until expiration (1hour by default)
 
 - Alternatives to Gotrue (in some contexts) can be:
@@ -1895,13 +1907,13 @@ See also:
     Actually gotrue can be seen service provider (SP) connected to Keycloak:
     → keycloak admin console
       → create client:
-        ID "https://example.com/.netlify/identity/saml" ← gotrue API endpoint. 
+        ID "https://example.com/.netlify/identity/saml" ← gotrue API endpoint.
    (@[https://yyhh.org/blog/2020/04/how-to-enable-saml-sso-with-self-hosted-gotrue-and-git-gateway/])
   · Kratos: https://www.ory.sh/kratos/
 [[}]]
 
 ● OpenID [[{use_case.identity,standards]]
-@[https://www.simpleorientedarchitecture.com/openid-connect-in-a-nutshell/] 
+@[https://www.simpleorientedarchitecture.com/openid-connect-in-a-nutshell/]
 @[https://stackoverflow.com/questions/1087031/whats-the-difference-between-openid-and-oauth]
 @[https://security.stackexchange.com/questions/44611/difference-between-oauth-openid-and-openid-connect-in-very-simple-term/130411#130411]
 @[https://en.wikipedia.org/wiki/OpenID#OpenID_vs._pseudo-authentication_using_OAuth]
@@ -1910,7 +1922,7 @@ See also:
     OAuth is about accessing a person's stuff.
     OpenID Connect does both.
     """
-- OpenID Connect (2014) combines the features of OpenID 2.0, OpenID Attribute Exchange 1.0, 
+- OpenID Connect (2014) combines the features of OpenID 2.0, OpenID Attribute Exchange 1.0,
   and OAuth 2.0 in a single protocol.
 
 • Dex: identity service using OpenID-Connect to drive authentication for other apps. [[{01_PM.TODO,01_PM.low_code]]
@@ -1933,26 +1945,26 @@ REF: @[https://spin.atomicobject.com/2016/05/30/openid-oauth-saml/]
 
 - developers of the SSO applications don't have to
   store or request for passwords. Instead, they can
-  accept proof of identity or authorization 
-  from a trusted source 
+  accept proof of identity or authorization
+  from a trusted source
 
 - OpenID, OAuth2 and SAML are different security protocols
   for single sign-on
 
-• OpenID 
+• OpenID
   - open standard for authentication
   - As of March 2016, there are over a billion
     OpenID-enabled accounts on the internet.
   - Google, WordPress, Yahoo, PayPal use OpenId
     to authenticate users.
-  
+
   - OpenID FLOW:
     user → id_provider01: request OpenID account
     user ← id_provider01: OpenID account
                           ^^^^^^^^^^^^^^
                           technically it's a URL
                           (e.g. alice2016.myIDprovider.org)
-    
+
     user → web_site login_screen: Select "sign with id_provider01"
            (relying party)
     web_site login_screen → id_provider01: request association handle
@@ -1968,19 +1980,19 @@ REF: @[https://spin.atomicobject.com/2016/05/30/openid-oauth-saml/]
                                   id_provider01
     web_site url → web_site url : Create session for user
     user ←→ web_site url : --- app session ---
-  
+
   - 2014: Latest version (OpenID Connect) combines:
     - OpenID authentication  (user is who he claims to be)
     - OAuth2 authorization   (user is authorized a set of actions)
 
-• OAuth2 
+• OAuth2
   - Confusingly, OAuth2 is also the basis for OpenID Connect -2014-)
   - Confusingly also, authorization is also considered some time a form
     of pseudo-authentication and OAuth2 is claimed to be an
     authentication standard. (An authorization signed token is a
     claim that the user is believed to be himself for the act of
     executing an action or accesing some resource).
-  
+
   - open standard for authorization.
   - OAuth2 provides secure delegated access:
     - application clients will use temporal tokens issued by
@@ -1996,7 +2008,7 @@ REF: @[https://spin.atomicobject.com/2016/05/30/openid-oauth-saml/]
     - principal (end user).
     - service provider (application web site)
     - identity provider:  server holding principal's ids + credentials.
-  
+
   user           → ser_rovider01: request service (action on a webapp)
   ser_provider01 → id_provider  : XML message
                                   -----------
@@ -2009,29 +2021,29 @@ REF: @[https://spin.atomicobject.com/2016/05/30/openid-oauth-saml/]
                                   The assertion can contain statements
                                   about authentication, authorization,
                                   and/or attributes (emails, phones,...).
-  
+
   SAML 2.0 defines:
   - assertions:
   - protocols : assertion requests and responses
-  - bindings  : how requests/responses happen between the service provider and 
+  - bindings  : how requests/responses happen between the service provider and
                 identity provider using communication methods like HTTP POST
   - profile   : allowed combinations of (assertions, protocols, bindings)
                 for various use cases, like SSO.
-  
+
                       OAuth2             OpenId              SAML
-  
+
   Token format        JSON or SAML2      JSON                XML
   (assertion)
-  
+
   Authorization?      Yes                No                  Yes
-  
+
   Authentication?     Pseudo-auth        Yes                 Yes
-  
+
   Year created        2005               2006                2001
-  
+
   Current version     OAuth2             OpenID              SAML 2.0
                                          Connect
-  
+
   Transport           HTTP               HTTP                - HTTP Redirect
                                          GET/POST              (GET) binding
                                                              - SAML SOAP
@@ -2039,19 +2051,19 @@ REF: @[https://spin.atomicobject.com/2016/05/30/openid-oauth-saml/]
                                                              - HTTP POST
                                                                binding
                                                              - "others"
-  
+
   SECURITY RISKS      Phishing[1]        Phishing[1]         XML Signature
                                                              Wrapping to
                                                              impersonate
                                                              any user
-  
-  
-  
+
+
+
   Best suited for     - API              - consumer apps     enterprise
                         authorization      Single sign-on    Single sign-on
                                            delegating SSO
                                            to Google,...
-  
+
 [[}]]
 
 [[}]]
@@ -2074,7 +2086,7 @@ REF: @[https://spin.atomicobject.com/2016/05/30/openid-oauth-saml/]
 ● TLS, X.509v3: [[{101,protocol.tls,standards.pki.x509,standards.web,tech_stack.java,tool.openssl]] #[openssl_summary]
 - X.509 v3:  <·········· ITU_T standard for Certificate Storage and Serialization
   =========              Used, amongst others, by Internet TLS/SSL protocols.
-  Version#               
+  Version#
   Serial Number
   Signature algorithm
   Issuer name
@@ -2106,7 +2118,7 @@ REF: @[https://spin.atomicobject.com/2016/05/30/openid-oauth-saml/]
   @[https://www.ietf.org/rfc/rfc5280.txt] X.509 PKI
 
 - Common openssl opts:
-  · -in   : path for input certificate being examined. Many times 
+  · -in   : path for input certificate being examined. Many times
             STDIN from previous 'openssl s_client ...' is preferred.
             $ openssl s_client ... | openssl ...
   · -noout: prevents encoded version output (of request/response)
@@ -2122,25 +2134,25 @@ REF: @[https://spin.atomicobject.com/2016/05/30/openid-oauth-saml/]
 - # Request→create→install new Server Certificate Flow #
   ######################################################
   admin→admin: Create Private Key ← Pub.Key autogenerated from Priv.Key
-  alt                                
+  alt
     admin→admin : Sign self-Cert  ← Dev. Purposes
-  else:                              
+  else:
     admin→admin: Create CSR       ← CSR: Cert. Signing Request with Pub.key
-┌→  admin→CA    : CSR                
+┌→  admin→CA    : CSR
 │   CA←→admin   : Validate KYC,...← KYC: "Know Your Customer"
-│   CA→CA       : Create Cert     ← Happy path. CSR approved.  
-│   CA→amdin    : Cert.          
+│   CA→CA       : Create Cert     ← Happy path. CSR approved.
+│   CA→amdin    : Cert.
 │   admin→server: Cert.           ← Server: Apache, Nginx, ...
-│ 
+│
 └─ $ openssl req  -new  -nodes              ← Create key + CSR.
    -newkey rsa:2048 -keyout ${DOMAIN}.key \   ← Replace -newkey ... -keyout ...
    -out ${DOMAIN}.csr -subj "${SUBJ}" \         by -key ${DOMAIN}.key to reuse
                                                 already existing private key
-   -addext "subjectAltName = DNS:foo.co.uk" \ 
-   -addext "certificatePolicies = 1.2.3.4" \  ← Can Sign? Can 
+   -addext "subjectAltName = DNS:foo.co.uk" \
+   -addext "certificatePolicies = 1.2.3.4" \  ← Can Sign? Can
 
 
-│ Managing Private Keys                    │ dump x509 inf  
+│ Managing Private Keys                    │ dump x509 inf
 │ CREATE A PRIVATE KEY:                    │$ openssl x509 -in myCert.pem -text
 │$ openssl \                               │$ openssl x509 -in myCert.crt -text -inform DER
 │    genrsa -des3 \                                                   ^                 ^
@@ -2148,10 +2160,10 @@ REF: @[https://spin.atomicobject.com/2016/05/30/openid-oauth-saml/]
 │(Enter password when prompted)                             encoding. For binary the option
 │                                                           "-inform DER" must be passed or
 │                                                           the command will fail.
-│ VERIFY PRIVATE KEY: 
+│ VERIFY PRIVATE KEY:
 │$ openssl rsa -check -in ${DOMAIN}.key
 │
-│ Verify private key matches certificate and CS  
+│ Verify private key matches certificate and CS
 │ (If the output of each of the next command is identical there is an
 │  extremely high probability that the private key, certificate,
 │  and CSR are related)
@@ -2159,13 +2171,13 @@ REF: @[https://spin.atomicobject.com/2016/05/30/openid-oauth-saml/]
 │  $ openssl x509 -noout -modulus -in ${DOMAIN}.crt | openssl md5
 │  $ openssl req  -noout -modulus -in ${DOMAIN}.csr | openssl md5
 │
-│ Encrypt/Decrypt private key 
+│ Encrypt/Decrypt private key
 │$ openssl rsa -des3 -in unencrypted.key -out encrypted.key
 │$ openssl rsa       -in encrypted.key   -out decrypted.key
 
 
-│ Self-Signed-Cert 
-│ working on Chrome/Java/... 
+│ Self-Signed-Cert
+│ working on Chrome/Java/...
 │REF:
 │- chrome deprecates subject cn matching]
 │@[https://textslashplain.com/2017/03/10/chrome-deprecates-subject-cn-matching/]
@@ -2173,7 +2185,7 @@ REF: @[https://spin.atomicobject.com/2016/05/30/openid-oauth-saml/]
 │@[https://alexanderzeitler.com/articles/Fixing-Chrome-missing_subjectAltName-selfsigned-cert-openssl/]
 │- getting-chrome-to-accept-self-signed-localhost-certificate
 │@[https://stackoverflow.com/questions/7580508/getting-chrome-to-accept-self-signed-localhost-certificate/43666288#43666288]
-│ create_root_cert_and_key.sh 
+│ create_root_cert_and_key.sh
 │ |#!/usr/bin/env bash
 │ |openssl genrsa -out rootCA.key 2048
 │ |openssl req -x509 -nodes \
@@ -2184,7 +2196,7 @@ REF: @[https://spin.atomicobject.com/2016/05/30/openid-oauth-saml/]
 │      ^^^^
 │      replace with -in $DOMAIN.csr to reuse crt
 
-│ create_certificate_for_domain.sh 
+│ create_certificate_for_domain.sh
 │ |#!/usr/bin/env bash
 │ |
 │ |if [ -z "$1" ]; then
@@ -2220,7 +2232,7 @@ REF: @[https://spin.atomicobject.com/2016/05/30/openid-oauth-saml/]
 │ |   -days $NUM_OF_DAYS -sha256 \
 │ |   -extfile /tmp/__v3.ext
 │
-│ Ussage: 
+│ Ussage:
 │$ ./create_root_cert_and_key.sh        # ← STEP 01: create root Auth cert
 │
 │$ ./create_certificate_for_domain.sh \ # ← STEP 02
@@ -2236,23 +2248,23 @@ REF: @[https://spin.atomicobject.com/2016/05/30/openid-oauth-saml/]
 │    Browse to the file created above, "rootCA.pem", select it, and click "Open"
 
 
-  ####################### 
-  # Certificate Formats # 
-  ####################### 
-  
+  #######################
+  # Certificate Formats #
+  #######################
+
 - X.509 v3+ ENCODINGS:
-  · DER: (Binary) DER == ASN.1 (D)istinguised -vs Basic/Canonical- (E)ncoding (R)ules 
+  · DER: (Binary) DER == ASN.1 (D)istinguised -vs Basic/Canonical- (E)ncoding (R)ules
   · PEM: (Base64) PEM == (P)rivacy (E)nhanced (M)ail, prefixed with "—– BEGIN ..."
-         Default encoding in OpenSSL/ssh/.... Easier to C&P 
+         Default encoding in OpenSSL/ssh/.... Easier to C&P
 - Common FILE-EXTENSIONS:
   · *.CRT: Certificates encoded as binary DER/PEM.
   · *.CER: Mostly similar to .CRT, recognized by some Micrsooft apps.
   · *.KEY: used for private PKCS#8 keys encoded as DER/PEM.
- 
+
 - RELATED STANDARDS: PKCS #7, PCKS #12  @[#PKCS_summary]
             P7B ASCII files which can contain (non-secret) Certs. and CA certificates.
- 
- - PKCS#12: FILE FORMAT commonly used for (PRIVATE)KEYSTORES, protected with 
+
+ - PKCS#12: FILE FORMAT commonly used for (PRIVATE)KEYSTORES, protected with
             password-based symmetric key. Used by:
             - Java key store
             - client auth. certs in Firefox, Apache Tomcat, ...
@@ -2270,19 +2282,19 @@ REF: @[https://spin.atomicobject.com/2016/05/30/openid-oauth-saml/]
  $ openssl pkcs12 -in ${DOMAIN}.pfx -nodes -out ${DOMAIN}.combined.crt # PKCS12 → PEM
  $ openssl x509 -in ${DOMAIN}.cer -outform PEM -out ${DOMAIN}.pem      # x509 → PEM
 
-  ################## 
-  # Random Recipes # 
-  ################## 
+  ##################
+  # Random Recipes #
+  ##################
 
  $ openssl x509 -in ${DOMAIN}.crt \ ← Generate FINGERPRINT from TLS certificate.
    -noout -fingerprint -sha256        CRYPTOG_HASH(public_key) used as ID of pub.keys
   fa:23:a4:48:............:56
 
-  FETCH 1ST-IN-CHAIN WEB CERT.                   check version/build 
+  FETCH 1ST-IN-CHAIN WEB CERT.                   check version/build
   then add to Java.KeyStore:                     $ openssl version -a
 │$ openssl s_client \
 │   -connect www.mywebsite.com:443 \
-│   -showcerts </dev/null 2>/dev/null | \        VIEW AND VERIFY CS  
+│   -showcerts </dev/null 2>/dev/null | \        VIEW AND VERIFY CS
 │  openssl x509 \                               │$ openssl req \
 │    -outform PEM > infura-morden.pem           │  -text  \  # "view"
 │$ ($JAVA_HOME/Contents/Home/jre/bin/)keytool \ │  -verify \ # "verify"
@@ -2290,17 +2302,17 @@ REF: @[https://spin.atomicobject.com/2016/05/30/openid-oauth-saml/]
 │    -alias www.mywebsite.com -f                │-in ${DOMAIN}.csr
 
 
-  LIST SUPPORTED CIPHERS 
-│$ openssl ciphers -s -tls1_3 ← -s -tls1_1: filter for sepcific TLS version  
+  LIST SUPPORTED CIPHERS
+│$ openssl ciphers -s -tls1_3 ← -s -tls1_1: filter for sepcific TLS version
  → TLS_AES      _256_GCM_SHA384:TLS_AES      _128_GCM_SHA256:...
 
-  test cipher-suite against serve  
-│ $ openssl s_client \              Ex:  
+  test cipher-suite against serve
+│ $ openssl s_client \              Ex:
 │   -connect domain.com:443 \      Using weak (128bit) cipher will probably fail
 │   -cipher PSK-AES128-CBC-SHA \ ← or -tls1_1 to test TLS supported version.
-│   -quiet -no_tls1_3           
+│   -quiet -no_tls1_3
 
- Verify that cert. was signed by given CA: 
+ Verify that cert. was signed by given CA:
 │$ openssl verify -verbose -CAFile ca.crt ${DOMAIN}.crt
 
 
@@ -2308,75 +2320,75 @@ REF: @[https://spin.atomicobject.com/2016/05/30/openid-oauth-saml/]
   # Examine Cert. Extension/s #
   #############################
 $ openssl x509 \               check Subject Alternative Name(SAN) extension ,
-  -in ... -noout \             used to associate 1+ values (FQDNs,...) to 1 Cert. 
+  -in ... -noout \             used to associate 1+ values (FQDNs,...) to 1 Cert.
   -ext subjectAltName       ←  Also used as alternative to deprecated common name.
 → X509v3 Subject Alt. Name:    NOTE: Use commas to separate 2+ extensions:
 →   DNS:*.domi01.com, DNS:...  OTHER WIDELY USED X509 EXTENSIONS INCLUDE:
-                               · 'basicConstraints' 
+                               · 'basicConstraints'
                                · 'keyUsage'  (Can Sign?, Can Sign CRL?...)
                                (leave -ext alone to show all extensions in Cert)
 
 
   ##########################    WARN:  Some companies/apps have deprecated CRLs in
-  # CRL how-to with OpenSSL #  favor of  Online Certificate Status Protocol (OCSP) 
+  # CRL how-to with OpenSSL #  favor of  Online Certificate Status Protocol (OCSP)
   ##########################  CRL == Cert. list of ALREADY revoked Certs.
 
  $ edit .../intermediate/openssl.cnf PRE-SETUP) Set crl_day check period:
   [ CA_default ]                     ====================================
   ...
-  default_crl_days = 30          ← periodic checking ...                     
+  default_crl_days = 30          ← periodic checking ...
   [ server_cert ]
   # ... snipped ...
  *crlDistributionPoints = URI:http...  ← See man for + crl options
- 
- 
+
+
  $ export CLR_OUTPUT=intermediate/crl/intermediate.crl.pem
- 
+
  $ cd ~/ca                           STEP 2: Periodically recreate CLR
  $ openssl ca \                      =================================
-   -config intermediate/openssl.cnf \ (perioadically according to 
+   -config intermediate/openssl.cnf \ (perioadically according to
    -gencrl  \                           default_crl_days defined in STEP 1)
    -out ${CLR_OUTPUT}
- 
+
  $ openssl crl \                     STEP 3: Verify output of STEP 2:
    -in ${CLR_OUTPUT} \               ================================
    -noout -text
  → ... No Revoked Certificates
   (No certificates have been revoked yet)
- 
+
  STEP 4: make CLR_OUTPUT accessible through HTTP URL indicated in STEP 1
  =======================================================================
- 
+
  NOTE: For servers authenticating clients through X.509 certs,
        copy the generated crl file to a path indicated by the server config
        ('SSLCARevocationPath' in Apache HTTP, 'crl-verify' in OpenVPN,...)
- 
+
  $ cd ~/ca                            REVOKE A CERTIFICATE:
  $ openssl ca \                       =====================
    -config intermediate/openssl.cnf \
    -revoke  \
    intermediate/certs/bob@example.com.cert.pem
- 
+
  NOTE: CRL distribution points in X.509 Certs visible in X509v3 details.
        # openssl x509 -in ${DOMAIN}.cert.pem -noout -text
        ...
-         X509v3 CRL Distribution Points:  
-       
+         X509v3 CRL Distribution Points:
+
              Full Name:
-               URI:http://domain1.com/intermediate.crl.pem  
+               URI:http://domain1.com/intermediate.crl.pem
        ...
 
-  ############################# 
+  #############################
   # check TLS cert.expiration #  [monitoring]
-  ############################# 
+  #############################
 @[https://www.cyberciti.biz/faq/find-check-tls-ssl-certificate-expiry-date-from-linux-unix/]
   $ export server="www.nixcraft.com"
   $ export port="443"
                                  Show validity/expiration dates for CERT
                                  =======================================
   $ echo | \                   ← Avoid pressing CTRL+C
-    openssl s_client \         ← implements generic TLS network client 
-    -servername $server \      ← Set TLS Ser.NameIndication(SNI)@ClientHello msg 
+    openssl s_client \         ← implements generic TLS network client
+    -servername $server \      ← Set TLS Ser.NameIndication(SNI)@ClientHello msg
     -connect $server:$port  | \
     openssl x509 \             ← Run certificate display and signing utility.
                                  Use '-in file_input.pem' if no STDIN is present.
@@ -2390,14 +2402,14 @@ $ openssl x509 \               check Subject Alternative Name(SAN) extension ,
   depth=0 CN = www.nixcraft.com
   verify return:1
   DONE
-  notBefore=Nov 11 01:15:45 2021 GMT 
-  notAfter=Feb  9 01:15:44 2022 GMT  
+  notBefore=Nov 11 01:15:45 2021 GMT
+  notAfter=Feb  9 01:15:44 2022 GMT
 
                                  Check: expiration date before 4 months?
                                  =======================================
   $ echo | \                   ← Avoid pressing CTRL+C
-    openssl s_client \         ← implements generic TLS network client 
-    -servername $server \      ← Set TLS Ser.NameIndication(SNI)@ClientHello msg 
+    openssl s_client \         ← implements generic TLS network client
+    -servername $server \      ← Set TLS Ser.NameIndication(SNI)@ClientHello msg
     -connect $server:$port  | \
     openssl x509 \             ← Run certificate display and signing utility.
                                  Use '-in file_input.pem' if no STDIN is present.
@@ -2405,13 +2417,13 @@ $ openssl x509 \               check Subject Alternative Name(SAN) extension ,
         -enddate \
         -checkend 10540800     ← == 4months x 30.5days/m x 24hour/d x 3600 secs/h
   (Output will be similar to...)
-  ... 
+  ...
   DONE
   notAfter=Feb  9 01:15:44 2022 GMT
   Certificate will expire      ← $? will return 1 (it will expire!)
 
 
-# Email settings 
+# Email settings
 # See https://www.cyberciti.biz/mobile-devices/android/how-to-push-send-message-to-ios-and-android-from-linux-cli/ #
 source ~/bin/cli_app.sh
 push_to_mobile "$0" "$_sub. See $_to email for detailed log. -- $HOSTNAME " >/dev/null
@@ -2468,7 +2480,7 @@ https://developers.redhat.com/blog/2020/10/07/install-a-signed-certificate-with-
               environment that needs key store conversions to it into a different
               environment (ussually very time consuming and frustrating).
 
-- Use Cases examples:  
+- Use Cases examples:
   - Create, load, save, and convert keystores.
   - Generate DSA and RSA key-pair entries with self-signed X.509 certificates.
   - Import X.509 certificate files as trusted certificates.
@@ -2519,21 +2531,21 @@ certificate revocation.
 
 ● Certs Transparency: [[{protocol.tls,standards.pki,qa.transparency,01_PM.TODO]] #[cert_transparency_summary]
 @[https://www.certificate-transparency.org/]
-- Context: No efficient method/protocol was in place before to allows fetching a 
-  FULL LIST OF ISSUED CERTIFICATES FOR A GIVEN DOMAIN. Any byzantine CA could 
-  issue malicious certificates to cheat users and spy their (supposely secure) 
+- Context: No efficient method/protocol was in place before to allows fetching a
+  FULL LIST OF ISSUED CERTIFICATES FOR A GIVEN DOMAIN. Any byzantine CA could
+  issue malicious certificates to cheat users and spy their (supposely secure)
   encrypted traffic.
 
-- Cert. Transparency is an Open framework for Cert. Auditing. 
-  Admins and security teams can use it to supervise wrong issues certificates. 
+- Cert. Transparency is an Open framework for Cert. Auditing.
+  Admins and security teams can use it to supervise wrong issues certificates.
 
-- Starting 2018, Google Chrome (and others) will not trust any certificate not 
+- Starting 2018, Google Chrome (and others) will not trust any certificate not
   passing Cert. Transparency requirements.
 
 - Main objectives:
-  - Minimize the possibility for a CA to issue a new TLS Cert. for a given domain, 
+  - Minimize the possibility for a CA to issue a new TLS Cert. for a given domain,
     without domain owner being aware of it.
-  - Provide an open auditing system for any domain owner/CA to query if some 
+  - Provide an open auditing system for any domain owner/CA to query if some
     given certificate has been issued by error or maliciously in nearly real time.
   - Protect users from maliciously issued certs.
   - Identify byzantine/maliciously-behaving Certificate Authorities (CAs).
@@ -2551,7 +2563,7 @@ certificate revocation.
     1) verify that logs behave correctly and are cryptographically consistent.
        IF THAT'S NOT THE CASE, THE LOG WILL NEED TO EXPLAIN ITSELF OR RISK BEING
        SHUT DOWN.
-    2) verify that a particular certificate appears in a log. 
+    2) verify that a particular certificate appears in a log.
        Particularly important auditing function because the Cert.Transp. framework
        requires that all SSL certificates be registered in a log. If a Cert. has
        not been registered in a log, it’s a sign that the certificate is suspect, and
@@ -2582,7 +2594,7 @@ certificate revocation.
   Certbot aims to build a network that is more structurally private, safe, and
   protected against censorship.
 
-● http://www.cacert.org, Target: create alternative Non-Profit CA 
+● http://www.cacert.org, Target: create alternative Non-Profit CA
                          to commercial ones.
 
 ● make-ca: (KISS CA)
@@ -2601,7 +2613,7 @@ certificate revocation.
 - Architecture is "request/response" message based.
 - Supported by different web browsers
 
- Comparison to CRLs 
+ Comparison to CRLs
 - OCSP response contains less data than a typical CRL file
 - easier to parse by end client-side libraries
 - OCSP discloses to the responder that """a particular
@@ -2609,7 +2621,7 @@ certificate revocation.
 - OCSP lookups can be performed on transaction or authorization level,
   but CRLs must be updated at intervals.
 
- Basic PKI implementation 
+ Basic PKI implementation
 participant: Alice  with certificate issued by CA Carol
 participant: Bob    with certificate issued by CA Carol
 Carol      : CA
@@ -2639,7 +2651,7 @@ Bob   → Bob  : verifies Carol's signed response.
 
 Bob   → Alice: ...
 
- Protocol details 
+ Protocol details
 - OCSP request format supports additional extensions.
 - OCSP can be vulnerable to replay attacks,[5] where a signed,
   'good' response is captured by a malicious intermediary and
@@ -2650,7 +2662,7 @@ Bob   → Alice: ...
     nonce extension to create a different response for each
     request, instead using presigned responses with a validity
     period of multiple days.
-    Thus, the replay attack is a major threat to validation systems 
+    Thus, the replay attack is a major threat to validation systems
 
 - OCSP can support more than one level of CA chaining/forwarding
   initial OCSP-requests to by delegated path validation (DPV) servers.
@@ -2659,9 +2671,9 @@ Bob   → Alice: ...
 
 Supported by
 Internet Explorer, Mozilla Firefox 3+, Safari-macOS.
-  Google Chrome disabled OCSP checks by default in 2012 
-  citing latency and privacy issues and instead uses thei  
-  own update mechanism to retrieved revoked certificates 
+  Google Chrome disabled OCSP checks by default in 2012
+  citing latency and privacy issues and instead uses thei
+  own update mechanism to retrieved revoked certificates
 [[}]]
 
 ● XML Signature [[{use_case.signature,standards.xml,02_doc_has.comparative]]
@@ -2674,7 +2686,7 @@ Internet Explorer, Mozilla Firefox 3+, Safari-macOS.
 - used by various XML related technologies like SOAP or SAML
 
 - typically used toto sign XML documents,
-  but anything that is accessible via a URL can be signed 
+  but anything that is accessible via a URL can be signed
 
 - An XML signature used to sign a resource outside its containing
   XML document is called a detached signature;
@@ -2683,10 +2695,10 @@ Internet Explorer, Mozilla Firefox 3+, Safari-macOS.
 - if it contains the signed data within itself it is called an
   enveloping signature.
 
--   creation of XML Signatures is substantially more complex 
-    than the creation of an ordinary digital signature because 
-    a given XML Document may have more than one legal serialized 
-    representation 
+-   creation of XML Signatures is substantially more complex
+    than the creation of an ordinary digital signature because
+    a given XML Document may have more than one legal serialized
+    representation
   - XML canonicalization transform is employed to alleviated some of
     those problems
 
@@ -2722,7 +2734,7 @@ Internet Explorer, Mozilla Firefox 3+, Safari-macOS.
 - Don't use the same private key for encrypting and signing
 - Don't reuse the same nonce twice -it will no be a nonce-
 - Don’t use old/broken stuff. Non-exhaustive list includes:
-  -  DES, MD4, MD5, SHA1, RC4, AES-EC  
+  -  DES, MD4, MD5, SHA1, RC4, AES-EC
   -  RSA is old, but not broken ,  but prefer ECC-mode.
 [[}]]
 
@@ -2732,18 +2744,18 @@ Internet Explorer, Mozilla Firefox 3+, Safari-macOS.
 @[https://en.wikipedia.org/wiki/Kerberos_(protocol)]
 @[https://web.mit.edu/Kerberos/]
 - computer-network protocol designed to
-  provide strong client/server mutual authentication 
+  provide strong client/server mutual authentication
 
 -  built on symmetric key cryptography  and
-   may (optionally) use public-key cryptography 
-   during certain phases of authentication 
--  requires a trusted third party 
--  works on the basis of tickets 
+   may (optionally) use public-key cryptography
+   during certain phases of authentication
+-  requires a trusted third party
+-  works on the basis of tickets
 - allow nodes communicating over a non-secure network
   to prove their identity to one another in a secure manner,
   protecting against eavesdropping and replay attacks.
 
- History and development 
+ History and development
 - 19?? MIT 1st Kerberos version
   based on the earlier Needham–Schroeder symmetric key protocol.
 - Versions 1-3 were only MIT internals.
@@ -2758,10 +2770,10 @@ Internet Explorer, Mozilla Firefox 3+, Safari-macOS.
         "Microsoft Windows 2000 Ker. Change and Set Password Proto."
         RFC 4757 documents Microsoft's use of the RC4 cipher.
         Kerberos is used as preferred authentication method:
-        In general, joining a client to a Windows domain means    
-        enabling Kerberos as default protocol for authentications 
-        from that client to services in the Windows domain and    
-        all domains with trust relationships to that domain.      
+        In general, joining a client to a Windows domain means
+        enabling Kerberos as default protocol for authentications
+        from that client to services in the Windows domain and
+        all domains with trust relationships to that domain.
        (fallback to NTLM ifeither client or server are not joined to a domain*
 
 
@@ -2779,7 +2791,7 @@ Internet Explorer, Mozilla Firefox 3+, Safari-macOS.
         Founding sponsors include Oracle, Apple, Google, Microsoft, Centrify Corporation, TeamF1,
         Royal Institute of Technology in Sweden, Stanford University, MIT, CyberSafe.
 
- Protocol Description 
+ Protocol Description
 
 participant client
 participant Service Server          as SS
@@ -2817,7 +2829,7 @@ STEP 2: Communicating with other nodes ("principal")
   TGS    → client: Session Ticket st01 + Session Keys
   client → SS: session ticket st01 + sess.keys + service request
 
- Drawbacks and limitations 
+ Drawbacks and limitations
 - Kerberos requires user accounts, user clients
   and the services on the server to all have a
   trusted relationship to the Kerberos token server
@@ -2827,14 +2839,14 @@ STEP 2: Communicating with other nodes ("principal")
     test, pre-production, production) is difficult.
 
 
- Kerberos delegation 
+ Kerberos delegation
 - Kerberos delegation is used in multi-tier application/service situations:
 -  A common scenario would be a web server application making calls to
    a database running on another server.
    -  The first tier is the user who browses to the web site’s URL.
    -  The second tier is the web site.
    -  The third or data tier would be the database.
-   Delegation allows the database to know who is actually accessing its data 
+   Delegation allows the database to know who is actually accessing its data
 
   Non-Kerberos Security Setup:
     webserver_admin → database1_admin : request database  access for "WebServerAcct"
@@ -2842,8 +2854,8 @@ STEP 2: Communicating with other nodes ("principal")
     ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
     webapp developers and/or admins determine who can access the web application
     and by extension the data in the back end.
-      (it may be unacceptable to the database admins as they cannot control wh  
-       ultimately has access to the data)                                       
+      (it may be unacceptable to the database admins as they cannot control wh
+       ultimately has access to the data)
 
   Kerberos delegation Setup:
     - grant "WebServerAcct" permission to delegate to the "Database1Acct".
@@ -2873,7 +2885,7 @@ STEP 2: Communicating with other nodes ("principal")
   - share information about users and services throughout the network,
     like mails, phones, user/passwords, ...
 
- History 
+ History
 - 1980s: Telco companies develop the concept of directory services
          culminating in the comprehensive X.500 specification
          by the International Telecommunication Union (ITU) in the 1980s.
@@ -2894,7 +2906,7 @@ STEP 2: Communicating with other nodes ("principal")
         - Uniform Resource Locator [RFC4516]
         - ...
 
- Protocol overview 
+ Protocol overview
 - ASN.1 binary BER encoded (Basic Encoding Rules)
 
 participant Directory_System_Agent (LDAP_server) as DSA
@@ -2917,7 +2929,7 @@ client ← DSA: operation response   not need to wait for a response
  - Extended Op : generic operation used to define other operations
  - Unbind      : close the connection (not the inverse of Bind)
 
- Directory structure 
+ Directory structure
 - (Follows X.500 1993 model)
 - attribute = [ name, value+]
 - attributes are defined in a schema
@@ -2970,14 +2982,14 @@ client ← DSA: operation response   not need to wait for a response
       - The server will directly contact the other
         servers on behalf of the client
 
-- LDAP rarely defines any orderin  
+- LDAP rarely defines any orderin
  (sets need not be ordered)
 
 BIND also sets the LDAP protocol version by sending a
 
 When LDAP servers are in a replicated topology, LDAP clients should consider using the post-read control to verify updates instead of a search after an update.
 
- URI scheme 
+ URI scheme
 ldap://host:port/"Distinguished Name"?csv_list_attributes?search_scope?filter?extensions
                   ^^^^^^^^^^^^^^^^^^  ^^^^^^^^^^^^^^^^^^^ ^^^^^
                   Used as search base    comma-separated  search
@@ -2986,7 +2998,7 @@ ldap://host:port/"Distinguished Name"?csv_list_attributes?search_scope?filter?ex
                                                         - one (level)
                                                         - sub (tree)
 
- Directory Schema 
+ Directory Schema
 - set of rules (definitions and constraints) concerning
   the structure of the directory information tree (DIT),
   or what information the server can hold.
@@ -3014,20 +3026,20 @@ ldap://host:port/"Distinguished Name"?csv_list_attributes?search_scope?filter?ex
 
  Access control is not standardized   though there are commonly used models.
 
- LDAP extension point 
+ LDAP extension point
   - define new operations.
   - modify requests/responses (sort results,...)
   - New search scopes and Bind methods can be defined.
   - new attributes options modifying their semantics.
   - ...
 
- Access protocol 
+ Access protocol
 - As LDAP has gained momentum, vendors have provided it
-   as an access protocol to other services 
+   as an access protocol to other services
   For example, Unix user and group information (via PAM, NSS modules)
 - LDAP is often used by other services for authentication.
 
- Usage 
+ Usage
 - two common styles of naming:
   - top level objects are the c= (country) object
     Ex:
@@ -3038,7 +3050,7 @@ ldap://host:port/"Distinguished Name"?csv_list_attributes?search_scope?filter?ex
     Ex:
     cn=Common Name, dc=example,  dc=com
 
-- See also: 
+- See also:
 - ldapsearch:  CLI utility for querying an LDAP directory.
 @[https://github.com/tldr-pages/tldr/blob/master/pages/common/ldapsearch.md]
 [[}]]
@@ -3057,7 +3069,7 @@ formed according to RFC 1779 and RFC 2247:
     Names (RDNs) for each component of the domain, most significant (e.g.
     rightmost) first. Each of these RDNs is a single AttributeTypeAndValue,
     where  the type is the attribute "DC"  and
-           the value is an IA5 string containing the domain name component 
+           the value is an IA5 string containing the domain name component
 
     Two LDAP object classes are also defined.
     - dcObject: to integrate into alreaded existing schemas,
@@ -3092,14 +3104,14 @@ formed according to RFC 1779 and RFC 2247:
   PGP: Pretty Good Privacy: encryption program (1991 Phil Zimmermann)
        Used for signing, encrypting, and decrypting texts, e-mails,
        files, directories, disks, e-mails.
-  
+
   OpenPGP: Open Standard around PGP software (RFC 4880)
 
   GPG: Gnu Privacy Guard implementation
 
-  ***************************** 
-  * Symmetric file encryption * 
-  ***************************** 
+  *****************************
+  * Symmetric file encryption *
+  *****************************
  - simpler and more secure than asym. one.
  - Can NOT be used to publish with anonymous or untrusted users.
    For example, it can NOT be used to cypher (or sign) content in
@@ -3112,35 +3124,35 @@ formed according to RFC 1779 and RFC 2247:
                     Different master keys can be used in different contexts.
 
 
-       $ ls secrets.txt*             
+       $ ls secrets.txt*
        secrets.txt                     ← Secrets to access login, cloud resources, ddbbs,...
                                          add to .gitignore  to avoid distributing secrets
 
-       $ cat secrets.txt \                     
-     $   | gpg -c --batch --passphrase $pass\   ← Generates binary encrypted output Q *1 
-     $   | base64 \                             ← (optional): Allows to copy in mail/stdin/... 
-     $   > secrets.txt.gpg.base64              
+       $ cat secrets.txt \
+     $   | gpg -c --batch --passphrase $pass\   ← Generates binary encrypted output Q *1
+     $   | base64 \                             ← (optional): Allows to copy in mail/stdin/...
+     $   > secrets.txt.gpg.base64
            └───────┬────────────┘
            Can be added to git : Each time "master key" is
            rotated, this file must be regenerated (and old
            master key used in the mean time to decrypt).
 
-       $ cat secrets.txt.gpg.base64 \          
-     $   | base64 -d \                         
-     $   | gpg -d --batch --passphrase $pass \    Q *1 
-     $   > secrets.txt                         
+       $ cat secrets.txt.gpg.base64 \
+     $   | base64 -d \
+     $   | gpg -d --batch --passphrase $pass \    Q *1
+     $   > secrets.txt
 
      Q *1 : Remove --batch --passphrase options to ask for password interactively.
             (probably safer, but can not be scripted easily)
 
    - SAFE CLEAN-UP :
       $ shred -n 2 -z -v secrets.txt   ← safe/secure deletion. Standard
-                                         "rm" leaves original bytes in the 
+                                         "rm" leaves original bytes in the
                                          hard-disk
   ──────────────────────────────────────────────────────────────────
-  *************************** 
-  * managing pub/priv. keys * 
-  *************************** 
+  ***************************
+  * managing pub/priv. keys *
+  ***************************
   - Before signing and encripting we need to learn how to create/import/export PGP keys.
 REF:@[http://central.sonatype.org/pages/working-with-pgp-signatures.html]
 
@@ -3149,24 +3161,24 @@ REF:@[http://central.sonatype.org/pages/working-with-pgp-signatures.html]
                                           when prompted)           Recommended <=2 years
                                                          Once expired it can be extended
                                                          providing  key (and passphrase)
-  
-  $ gpg2 --list-keys              ←  LIST ALL PUB. KEYS (ours and imported/pulled) 
+
+  $ gpg2 --list-keys              ←  LIST ALL PUB. KEYS (ours and imported/pulled)
   /home/juven/.gnupg/pubring.gpg
   ------------------------------
   pub   1024D/C6EED57A 2010-01-13  ← Seed key
   uid   ...<old.mcdonalds@farm.com>
   sub   2048g/D704745C 2010-01-13  ← Sub.signing key
         └─┬─┘ └──┬───┘
-       length   key id 
-  
-  $ gpg2 --list-secret-keys        ← LIST PUBLIC KEYS FROM OUR PRIVATE KEYS 
+       length   key id
+
+  $ gpg2 --list-secret-keys        ← LIST PUBLIC KEYS FROM OUR PRIVATE KEYS
   /home/juven/.gnupg/secring.gpg
   ------------------------------
   sec   1024D/C6EED57A 2010-01-13  ← Seed key
   uid   ...<old.mcdonalds@farm.com>
   ssb   2048g/D704745C 2010-01-13  ← Sub.signing key
-  
-  KEYSERVER="hkp://pool.sks-keyservers.net" 
+
+  KEYSERVER="hkp://pool.sks-keyservers.net"
   ┌──────────────────────────────────┬───────────────────────────────────┐
   │         "PUSH" PUB.KEY           │           "PULL" PUB.KEY          │
   ├──────────────────────────────────┼───────────────────────────────────┤
@@ -3186,46 +3198,46 @@ REF:@[http://central.sonatype.org/pages/working-with-pgp-signatures.html]
          trust: ultimate      validity: ultimate
     sub  2048R/DD289F64  created: ...  expires: ...  usage: E
     (1)* Juven Xu (for testing) <test@juvenxu.com>
-    
-    gpg>   expire                     ←  EXPIRE A KEY 
+
+    gpg>   expire                     ←  EXPIRE A KEY
     → ...
     → Please specify how long the key should be valid.
             0 = key does not expire
           <n> = key expires in n days
          ...
     gpg>   save                       ← send key ("push") to sync changes remotely
-  
-  Troubleshooting problems with Maven and others: 
+
+  Troubleshooting problems with Maven and others:
   mvn and some other app will only recognise the primary key,
   ignoring subkeys. A "patch" solution consists in deleting
   the  singing subkey forcing GPG to use the primary key.
-  $ gpg2 --edit-key A6BAB25C       ←  MODIFY KEY 
+  $ gpg2 --edit-key A6BAB25C       ←  MODIFY KEY
   ...
-  pub  2048R/A6BAB25C  created:... usage: SC   ← Seed Key.   Only key recognised by maven and others 
+  pub  2048R/A6BAB25C  created:... usage: SC   ← Seed Key.   Only key recognised by maven and others
        trust: ultimate validity: ultimate
   sub  2048R/DD289F64  created:...  usage: E   ← Default (E)ncryption key
-  sub  2048R/8738EC86  created:...  usage: S   ← Default (S)igning    key 
+  sub  2048R/8738EC86  created:...  usage: S   ← Default (S)igning    key
                                                  (  Must be removed to use maven pgp plugin   )
   gpg>   key 2  (index start at 0)               (Not needed if using gpg from comand line)
   ...                                               │
   gpg>   delkey   ← Alt 1: Key not yet published  ←─┘
   gpg>   revoke   ← Alt 2: Key already published
-  gpg>   save 
-  ------------------------------------------------- 
+  gpg>   save
+  -------------------------------------------------
 
-  ***************** 
-  * Signing files * 
-  ***************** 
-  $ gpg2 -ab temp.java            ←  SIGNING A FILE 
+  *****************
+  * Signing files *
+  *****************
+  $ gpg2 -ab temp.java            ←  SIGNING A FILE
                                     -a create ASCII armored output
                                     -b make detached signature
-  $ gpg2 --verify temp.java.asc   ←  Verify new signature 
+  $ gpg2 --verify temp.java.asc   ←  Verify new signature
 
 <hr/>
-  **************************************** 
-  * Advanced (Symmetric) file encryption * 
-  * multi-level password: (Bell–LaPadula) * 
-  **************************************** 
+  ****************************************
+  * Advanced (Symmetric) file encryption *
+  * multi-level password: (Bell–LaPadula) *
+  ****************************************
  @[https://en.wikipedia.org/wiki/Bell%E2%80%93LaPadula_model]
    - Level 3 user have passwords to encrypt/decrypt level     3
    - level 2 user have passwords to encrypt/decrypt level   2,3
@@ -3244,9 +3256,9 @@ REF:@[http://central.sonatype.org/pages/working-with-pgp-signatures.html]
    ( cat ${LEVEL2} ; echo "secrets level 3" ) | ${GPG_C} ${PASS_LEVEL3} | base64 > ${LEVEL3}
 
    # Decode
-   cat ${LEVEL3} | base64 -d | ${GPG_C} ${PASS_LEVEL1} >   ${LEVEL2}  ← 
-   cat ${LEVEL2} | base64 -d | ${GPG_C} ${PASS_LEVEL2} >   ${LEVEL1}  ← 
-   cat ${LEVEL1} | base64 -d | ${GPG_C} ${PASS_LEVEL3} >  PLAIN_TEXT  ← 
+   cat ${LEVEL3} | base64 -d | ${GPG_C} ${PASS_LEVEL1} >   ${LEVEL2}  ←
+   cat ${LEVEL2} | base64 -d | ${GPG_C} ${PASS_LEVEL2} >   ${LEVEL1}  ←
+   cat ${LEVEL1} | base64 -d | ${GPG_C} ${PASS_LEVEL3} >  PLAIN_TEXT  ←
 [[}]]
 
 
@@ -3346,11 +3358,11 @@ JavaScript implementation of the OpenPGP protocol defined in RFC 4880.
 
 - Off-The-Record Messaging(OTR) [[{use_case.aaa]]
 @[https://en.wikipedia.org/wiki/Off-the-Record_Messaging]
-  - protocol for securing/authentication/encrypting instant messaging 
+  - protocol for securing/authentication/encrypting instant messaging
     communication amongst people.
     Encrypts messages, prevents eavesdroppers, authenticates peers to each other.
     It also provides OTR provides forward secrecy and malleable encryption.
-  - OTR uses a combination of AES 128bits sym-key algorithm,  
+  - OTR uses a combination of AES 128bits sym-key algorithm,
     1536-bits group-size Diffie–Hellman and the SHA-1 hash function.
   - The primary motivation behind the protocol was providing deniable
     authentication for the conversation participants while keeping
@@ -3373,11 +3385,11 @@ JavaScript implementation of the OpenPGP protocol defined in RFC 4880.
   DMARC: protocol protecting integrity and authenticity of email.
   It is the result of combining several components, including:
   - Sender Policy Framework (SPF) + Domain Keys Identified Email (DKIM):
-    to help verify email authenticity. 
+    to help verify email authenticity.
 - There are also different levels of DMARC policies:
   - "p=none"   policy: enables organizations to monitor their email systems
                        for senders,
-  - "p=reject" policy: block non-compliant messages completely. 
+  - "p=reject" policy: block non-compliant messages completely.
 - BOD 18-01 mandates the use of the p=reject policy by Oct.16.    [compliance]
   [[}]]
 [[}]]
@@ -3401,7 +3413,7 @@ JavaScript implementation of the OpenPGP protocol defined in RFC 4880.
 -  PKCS #9   Defines selected attribute types for use in PKCS #6,#7,#8,#10
 -  PKCS #10  Certification Request Standard.
 -  PKCS #11  Cryptographic (Athentication) Token Interface         [standards.hardware]
-             ("Cryptoki") API defining a generic interface 
+             ("Cryptoki") API defining a generic interface
              https://en.wikipedia.org/wiki/PKCS_11"
 -  PKCS #12  Personal Information Exchange Syntax defining file
   format commonly used to store private keys, protected with a password-based
@@ -3423,7 +3435,7 @@ JavaScript implementation of the OpenPGP protocol defined in RFC 4880.
   - "other" encryption components.
    Being directly implemented into (trusted) browser and taking advantage of
    local native execution and even hardware acceleration) they are much safer than js code. [[{02_doc_has.comparative}]]
-  WARN: They do NOT prevent certain attacks, like just sending an 
+  WARN: They do NOT prevent certain attacks, like just sending an
         unencrypted copy of the data to the "bad guys".
 
    See also: Trusted web code at @[/WebTechnologies/map.html?query=trusted.web.code]
@@ -3433,7 +3445,7 @@ NOTE: *AdES formats are the ones widely legally accepted for business transactio
       eg. eInvoincing.
 ● OASIS XAdES: XML Advanced Electronic Signatures [[{use_case.signature,standards.xml]]
 @[https://www.w3.org/TR/XAdES/]
-● OASIS XML DSS: Digital Signature Services (DSS) TC 
+● OASIS XML DSS: Digital Signature Services (DSS) TC
 (Not to be confused with Digital Signature Standard DSS)
 @[https://www.oasis-open.org/committees/tc_home.php?wg_abbrev=dss]
 
@@ -3479,7 +3491,7 @@ the integration and use of DSS in their applications.
   Extensions to 'Cryptographic Message Syntax'
 - ASiC format (Associated Signature Containers)
 @[https://en.wikipedia.org/wiki/Advanced_electronic_signature]
-  ASiC Baseline Profile. 
+  ASiC Baseline Profile.
   specifies the use of container structures to bind together one
   or more signed objects with either advanced electronic signatures
   or time-stamp tokens into one single digital (zip) container.
@@ -3596,10 +3608,10 @@ https://www.computer.org/csdl/proceedings-article/sp/2019/666000b002/19skg8v5fZS
   - biased nonces
   - invalid curves
   - ...
--  Tink provides support for key management 
-   including key versioning/rotation/remote key management systems(KMS): 
-   -  Currently, the following KMSes are supported: 
-     Google Cloud KMS, Amazon KMS, Android Keystore, Apple iOS KeyChain (planned) 
+-  Tink provides support for key management
+   including key versioning/rotation/remote key management systems(KMS):
+   -  Currently, the following KMSes are supported:
+     Google Cloud KMS, Amazon KMS, Android Keystore, Apple iOS KeyChain (planned)
 
 
 
@@ -3641,7 +3653,7 @@ WARN: ☞ CRYPTOGRAPHY IS HARD, PROTECTING SECRETS IS (MUCH) HARDER!!!☜ [[{101
 [[{secret_mng.wallets]]
 ● Wallet vs KeyStore vs Vault: [[{101,secret_mng.wallet,secret_mng.keystore]]
 - In a KeyStore, secrets are kept safe until needed by an application.
-  At that moment the secret becomes vulnerable to any virus/warm/attacker on 
+  At that moment the secret becomes vulnerable to any virus/warm/attacker on
   the Operating System.
 - Keystores are generic for any type of app.
 
@@ -3653,25 +3665,25 @@ WARN: ☞ CRYPTOGRAPHY IS HARD, PROTECTING SECRETS IS (MUCH) HARDER!!!☜ [[{101
   Unsigned transactions come in, then signed transactions come out.
   The wallet usually have aditional utility functions like "address agenda",
   "browser of transactions", ...
-  Software wallets offer the same functionality as hardware wallets, or 
-  even more, but are exposed to the underlying security leaks of the OS 
+  Software wallets offer the same functionality as hardware wallets, or
+  even more, but are exposed to the underlying security leaks of the OS
   (virus, warms, software leaking secrets, ...)
   - A wallet makes use of a keystore.
-  - Wallets are mostly used for blockchain-like applications or digital 
+  - Wallets are mostly used for blockchain-like applications or digital
     signature applications.
-  - HD wallets stand for Hierarchical deterministic wallets, and allow 
+  - HD wallets stand for Hierarchical deterministic wallets, and allow
     to deterministically generate a tree of new secrets from an initial
-    "seed" secret. Note that public addresses are mathematically 
+    "seed" secret. Note that public addresses are mathematically
     determined from the diferent secrets.
 
-  NOTE: Vaults, being a "cloud marketing" biased nomenclature, can 
+  NOTE: Vaults, being a "cloud marketing" biased nomenclature, can
     include wallet-like functionality allowing to sign input and get
     signed output from the vault, with no intervention from the original
     ("unsecure") app. For example Parity considers vaults to be """
     an additional privacy feature on top of wallets to lock away accounts
     behind a second layer of protection encrypting the meta-data
     (public addresses,...) """.
-● Hierachical Deterministic (HD) Wallets: 
+● Hierachical Deterministic (HD) Wallets:
 - HD wallets (BIP-32, by Pieter Wuille) allow to create N safe private keys
   from a single root "master" key (and its associated N public keys/addresses).
 - Also, it is possible to generate the public keys of these
@@ -3691,7 +3703,7 @@ WARN: ☞ CRYPTOGRAPHY IS HARD, PROTECTING SECRETS IS (MUCH) HARDER!!!☜ [[{101
              │             ├─···→  k_m[1][1]
              │             ├─···   ...
              │
-             ├····→ k_m[2]·┬····→  k_m[2][0]               
+             ├····→ k_m[2]·┬····→  k_m[2][0]
              ...           ├─···→  ...
 
 - Use-cases:
@@ -3706,7 +3718,7 @@ Robbie Hanson
  │ INPUT                                      OUTPUT          │
  │ =====                                      ======          │
  │ k=parent   ·····························→  a=k+h,child[0]  │
- │ priv.key                  h=left    ┌···→  priv.key        │       
+ │ priv.key                  h=left    ┌···→  priv.key        │
  │ (256bits)                   256bits ·      (256bits)       │
  │  ·                                  ·       │              │
  │  v                                  ·       v              │
@@ -3733,7 +3745,7 @@ Robbie Hanson
  │ (256bits)                                                  │
  │   ·                               left                     │
  │   v                               256bits                  │
- │ K=parent                            ┌···→  child[0]        │          
+ │ K=parent                            ┌···→  child[0]        │
  │ pub.key     ┌··→ (512bits)    ······┤      pub.key         │
  │ (264bits)   · ┌→ one─way func       │      (264bits)       │
  │ (K=G x k)   · ·                     │      A=  K + G·h     │
@@ -3749,7 +3761,7 @@ Robbie Hanson
  │ e.g. [0]                                                   │
  └────────────────────────────────────────────────────────────┘
 
-- See also. Andrea Corbellini Online tools: 
+- See also. Andrea Corbellini Online tools:
   ECC mul: @[https://andrea.corbellini.name/ecc/interactive/modk-mul.html]
   ECC add: @[https://andrea.corbellini.name/ecc/interactive/modk-add.html]
 [[}]]
@@ -3778,8 +3790,8 @@ Robbie Hanson
 ● JS Carbon Wallet [[{use_case.signature]]
 @[https://en.bitcoin.it/wiki/CarbonWallet]
 
-- No server side storage,  private keys are generated from  
-  the passphrase and only exist in the memory of the browse  
+- No server side storage,  private keys are generated from
+  the passphrase and only exist in the memory of the browse
 - Deterministic key generation: Write down the passphrase
   generated for you and it's all you need
 - Transactions are signed locally in the browser: Your
@@ -3822,7 +3834,7 @@ Robbie Hanson
   - Connectivity    : - Pair devices via WiFi.
                       - IoT communication through Zigbee antenna.
 
-  TECHNICAL COMPONENTS: 
+  TECHNICAL COMPONENTS:
  - USER INTERFACE: interface to:
    - persisted user data: addresses, TX history,...
    - network nodes: allow to display account info
@@ -3836,7 +3848,7 @@ Robbie Hanson
      one or many inputs per Bitcoin transaction.
  - TX SIGNER     : sign TX hashes with private key.
 
- SEPARATING THE SIGNER: 
+ SEPARATING THE SIGNER:
  - STEP 1:
    let's consider moving TX signer to cloud machine.
    => you have to store your private key on the cloud
@@ -3848,7 +3860,7 @@ Robbie Hanson
     layer ... Of course keys are in a secure chip within
     the Lattice1."""
 
-  SECURING COMPONENTS AND SEPARATING CONCERNS 
+  SECURING COMPONENTS AND SEPARATING CONCERNS
 - robust and secure connection between application
   ("wallet GUI") and TX builder/signer components.
 
@@ -3964,15 +3976,15 @@ Standard Chip ←─────────→ Secure Chip 1 ←────→
       A confidential recovery phrase backs up your device,
       and your accounts can easily be restored on any Ledger device.
 
-- KeepKey 
+- KeepKey
   - Controlled through Google Chrome.
   @[https://shapeshift.io/keepkey/]
-  -   Recovery method? 
+  -   Recovery method?
 
-- Safe T-Mini (Archos) 
+- Safe T-Mini (Archos)
   "Notre avis complet sur le Safe T-mini"
   @[https://shop.archos.com/es/hardware-wallet/588-archos-safe-t-mini.html]
-  - Recovery method? 
+  - Recovery method?
 
 - Ledger Blue:
 @[https://shop.ledger.com/products/ledger-blue]
@@ -3980,12 +3992,12 @@ Standard Chip ←─────────→ Secure Chip 1 ←────→
   - To validate TXs, it can comunicate through USB/Bluethooth.
   - Targeting business.
   - "Big" screen for easy ussage.
-  -   Recovery method? 
+  -   Recovery method?
 
-- CoolBitX CoolWallet 
+- CoolBitX CoolWallet
 @[https://www.coolwallet.io/]
   - Credit Card format
-  - Recovery method? 
+  - Recovery method?
 
 - Trezor Wallet
 @[https://en.bitcoin.it/wiki/TREZOR]
@@ -3993,7 +4005,7 @@ Standard Chip ←─────────→ Secure Chip 1 ←────→
   - TREZOR is basically a small computer. It is designed to
     protect your private keys from possible online and
     offline risks.
-  -   Recovery method? 
+  -   Recovery method?
 [[}]]
 [[secret_mng.wallets.hardware}]]
 [[secret_mng.wallets}]]
@@ -4014,7 +4026,7 @@ APP     ┃                         ┃  MODULE
         ┃   -MS/CAPI              ┃
         ┃   -"others"             ┃
 
-                         PKCS#11 flow 
+                         PKCS#11 flow
 ──────────────────────────────────────────────────────────────────────────────────
      SOFTWARE                 ┇            HARDWARE
 ______________________________    ┃   ____________________________________________
@@ -4083,13 +4095,13 @@ Gemalto    │              │          │                │                 
 • Yubico u2f:
 @[https://www.yubico.com/solutions/fido-u2f/]
 internet open auth. enabling users to securely access services
- with one single sec.key and with no drivers or client software needed 
+ with one single sec.key and with no drivers or client software needed
 
 - u2f at github.com/google:
 @[https://github.com/google?utf8=%E2%9C%93&q=u2f&type=&language=]
 See also: Universal Authentication Framework (UAF) protocol:
  - vision: "take strong public key crypto to the mass market"  [[qa.UX]]
- - Successfully deployed by Facebook, Gmail, Dropbox, GitHub, Salesforce.com, 
+ - Successfully deployed by Facebook, Gmail, Dropbox, GitHub, Salesforce.com,
    the UK government, and many more.
 [[}]]
 
@@ -4097,15 +4109,15 @@ See also: Universal Authentication Framework (UAF) protocol:
 • DS/EN 14890-1 Smart-Card Standard: [[{]]
 @[https://standards.globalspec.com/std/1167872/DS/EN%2014890-1]
 Part 1 of this series specifies the application interface to Smart Cards
-during the usage phase, used as Secure Signature Creation Devices (SSCD)  
+during the usage phase, used as Secure Signature Creation Devices (SSCD)
 describing the mandatory services ... covering the
  signing function , storage of certificates, related user verification,
 establishment and use of trusted path and channel, requirements for
 key generation...
 the functionality of CWA 14890-1 is enhanced in the following areas:
--  Device authentication with Elliptic Curves (ELC) 
-   for existing asymmetric authentication protocols 
-   (RSA Transport, Privacy Protocol)                
+-  Device authentication with Elliptic Curves (ELC)
+   for existing asymmetric authentication protocols
+   (RSA Transport, Privacy Protocol)
 - Secure Messaging Tags
 - Further hash algorithms (SHA2-family)
 - Use of AES in auth protocols and secure messaging.  [[}]]
@@ -4150,7 +4162,7 @@ the functionality of CWA 14890-1 is enhanced in the following areas:
 Related:
 - GPG SmartCard for SSH Authentication
 @[https://www.grepular.com/Smart_Cards_and_SSH_Authentication] [TODO]
-   SSH KEY SETUP 
+   SSH KEY SETUP
   ────────────────────┬──────────────────────────────────────
   STANDARD(SOFTWARE)  │ PGP (HARDWARE)
   SSH KEYGEN          │ SMART-CARD:
@@ -4159,7 +4171,7 @@ Related:
   ────────────────────┼──────────────────────────────────────
   $ ssh-keygen ...    │ (Install GnuPG 2 first)
                       │   $ gpg -gen-key  # Generate a keypair:
-                      │   $ gpg -edit-key # ← Add  authentication subkey 
+                      │   $ gpg -edit-key # ← Add  authentication subkey
                       │   > addkey        # ←
                       │   > keytocard     # ← transfer private part of subkey to smart-card
                       │                   #   A stub referencing the subkey is left behind
@@ -4229,7 +4241,7 @@ Related:
   @[https://g10code.com/p-card.html]
 
   - @[https://openpgpcard.net/]
-    WARN: Does not include display 
+    WARN: Does not include display
   - Hardware cryptocurrency wallet
   - OpenPGP smart card
   - U2F authenticator
@@ -4311,7 +4323,7 @@ needs with the embedded LUA scripting language
 
 <a xsmall href="https://en.wikipedia.org/wiki/Software_Guard_Extensions">Intel SGX</a>
 @[https://software.intel.com/en-us/blogs/2013/09/26/protecting-application-secrets-with-intel-sgx]
-  WARN: SGX was vulnerable to Meltdown and Spectre hardware bugs 
+  WARN: SGX was vulnerable to Meltdown and Spectre hardware bugs
 CPU instruction set allowing user-level code to allocate
 private regions of memory (enclaves) protected from
 processes running at higher privilege levels. (secure
@@ -4345,7 +4357,7 @@ underlying features, which, together, provide a trusted
 execution environment (TEE).
 [[}]]
 
-● Vault services & KMS: [[{01_PM.TODO]] 
+● Vault services & KMS: [[{01_PM.TODO]]
 • HashiCorp Vault Project:
   https://www.vaultproject.io/
 """HashiCorp Vault secures, stores, and tightly controls
@@ -4367,11 +4379,11 @@ execution environment (TEE).
 (in combination with with etcd or consul)
 
 • Key Management Services:
-  - Azure Key Vault   : Allows for "many-keys"  per Vault resource with a 
+  - Azure Key Vault   : Allows for "many-keys"  per Vault resource with a
                         very low cost.
   - Amazon KMS        : very simple, single key per KMS. An (very) expensive
                         CloudHSM is needed for the "many keys" use-case.
-  - Google Cloud KMS  : 
+  - Google Cloud KMS  :
   - Android Keystore  :
   - Apple iOS KeyChain:
   - ...
@@ -4381,20 +4393,20 @@ execution environment (TEE).
 @[https://safenet.gemalto.com/resources/data-protection/data-protection-as-a-service-suite-solution-brief/]
 
 ● TresorSGX: attempt to isolate+secure an OS component of the Linux kernel.[[{secret_mng.wallet,secret_mng.hardware,01_PM.TODO]]
-  - It outsources a functionality of a kernel module into a SGX 
-  container / enclave. TresorSGX provides a cryptographic algorithm for 
-  the Linux Crypto API which is executed in the secured container. The 
-  cryptographic key material is guarded from unauthorised access of 
-  unprivileged and privileged components at any time. This protects the 
-  disk-encryption system from cold-boot and DMA attacks on the key 
+  - It outsources a functionality of a kernel module into a SGX
+  container / enclave. TresorSGX provides a cryptographic algorithm for
+  the Linux Crypto API which is executed in the secured container. The
+  cryptographic key material is guarded from unauthorised access of
+  unprivileged and privileged components at any time. This protects the
+  disk-encryption system from cold-boot and DMA attacks on the key
   material.  [[}]]
 [[}]]
 
 ● Fuzzy Encryption: [[{use_case.secret_mng,secret_mng.wallet,qa.UX,01_PM.TODO]]
 @[https://github.com/decentralized-identity/fuzzy-encryption]
 
-- A variant of a Fuzzy Vault cryptographic scheme,   designed fo  
-  encrypting secrets that can be more easily recovered by humans. 
+- A variant of a Fuzzy Vault cryptographic scheme,   designed fo
+  encrypting secrets that can be more easily recovered by humans.
 [[}]]
 
 ● KMIP: Key Management Interoperability Protocol PKCS#11[[{use_case.secret_mng,protocol.PKCS#11,standards.PKCS,01_PM.TODO]]
@@ -4453,7 +4465,7 @@ The operations provided by KMIP include
 @[https://github.com/hashcat/hashcat]
 @[https://hashcat.net/wiki/]
   - world's fastest and most advanced password recovery utility.
-  - supporting five unique modes of attack for over 200+ 
+  - supporting five unique modes of attack for over 200+
     highly-optimized hashing algorithms.
   - supports CPUs, GPUs, and other hardware accelerators.
   - include facilities to help enable distributed password cracking.

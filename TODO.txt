@@ -4,8 +4,8 @@ https://martin.kleppmann.com/2020/11/18/distributed-systems-and-elliptic-curves.
 New courses on distributed systems and elliptic curve cryptography
 Published by Martin Kleppmann on 18 Nov 2020.
 
-I have just published new educational materials that might be of 
-interest to computing people: a new 8-lecture course on distributed 
+I have just published new educational materials that might be of
+interest to computing people: a new 8-lecture course on distributed
 systems, and a tutorial on elliptic curve cryptography.
 -----------------------------------
 What Is the Signal Encryption Protocol? | WIRED
@@ -23,11 +23,11 @@ https://www.researchgate.net/scientific-contributions/Ben-Fisch-2124481134
 Themis Crytpo library
 
 https://github.com/cossacklabs/themis
-Cross-platform library for secure data storage, message exchange, 
+Cross-platform library for secure data storage, message exchange,
 socket connections, and authentication
-One cryptographic library that fits them all: Themis is the best fit 
-for multi-platform apps (e.g., iOS+Android+Electron app with Node.js 
-backend) because it provides 100% compatible API and works in the 
+One cryptographic library that fits them all: Themis is the best fit
+for multi-platform apps (e.g., iOS+Android+Electron app with Node.js
+backend) because it provides 100% compatible API and works in the
 same way across all supported platforms.
 - used for example by https://github.com/cossacklabs/pg_themis
   PostgreSQL (9.1+) extension for data encryption.
@@ -47,22 +47,22 @@ same way across all supported platforms.
 - Crosby and Wallach [1] and, independently, Laurie et al.
   [2], proposed procedures to extend MHTs to append-only data
   structures that main- tain MHTs’ desirable security invariants.
- 
-  - as some element Xn is added to a tree of n elements, it is 
+
+  - as some element Xn is added to a tree of n elements, it is
     appended to the tree and hashes toward the root recalculated,
-    with only O(log2 n) operations during insertion. 
+    with only O(log2 n) operations during insertion.
    - Crosby and Laurie add a new security mechanism:
      - 0x00 byte input to hash function if result is a leaf.
      - 0x01 byte input to hash function if result is internal node.
      This protecta against hacker presenting a tampered tree in
      which nodes at some depth>0 are presented as leaves, with
-     their values being the concatenated hashes of their actual 
+     their values being the concatenated hashes of their actual
      children, producing the same root value as original tree,
      rendering the data garbled.
 
 
-[1] "Efficent data structures for tamper-evident logging", In proceedings 
-    of the 18th Conference on USENIX Security Symposium (USA, 200), SSYM'09, 
+[1] "Efficent data structures for tamper-evident logging", In proceedings
+    of the 18th Conference on USENIX Security Symposium (USA, 200), SSYM'09,
     USENIX Association, p. 317-334
 [2]  draft-ietf-trans-rfc6962-bis-34, Certificate Transparency Version 2.0:
    https://datatracker.ietf.org/doc/draft-ietf-trans-rfc6962-bis/34/
@@ -74,11 +74,11 @@ https://github.com/trimstray/nginx-admins-handbook/blob/master/static/img/crypto
 https://github.com/tum-i4/indistinguishability-obfuscation
 Implementation of Candidate Indistinguishability Obfuscation
 
-This project is a preliminary implementation of the Candidate 
-Indistinguishability Obfuscation algorithm recently proposed by Garg 
-et al. [0]. Each of the steps necessary for the NC_1 candidate is 
-implemented, but not all of them work completely. Especially the 
-implementation of Multilinear Jigsaw Puzzles is still in the early 
+This project is a preliminary implementation of the Candidate
+Indistinguishability Obfuscation algorithm recently proposed by Garg
+et al. [0]. Each of the steps necessary for the NC_1 candidate is
+implemented, but not all of them work completely. Especially the
+implementation of Multilinear Jigsaw Puzzles is still in the early
 phases of development and not fully functional.
 ############
 Cryptographics filesystem for the cloud:
@@ -91,24 +91,24 @@ https://github.com/tldr-pages/tldr/blob/master/pages/common/gpg2.md
 #########################
 ##########################
 https://www.passwordstore.org/
-Password management should be simple and follow Unix philosophy. With 
-pass, each password lives inside of a gpg encrypted file whose 
-filename is the title of the website or resource that requires the 
-password. These encrypted files may be organized into meaningful 
-folder hierarchies, copied from computer to computer, and, in 
-general, manipulated using standard command line file management 
+Password management should be simple and follow Unix philosophy. With
+pass, each password lives inside of a gpg encrypted file whose
+filename is the title of the website or resource that requires the
+password. These encrypted files may be organized into meaningful
+folder hierarchies, copied from computer to computer, and, in
+general, manipulated using standard command line file management
 utilities.
 
 https://github.com/tadfisher/pass-otp#readme
 A pass extension for managing one-time-password (OTP) tokens.
 https://github.com/tldr-pages/tldr/blob/master/pages/common/pass.md
-Tool for storing and reading passwords or other sensitive data. All 
-data is GPG-encrypted, and managed with a Git repository. More 
+Tool for storing and reading passwords or other sensitive data. All
+data is GPG-encrypted, and managed with a Git repository. More
 information: https://www.passwordstore.org.
 ########################
 
 Ciphey/Ciphey: ⚡ Automatically decrypt encryptions without knowing the key or cipher, decode encodings, and crack hashes ⚡
-https://github.com/Ciphey/Ciphey 
+https://github.com/Ciphey/Ciphey
 
 ##################3
 Starred projects at github.
@@ -121,14 +121,14 @@ https://github.com/mayakacz?after=Y3Vyc29yOnYyOpK5MjAxNi0wNS0wNlQwNzowNToyMSswMj
 ###################
 IoT, standards,smart_cards
 https://www.openscdp.org/
-- Why use more than one scripting environment for all your smart card 
-  simulation, testing, data preparation, personalization and key 
+- Why use more than one scripting environment for all your smart card
+  simulation, testing, data preparation, personalization and key
   management needs ?" - Andreas Schwier, OpenSCDP founder
 
-- The Open Smart Card Development Platform (OpenSCDP) is a collection 
-of tools for the development, test and deployment of smart card and 
-public key infrastructure applications. It uses the capabilities of 
-Global Platform Scripting, Profile and Messaging technology to 
+- The Open Smart Card Development Platform (OpenSCDP) is a collection
+of tools for the development, test and deployment of smart card and
+public key infrastructure applications. It uses the capabilities of
+Global Platform Scripting, Profile and Messaging technology to
 provide unsurpassed flexibility and development speed.
 
 ######################
@@ -140,38 +140,38 @@ https://orhun.dev/blog/introducing-gpg-tui/
 ########################
 @@[https://medium.com/@nodejs/introducing-node-js-12-76c41a1b3f3f]
 
-TLS1.3 is a major update to the TLS protocol, with many security 
+TLS1.3 is a major update to the TLS protocol, with many security
 enhancements and should be used over TLS1.2 whenever possible.
 
-TLS1.3 is different enough that even though the OpenSSL APIs are 
-technically API/ABI compatible when TLS1.3 is negotiated, changes in 
-the timing of protocol records and of callbacks broke assumptions 
-hard-coded into the ‘tls’ module. This change introduces no API 
-incompatibilities when TLS1.2 is negotiated. It is the intention that 
-it be backported to current and LTS release lines with the default 
-maximum TLS protocol reset to ‘TLSv1.2’. This will allow users of 
-those lines to explicitly enable TLS1.3 if they want. If you want to 
-read more you can check out these related 
+TLS1.3 is different enough that even though the OpenSSL APIs are
+technically API/ABI compatible when TLS1.3 is negotiated, changes in
+the timing of protocol records and of callbacks broke assumptions
+hard-coded into the ‘tls’ module. This change introduces no API
+incompatibilities when TLS1.2 is negotiated. It is the intention that
+it be backported to current and LTS release lines with the default
+maximum TLS protocol reset to ‘TLSv1.2’. This will allow users of
+those lines to explicitly enable TLS1.3 if they want. If you want to
+read more you can check out these related
 articles:https://developer.ibm.com/blogs/openssl-111-has-landed-in-nod
-ejs-master-and-why-its-important-for-nodejs-lts-releases/, 
+ejs-master-and-why-its-important-for-nodejs-lts-releases/,
 https://developer.ibm.com/blogs/tls13-is-coming-to-nodejs/
 
 [https://medium.com/@nodejs/introducing-node-js-12-76c41a1b3f3f]
 
-TLS1.3 is a major update to the TLS protocol, with many security 
+TLS1.3 is a major update to the TLS protocol, with many security
 enhancements and should be used over TLS1.2 whenever possible.
 
-TLS1.3 is different enough that even though the OpenSSL APIs are 
-technically API/ABI compatible when TLS1.3 is negotiated, changes in 
-the timing of protocol records and of callbacks broke assumptions 
-hard-coded into the ‘tls’ module. This change introduces no API 
-incompatibilities when TLS1.2 is negotiated. It is the intention that 
-it be backported to current and LTS release lines with the default 
-maximum TLS protocol reset to ‘TLSv1.2’. This will allow users of 
-those lines to explicitly enable TLS1.3 if they want. If you want to 
-read more you can check out these related 
+TLS1.3 is different enough that even though the OpenSSL APIs are
+technically API/ABI compatible when TLS1.3 is negotiated, changes in
+the timing of protocol records and of callbacks broke assumptions
+hard-coded into the ‘tls’ module. This change introduces no API
+incompatibilities when TLS1.2 is negotiated. It is the intention that
+it be backported to current and LTS release lines with the default
+maximum TLS protocol reset to ‘TLSv1.2’. This will allow users of
+those lines to explicitly enable TLS1.3 if they want. If you want to
+read more you can check out these related
 articles:https://developer.ibm.com/blogs/openssl-111-has-landed-in-nod
-ejs-master-and-why-its-important-for-nodejs-lts-releases/, 
+ejs-master-and-why-its-important-for-nodejs-lts-releases/,
 https://developer.ibm.com/blogs/tls13-is-coming-to-nodejs/
 
 ################
@@ -192,24 +192,24 @@ Zksnarks and crypto accumulators
 https://blog.coinbase.com/zksnarks-and-cryptographic-accumulators-f840da0b61c6
 ________________________________
 Cryptography: « Il suffit d'un laser et d'un peu d'optique pour que le monde de l'information change de paradigme » | larecherche.fr
-https://www.larecherche.fr/cryptographie-photonique-optique/%C2%AB-il-suffit-dun-laser-et-dun-peu-doptique-pour-que-le-monde-de 
+https://www.larecherche.fr/cryptographie-photonique-optique/%C2%AB-il-suffit-dun-laser-et-dun-peu-doptique-pour-que-le-monde-de
 
 Une collaboration internationale impliquant la chaire photonique au sein du laboratoire LMOPS de CentraleSupélec et de l’université de Lorraine (Metz), l’université de Yale (États-Unis), Trinity College Dublin (Irlande), Imperial College London (Royaume-Uni), et Nanyang Technological University (Singapour), a mis au point un laser générant plus de 250 trillions (250 milliards de milliards) de nombres aléatoires par seconde. Un résultat majeur, alors que le précédent record était de 560 milliards de nombres aléatoires en 2014, déjà détenu par la chaire photonique. Marc Sciamanna, enseignant chercheur à CentraleSupélec, nous explique les enjeux d'un tel record.
 ____________________________________
 https://ec.europa.eu/cefdigital/wiki/display/CEFDIGITAL/2021/05/27/Secure+eSignatures+at+DigitALL+Public+2021?pk_source=SinglePageBookProject
 _____________________________________
 Google publishes HIBA, an OpenSSH Add-On for Certificate-Based Authorization | Linux Today
-https://www.linuxtoday.com/security/google-publishes-hiba-an-openssh-add-on-for-certificate-based-authorization/ 
+https://www.linuxtoday.com/security/google-publishes-hiba-an-openssh-add-on-for-certificate-based-authorization/
 _____________________________________
 GpG: Introducing gpg-tui, a Terminal User Interface for GnuPG – orhun's blog – Some place on the internet.
-https://orhun.dev/blog/introducing-gpg-tui/ 
+https://orhun.dev/blog/introducing-gpg-tui/
 _______________________
 Encrypted fs: tldr/gocryptfs.md at main · tldr-pages/tldr · GitHub
-https://github.com/tldr-pages/tldr/blob/main/pages/common/gocryptfs.md 
+https://github.com/tldr-pages/tldr/blob/main/pages/common/gocryptfs.md
 ___________________________
 
 Google Open-Sources Fully Homomorphic Encryption Transpiler
-https://www.infoq.com/news/2021/06/google-fhe-transpiler/ 
+https://www.infoq.com/news/2021/06/google-fhe-transpiler/
 
 Google has open-sourced a general-purpose transpiler able to convert high-level code to be used with Fully Homomorphic Encryption (FHE).
 
@@ -220,11 +220,11 @@ Europe.eu. eidas: Ver "CEF eSignature Workshop for eIDAS Notifiers" en YouTube
 
 ______________________________
 1Password – Password Manager
-https://chrome.google.com/webstore/detail/1password-%E2%80%93-password-mana/aeblfdkhhhdcdjpifhhbdiojplfjncoa?hl=en 
+https://chrome.google.com/webstore/detail/1password-%E2%80%93-password-mana/aeblfdkhhhdcdjpifhhbdiojplfjncoa?hl=en
 Developed in Rust. Compiled to wasm.
 _________________________
 Ver "Elliptic Curves and Modular Forms | The Proof of Fermat’s Last Theorem" en YouTube
-https://youtu.be/grzFM5XciAY 
+https://youtu.be/grzFM5XciAY
 Ver comentarios!!!
 ###############################
 Related projects:
@@ -241,19 +241,19 @@ TODO: Classify all related to use_case.signature.aggregated
 <pre zoom labels="tool,01_PM.TODO">
 <a xsmall TODO href="https://en.wikipedia.org/wiki/BitLocker">BitLocker full disk encryption</a>
 </pre>
-<!-- 
+<!--
  TODO:
   @[https://blog.plan99.net/vntinyram-7b9d5b299097]
   @[https://medium.com/@VitalikButerin/quadratic-arithmetic-programs-from-zero-to-hero-f6d558cea649]
-  • zero-knowledge proof: cryptographic method where one party 
-    (the prover) can prove to another party (the verifier) that the prover 
-    knows a value x, without conveying any information apart from the fact 
+  • zero-knowledge proof: cryptographic method where one party
+    (the prover) can prove to another party (the verifier) that the prover
+    knows a value x, without conveying any information apart from the fact
     that the prover knows the value x.
 
 ##########################
-  - Normally zk-SNARKs are used as a way to say "I have a secret" t  
-    someone and prove that you indeed have the secret without tellin  
-    them what the secret is . 
+  - Normally zk-SNARKs are used as a way to say "I have a secret" t
+    someone and prove that you indeed have the secret without tellin
+    them what the secret is .
     What the Baseline Protocol uses it for is a little different.
     It's more like saying to a specific set of counterparties,
     "We have a secret" and using a machine that we all can access
@@ -263,17 +263,17 @@ TODO: Classify all related to use_case.signature.aggregated
     that we have one.
 
 ##########################
- modulo and comparison operators ( % ˂, ˃, ≤, ≥) NOT supported:
+ modulo and comparison operators ( % <, >, ≤, ≥) NOT supported:
  NO EFFICIENT WAY TO DO THEM IN FINITE CYCLIC GROUP ARITHMETIC
  (Otherwise elliptic curve cryptography would be broken)
 ##########################
 https://en.wikipedia.org/wiki/Universal_composability
- universal composability (UC)[1] is a general-purpose model for the 
-analysis of cryptographic protocols. It guarantees very strong 
+ universal composability (UC)[1] is a general-purpose model for the
+analysis of cryptographic protocols. It guarantees very strong
 security properties. Protocols remain
 
-https://en.wikipedia.org/wiki/Commitment_scheme 
-It is impossible to realize commitment schemes in the universal 
+https://en.wikipedia.org/wiki/Commitment_scheme
+It is impossible to realize commitment schemes in the universal
 composability (UC) framework
 ##########################
 ./WhyAndHow_zkSNARK_Works_1906.07221.pdf  @ma
@@ -290,7 +290,7 @@ Keystore type: JKS
 Keystore provider: SUN
 Your keystore contains 104 entries
 
-verisignclass2g2ca [jdk] , Aug 25, 2016, trustedCertEntry,        <- alias,  
+verisignclass2g2ca [jdk] , Aug 25, 2016, trustedCertEntry,        <- alias,
 Cert.. fingerprint (SHA1): B3:EA:C4:47:76:C9:C8:1C:EA:F2:9D:95:B6:CC:A0:08:1B:67:EC:9D
 
 digicertassuredidg3 [jdk], Aug 25, 2016, trustedCertEntry,
@@ -311,7 +311,7 @@ https://www.sslshopper.com/article-most-common-java-keytool-keystore-commands.ht
 Example flow:
 STEP 1): create  .jks file containing only the private key.
 STEP 2): Generate a CSR
-STEP 3): Generate(self-signed) or obtain Signed Certificate. 
+STEP 3): Generate(self-signed) or obtain Signed Certificate.
 STEP 4): Import it (including any parents -up to root- certificates)
 
 - Create/Update keystore:
@@ -319,11 +319,11 @@ STEP 4): Import it (including any parents -up to root- certificates)
     -keystore keystore.jks  -keysize 2048
   $ keytool -certreq -alias mydomain \               <- Generate Cert.Signing request (CSR) for existing Java keystore
     -keystore keystore.jks -file mydomain.csr
-  $ keytool -import -trustcacerts -alias root \      <- Import root/intermediate CA certificate 
+  $ keytool -import -trustcacerts -alias root \      <- Import root/intermediate CA certificate
     -file Thawte.crt -keystore keystore.jks
   $ keytool -import -trustcacerts -alias mydomain \  <- Import a signed primary certificate to an existing Java keystore
     -file mydomain.crt -keystore keystore.jks
-  $ keytool -genkey -keyalg RSA -alias selfsigned \  <- Generate keystore and self-signed certificate 
+  $ keytool -genkey -keyalg RSA -alias selfsigned \  <- Generate keystore and self-signed certificate
     -keystore keystore.jks -storepass password \        (see How to Create a Self Signed Certificate using Java Keytool for more info)
     -validity 360 -keysize 2048
 
@@ -354,25 +354,25 @@ ___________________________
 https://github.com/digitalbazaar/forge
 
 ----------------------
-• https://www.nucypher.com/proxy-re-encryption
-  Proxy re-encryption (PRE) is a type of public-key encryption (PKE) 
-  that allows a proxy entity to transform or re-encrypt data from one 
-  public key to another, without having access to the underlying 
+## https://www.nucypher.com/proxy-re-encryption
+  Proxy re-encryption (PRE) is a type of public-key encryption (PKE)
+  that allows a proxy entity to transform or re-encrypt data from one
+  public key to another, without having access to the underlying
   plaintext or private keys.
-  
+
   - Alices uses PrivKey_a to decrypt PubKey_a messages.
-  - Alices generates re-encryption PubKey_a_to_b (a_to_b == "Alice 2 Bob") 
+  - Alices generates re-encryption PubKey_a_to_b (a_to_b == "Alice 2 Bob")
     and sends it to trusted PROXY (e.g: e-mail server)
-  - PROXY uses the PubKey_a_to_b to re-encrypt any messages 
-    arriving signed with PubKey_a. 
-  - Bob not can fetch the new encrypted-with-PubKey_a_to_b message 
+  - PROXY uses the PubKey_a_to_b to re-encrypt any messages
+    arriving signed with PubKey_a.
+  - Bob not can fetch the new encrypted-with-PubKey_a_to_b message
     and decrypt it with its own private key.
   - The PROXY has no way to decrypt the original or new encrypted messages
 
 _________________________________
 Coinbase publishes Kryptology library of distributed crypto algorithms - itsfoss.nethttps://www.itsfoss.net/coinbase-publishes-kryptology-library-of-distributed-crypto-algorithms/amp/ 
 _______________________________
-Crypto: El algoritmo SHA-256 explicado y visualizado paso a paso, bit a bithttps://www.microsiervos.com/archivo/seguridad/algoritmo-sha-256-explicado-visualizado-paso-a-paso-bit-a-bit.html 
+Crypto: El algoritmo SHA-256 explicado y visualizado paso a paso, bit a bithttps://www.microsiervos.com/archivo/seguridad/algoritmo-sha-256-explicado-visualizado-paso-a-paso-bit-a-bit.html
 ______________________________
 Linux 5.19 ya fue liberado y estas son sus novedades | Linux Adictoshttps://www.linuxadictos.com/linux-5-19-ya-fue-liberado-y-estas-son-sus-novedades.html 
 El subsistema EFI implementa la capacidad de transferir de forma confidencial información secreta a los sistemas invitados sin revelarla al sistema host. Los datos se proporcionan a través del directorio security/coco en securityfs.
@@ -388,28 +388,28 @@ One Ring -3 to Secure Them All: Computing with Hardware Enclaves
 https://www.infoq.com/presentations/iot-cloud-options-production/
 ___________________________
 https://github.com/paulmillr/noble-ed25519
-Fastest JS implementation of ed25519, an elliptic curve that could be 
+Fastest JS implementation of ed25519, an elliptic curve that could be
 used for EDDSA signature scheme and X25519 ECDH key agreement.
-Conforms to RFC7748, RFC8032 and ZIP215. Includes support for 
-ristretto255: a technique for constructing prime order elliptic curve 
+Conforms to RFC7748, RFC8032 and ZIP215. Includes support for
+ristretto255: a technique for constructing prime order elliptic curve
 groups with non-malleable encodings.
-Audited by an independent security firm: no vulnerabilities have been 
+Audited by an independent security firm: no vulnerabilities have been
 found. online demo.
 ------------------------------------
 Key Shadowing: secret_mng.wallet
--  technique of generating key shadows performed by at least one 
-   computing device including at least one tangible computing element. 
-   The method includes receiving an indication of a first number X 
-   representing how many of the key shadows are to be generated, 
-   receiving an indication of a second number Y representing how many of 
-   the key shadows are to be required for decrypting an encrypted 
-   message, determining or receiving a master key for decrypting the 
-   encrypted message, and determining X key shadows of the master key. Y 
-   of those key shadows is sufficient to generate a range of more than 
-   one possible master keys that can be computationally feasibly 
-   searched for the master key. Less than Y of those key shadows is 
-   insufficient to determine any part of a value for the master key. 
-   Also, a technique of decrypting an encrypted message using Y of the 
+-  technique of generating key shadows performed by at least one
+   computing device including at least one tangible computing element.
+   The method includes receiving an indication of a first number X
+   representing how many of the key shadows are to be generated,
+   receiving an indication of a second number Y representing how many of
+   the key shadows are to be required for decrypting an encrypted
+   message, determining or receiving a master key for decrypting the
+   encrypted message, and determining X key shadows of the master key. Y
+   of those key shadows is sufficient to generate a range of more than
+   one possible master keys that can be computationally feasibly
+   searched for the master key. Less than Y of those key shadows is
+   insufficient to determine any part of a value for the master key.
+   Also, a technique of decrypting an encrypted message using Y of the
    key shadows. Further, associated systems.
 
 2017 @[https://patents.google.com/patent/US9634836]
@@ -422,54 +422,54 @@ Homomorphic Encryption:
 - Fully homomorphic Encrypt.:
 @[https://www.infoq.com/news/2020/06/ibm-fully-homomorphic-encryption/]
 
-•  WARN:  rather young field which attracts with lot of research.
-• Broadly classifiable within secure multi-party computation,
+##  WARN:  rather young field which attracts with lot of research.
+## Broadly classifiable within secure multi-party computation,
    Homomorphic Encryption is an approach to secure
    computation that does not require decrypting your data in order to
    process them. It enables processing ciphertexts with the guarantee
    that encrypted results match those that would be produced by
    first decrypting input data, processing them, and re-encrypting.
 
-• List of SDKs:
+## List of SDKs:
   └ IBM Fully Homomorphic Encryption Toolkit, based on open source HELi  .
     providing a number of low-level routines such set, add, multiply, shift,
-    ... along with higher-level features for automatic noise management, 
+    ... along with higher-level features for automatic noise management,
     multi-threading, and so on.  @[https://github.com/homenc/HElib]
-  └ Microsoft SEAL (Simple Encrypted Arithmetic Library) 
+  └ Microsoft SEAL (Simple Encrypted Arithmetic Library)
   @[https://www.microsoft.com/en-us/research/project/microsoft-seal/]
   └ Google "Private Join and Compute" tool:
   @[https://github.com/google/private-join-and-compute]
 -----------------------
 [[{101,01_PM.TODO]]
-● Elliptic curves intro: @ma
+# Elliptic curves intro: @ma
 @[https://blog.cloudflare.com/a-relatively-easy-to-understand-primer-on-elliptic-curve-cryptography/]
 
 @[https://andrea.corbellini.name/2015/05/17/elliptic-curve-cryptography-a-gentle-introduction/]
 [[}]]
 
 -----------------------------
-• Arch.considerations for cryptanalytic hardware:
+## Arch.considerations for cryptanalytic hardware:
 @[https://people.eecs.berkeley.edu/~daw/papers/hwkeysearch96-www/chap-10_local.html]
 
-• Extract Key from Java Keystore:[[{tech_stack.java,secret_mng.wallet,use_case.secret_mng}]]
+## Extract Key from Java Keystore:[[{tech_stack.java,secret_mng.wallet,use_case.secret_mng}]]
 https://dzone.com/articles/extracting-a-private-key-from-java-keystore-jks
 https://medium.com/java-user-group-malta/importing-existing-certificates-into-a-keystore-using-openssl-905d9e0b7175
 
-• Toplip: Strong File encrypt:[[{use_case.secret_mng,01_PM.low_code,tool}]]
+## Toplip: Strong File encrypt:[[{use_case.secret_mng,01_PM.low_code,tool}]]
 @[https://www.ostechnix.com/toplip-strong-file-encryption-decryption-cli-utility/]
 
-• Titan: Cli pass.manager:
+## Titan: Cli pass.manager:
 https://www.ostechnix.com/titan-command-line-password-manager-linux/
 
-• AMD Sec.Processor: Mem.Encryption[[{use_case.secret_mng,secret_mng.hardware,secret_mng.wallet}]]
+## AMD Sec.Processor: Mem.Encryption[[{use_case.secret_mng,secret_mng.hardware,secret_mng.wallet}]]
 https://www.techpowerup.com/review/amd-epyc-server-architecture/3.html
 
-• Chinesse Standards: SM2, SM3, SM4 replace RSA, SHA , AES
+## Chinesse Standards: SM2, SM3, SM4 replace RSA, SHA , AES
 
-• Post Quantum Guide:
+## Post Quantum Guide:
 https://hackernoon.com/a-guide-to-post-quantum-cryptography-d785a70ea04b
 
-• BLS Signature Scheme:[[{use_case.signature,crypt_asymmetric,01_PM.TODO]]
+## BLS Signature Scheme:[[{use_case.signature,crypt_asymmetric,01_PM.TODO]]
 @[https://medium.com/@srikarv/the-bls-signature-scheme-a-short-intro-801c723afffa]
 ... Some prominent encryption schemes in literature and the fundamental
 reasoning behind their formulation include:
@@ -486,54 +486,54 @@ reasoning behind their formulation include:
 - Schnorr Signature: Based on the hardness of the discrete logarithm problem.
 [[}]]
 
-• Pairing primitives:
+## Pairing primitives:
 <pre zoom labels="use_case.signature.aggregated,01_PM.TODO">
 @[https://www.math.uwaterloo.ca/~ajmeneze/publications/pairings.pdf]
-  Bilinear pairings have been used to design ingenious 
-  protocols for such tasks as one-round three-party key agreement, 
-  identity-based encryption,and aggregate signatures. Suitable bilinear 
-  pairings can be constructed fromthe Tate pairing for specially chosen 
-  elliptic curves.  Thisarticle gives anintroduction to the protocols, 
+  Bilinear pairings have been used to design ingenious
+  protocols for such tasks as one-round three-party key agreement,
+  identity-based encryption,and aggregate signatures. Suitable bilinear
+  pairings can be constructed fromthe Tate pairing for specially chosen
+  elliptic curves.  Thisarticle gives anintroduction to the protocols,
   Tate pairing computation, and curve selection.
 
-• Trusted Signature Pad: use_case.signature,hardware
+## Trusted Signature Pad: use_case.signature,hardware
 https://www.google.com/search?q=trusted+signature+pad
 
-• OKKA ASA: SSH + PKI:[[{protocol.ssh,qa.automatization,use_case.secret_mng,use_case.identity]]
+## OKKA ASA: SSH + PKI:[[{protocol.ssh,qa.automatization,use_case.secret_mng,use_case.identity]]
 @[https://dzone.com/articles/ssh-is-dead-long-live-ssh-one-million-ssh-logins-w]
 
-·  ...more of our customers have come to the realization that server  
-   access is an identity problem first and foremost....  
-   The more you can unify access with identity, the better. 
+·  ...more of our customers have come to the realization that server
+   access is an identity problem first and foremost....
+   The more you can unify access with identity, the better.
 
-· "...Our customers use Okta Advanced Server Access  (Okta ASA) to 
-  securely automate identity and access controls for their teams to use 
-  SSH safely. And we've just reached a significant adoption milestone 
+· "...Our customers use Okta Advanced Server Access  (Okta ASA) to
+  securely automate identity and access controls for their teams to use
+  SSH safely. And we've just reached a significant adoption milestone
   by registering over 1 million SSH logins per month... and growing!..."
-  With Okta ASA, SSH logins now follow a familiar Single Sign-On experience, 
+  With Okta ASA, SSH logins now follow a familiar Single Sign-On experience,
 
 · SSH transport protocol is inherently secure; however, the backing    [secret_mng]
-  credential mechanism is prone to human error-with potentially 
-  catastrophic results....  companies have traditionally been forced 
+  credential mechanism is prone to human error-with potentially
+  catastrophic results....  companies have traditionally been forced
   to do one of the following:
   - Implement a security policy forcing users to rotate their personal SSH Keys (easiest, least secure).
   - Operate a secure vault service storing SSH Keys, checked out on demand (harder, more secure).
   - Purchase and deploy a privileged access management product to act as a gateway for remote access (hardest, most secure).
 
-· traditional Public Key Infrastructure backing SSH was built for a 
-  different time, where a key exchange meant enough to grant trust. 
+· traditional Public Key Infrastructure backing SSH was built for a
+  different time, where a key exchange meant enough to grant trust.
 
 · OpenSSH introduced in 2011 the capability to authenticate using a
-  Client Certificate (vs SSH Key). Client Certs. metadata carry 
-  cryptographically verifiable metadata to store usernames, roles, ... 
+  Client Certificate (vs SSH Key). Client Certs. metadata carry
+  cryptographically verifiable metadata to store usernames, roles, ...
   and an  expiration date .
 [[}]]
 
-• Aggregated Signatures[[{use_case.signature.aggregated,02_doc_has.comparative,01_PM.WiP]]
+## Aggregated Signatures[[{use_case.signature.aggregated,02_doc_has.comparative,01_PM.WiP]]
 REF: @[https://arxiv.org/pdf/1911.04698.pdf]
 Aggregate Signature protocols:
 .... CoSi protocol is based on SCHNORR SIGNATURE AGGREGATION,
-     which is an INTERACTIVE protocol: 
+     which is an INTERACTIVE protocol:
      aggregated Schnorr-signature for a single message
      requires all  the  singers  collaboration to generate
      1) shared challenge-string in the "Challenge" phase of CoSi-protocol.
@@ -544,42 +544,261 @@ Aggregate Signature protocols:
      - protocol  needs  to  take  multiple  rounds.
 
  ...  our  aggregated  signature  gossip  protocol is based on
-      NON-INTERACTIVE BLS SIGNATURE AGGREGATION SCHEME. 
+      NON-INTERACTIVE BLS SIGNATURE AGGREGATION SCHEME.
      Hence:
      - coordination  among nodes is eliminated.
-     - instead  of communication tree, gossip protocol is 
+     - instead  of communication tree, gossip protocol is
        used to propagate the aggregated signatures.
      These lead to simple+robust design which could be easier
      to implement in practice.
 [[}]]
 
-• Fully Homomorphic Encryption (FHE) SDK:
+## Fully Homomorphic Encryption (FHE) SDK:
 IBM Launches Fully Homomorphic Encryption (FHE) Toolkit for Linux - 9to5Linux
 @[https://9to5linux.com/ibm-launches-fully-homomorphic-encryption-fhe-toolkit-for-linux]
 
-• Trusted Data Format (TDF):[[{standards.web]]
+## Trusted Data Format (TDF):[[{standards.web]]
 @[https://github.com/virtru/tdf-spec]
 
-- Trusted Data Format (TDF) is an Open, Interoperable, JSON encoded 
-   data format for implementing Data Centric Security for objects (such 
-   as files or emails). This repository specifies the protocols and 
-   schemas required for TDF operation. 
+- Trusted Data Format (TDF) is an Open, Interoperable, JSON encoded
+   data format for implementing Data Centric Security for objects (such
+   as files or emails). This repository specifies the protocols and
+   schemas required for TDF operation.
 
 - manifest.json  ··(references) ··> encrypted payload file/s
 
 - HTML+css , manifest.json ··(references) ··> Encrypted payload/s
 
 - There are three principle element-types within a TDF's manifest.json:
-  - Encryption Information: for encrypting, signing, or integrity 
+  - Encryption Information: for encrypting, signing, or integrity
     binding of Payloads and Assertions.
   - Payload Reference(s): reference(s) to the encrypted payload.
-  - Assertion(s): statement(s) about payload(s); this is optional and 
+  - Assertion(s): statement(s) about payload(s); this is optional and
     not shown below.
 
 
-• (Quantum)Lamport Signature:[[{use_case.signature,crypt_asymmetric]]
+## (Quantum)Lamport Signature:[[{use_case.signature,crypt_asymmetric]]
 - quantum-proof cryptographic signatureS
 - Quantum Safe Ethereum proxy with
   Winternitz One-Time signatures
   @[https://github.com/tjade273/QEth]
 [[}]]
+
+## https://academy.bit2me.com/en/que-es-wallet-mpc/  MPC: Multi Party Computing
+Due to its great possibilities, the community cripto has remained
+strongly interested in this type of technology. In fact, David Chaum
+In 1988, he presented a well-known work under the name of
+"Unconditionally secure multi-party protocols". On the other hand,
+Nick Szabo, in 1999 he also presented a well-known work called "God's  <·····!!!
+protocols", also explaining the possibilities of MPCs in the world of
+computing and their use in economic and financial systems. This
+offers us a clear idea of the importance of these protocols,
+and their arrival in the world of cryptocurrencies.
+
+
+## The God Protocols: November 15, 1999, Nick Szabo,
+  https://web.archive.org/web/20061230075325/http:/www.theiia.org/ITAudit/index.cfm?act=itaudit.archive&fid=216
+
+  Acknowledgement: This article first appeared in Nick Szabo's
+  E-Commerce and Security White Papers (http://www.best.com/~szabo/)
+  and is reprinted with permission from the author, Nick Szabo, who
+  holds the copyright.
+  Imagine the ideal protocol. It would have the most trustworthy third
+  party imaginable — a deity who is on everybody's side. All the
+  parties would send their input to this god. God would reliably
+  determine the results and return the output. In addition, God, being
+  the ultimate in confessional discretion, would ensure that no party
+  would learn anything more about the other party's input than they
+  could learn from their own input and the output.
+
+  Alas, in our temporal world we deal with humans rather than deities.
+  Yet, too often we are forced to treat people in a nearly god-like
+  manner because our infrastructure lacks the security needed to
+  protect ourselves.
+
+  Trusted Third Party:
+
+  F1
+
+  To an astonishing extent, network security theorists have recently
+  solved this problem. They have developed protocols that create
+  virtual machines between two or more parties. Multi-party secure
+  computation allows any number of parties to share a computation, each
+  learning only what can be inferred from their own input and the
+  output of the computation. These virtual machines have the exciting
+  property that each party's input is held in strict confidence from
+  the other parties. The program and the output are shared by the
+  parties.
+
+  For example, we could run a spreadsheet across the Internet on this
+  virtual computer. We would agree on a set of formulas and set up the
+  virtual computer with these formulas. Each participant would have
+  their own input cells, which remain blank on the other participants'
+  computers. The participants share output cell(s). Each participant
+  inputs their own private data into their input cells. Alice could
+  only learn as much about the other participants' input cells as she
+  could infer from her own inputs and outputs.
+
+  Mathematically Trustworthy Protocol:
+
+  F2
+
+  There are three major limitations. The first is that this virtual
+  computer is very slow: in some cases, one arithmetic calculation per
+  network message. Currently, it is at best practical only for small
+  logic or arithmetic calculations used as an adjunct to or component
+  of more efficient computations and protocols.
+
+  The second is that there is a tradeoff between privacy, fairness, and
+  fault tolerance. Fairness means everybody learning the results in
+  such a way that no one can gain an advantage by learning first. Fault
+  tolerance can provide robustness against a minority, so that it takes
+  a majority dropping out to halt the protocol, or it can be non-robust
+  but fail-stop, so that a single participant can terminate the
+  protocol. Many papers have discussed the fraction of parties one must
+  trust in order to be assured of learning the correct output. In
+  traditional results, fairness and privacy could not both be achieved
+  with a faulty majority. Recent papers [3-6] have produced fair and
+  private protocols even with faulty majorities. They trade robustness
+  for privacy and fairness against any proportion of faulty parties.
+  The advantage of this fail-stop approach is that you can usually find
+  new partners and start over again, but you don’t want to suffer
+  irreversible losses such as leaking information, being left holding
+  the bag, or being convinced of an incorrect result.
+
+  The third limitation is that, far from being omniscient or
+  omnipotent, the protocol will accomplish only what is specified in
+  the algorithm and the inputs. It won't be able to replace
+  human-trusted third parties where those parties provide insight or
+  knowledge that cannot be provided by a computer.
+
+  With these caveats, any algorithmic intermediary can, in principle,
+  be replaced by a trustworthy virtual computer. In practice, because
+  of the three limitations, we usually construct more limited protocols
+  out of more efficient elements.
+
+  Multi-party computation theory has major implications, in theory, for
+  all kinds of contractual relationships. This can be seen most clearly
+  in the area of negotiations. A mechanism in economics is an abstract
+  model of an institution which communicates with its participants via
+  messages, and whose rules can be specified algorithmically. These
+  institutions can be auctions, exchanges, voting, and so on. They
+  typically implement some kind of negotiation or decision-making
+  process.
+
+  Economists assume a trusted intermediary operates the mechanism.
+  Here's a simple example of using this virtual computer for a
+  mechanism. Alice can submit a bid price, and Bob an ask price, then
+  their shared virtual program which has one instruction, "A greater
+  than B?" The computer then returns "true" if Alice's bid is greater
+  than Bob's offer. A slightly more sophisticated computer may then
+  decide the settlement price according to a number of different
+  algorithms (Alice's bid, Bob's ask, split the difference, etc.). This
+  implements the mechanism blind bargaining with no trusted
+  intermediary.
+
+  In principle, since any computable problem can be solved on this
+  virtual computer (they are Turing complete), any computable economic
+  mechanism can be implemented without a trusted intermediary. In
+  practice, we face the three limitations discussed previously, but the
+  proof that any economic mechanism can be run without a trusted
+  intermediary is very exciting. This means that, in principle, any
+  contract that can be negotiated through a trusted third party (such
+  as an auction or exchange) can be negotiated directly. So, in some
+  abstract sense, the only remaining hard problems in smart contract
+  negotiations are (a) problems considered hard even with a trusted
+  intermediary (for the standard economic reasons), and (b) the task of
+  algorithmically specifying the negotiating rules and output contract
+  terms. (This includes cases where an intermediary adds knowledge
+  unavailable to the participants, such as a lawyer giving advice on
+  how to draft a contract.) In practice, many problems that can be
+  solved in principle with multi-party computation will reoccur when we
+  implement protocols in an efficient, practical manner. The God
+  Protocols give us a target to shoot for.
+
+  Applying this kind of analysis to the performance phase of contracts
+  is less straightforward. For starters, economic theories of the
+  performance phase are not as well developed or simple as the
+  mechanism theory of negotiations. Indeed, most economic theory simply
+  assumes that all contracts can be perfectly enforced cost-free. Some
+  of the transaction cost literature has started to move beyond this
+  assumption, but there are few compelling results or consensus
+  theories in the area of techniques and costs of contract enforcement.
+
+  Performance phase analysis with multi-party secure computer theory
+  would seem to apply only to those contracts that can be performed
+  inside the virtual computer. But the use of post-unforgeable auditing
+  logs, combined with running auditing protocols inside the shared
+  virtual computer, allows a wide variety of performances outside the
+  virtual computer to at least be observed and verified by selected
+  arbitrators.
+
+  The participants in this mutually confidential auditing protocol can
+  verify that the books match the details of transactions stored in a
+  previously committed transaction log, and that the numbers add up
+  correctly. The participants can compute summary statistics on their
+  confidentially shared transaction logs, including cross-checking of
+  the logs against counterparties to a transaction, without revealing
+  those logs. They only learn what can be inferred from the statistics,
+  cannot see the details of the transactions. Another intriguing
+  possibility is that the virtual computer can keep state over long
+  periods of time, allowing sophisticated forms of privy and
+  self-enforcing secured credit.
+
+  If mutually confidential auditing ever becomes practical, we will be
+  able to gain high confidence in the factuality of counterparties'
+  claims and reports without revealing identifying and other detailed
+  information from the transactions underlying those reports. These
+  would provide the basis for solid reputation systems, and other
+  trusted third-party systems, that maintain integrity across time,
+  communications, summarization, and preserve confidentiality for
+  transaction participants. Knowing that mutually confidential auditing
+  can be accomplished in principle will hopefully lead us to practical
+  solutions to these important problems.
+
+  References
+  [1] D. Chaum, C. Crépeau, and I. Damgaard, Multiparty
+  unconditionally secure protocols; In 19th Symp. on Theory of
+  Computing, pages 11-19. ACM, 1988.
+  [2] "The Spymasters Double Agent Problem: Multiparty Computations
+  Secure Unconditionally from Minorities and Cryptographically from
+  Majorities," D. Chaum, Advances in Cryptology CRYPTO'89, G. Brassard
+  (Ed.), Springer-Verlag, pp. 591-601.
+  [3] C. Crépeau, J. van de Graaf, and A. Tapp, Committed Oblivious
+  Transfer and Private Multi-Party Computations; Advances in
+  Cryptology: Proceedings of Crypto '95, Springer-Verlag, pages
+  110-123, 1995.
+  [4] Complete Characterization of Adversaries Tolerable in Secure
+  Multi-Party Computation, Martin Hirt and Ueli Maurer. Computer
+  Science Department, ETH Z¨¹rich. 1997. in Proceedings of PODC '97
+  [5] Matthias Fitzi, Martin Hirt, and Ueli Maurer: Trading correctness
+  for privacy in unconditional multi-party computation. In Advances in
+  Cryptology — CRYPTO '98, volume 1462 of Lecture Notes in Computer
+  Science, 1998.
+  [6] R. Cramer, I. Damgaard, S. Dziembowski, M. Hirt, T. Rabin,
+  Efficient Multi-Party Computations with Dishonest Majority,
+  Proceedings of Eurocrypt '99, Springer Verlag LNCS, to appear (May
+  '99).
+--------------------------
+https://github.com/google/native-pkcs11
+
+native-pkcs11 is a crate for building PKCS#11 modules.
+
+primary use-case: authenticating with client certificates.
+aims to support native certificate stores (MacOS Keychain, Windows Platform Key Provider) out of the box. It can also be extended with a custom backend (see this section).
+
+currently tested with:
+    openssh
+    openvpn
+    Chrome
+    Firefox
+-------------------------
+https://github.com/BlockchainCommons/Gordian-Developer-Community
+Gordian Developer Community is a community of cryptocurrency & identity wallet developers, sharing best practices for paritioned interoperability among multiple vendors on multiple platforms. These best practices include support for hot, cold and multisig cryptographic wallets, research & proposals for data formats and protocols, usage of gaps such as airgaps and torgaps, security and UX for multisig work flows, and other key management and signing issues and topics, particularly those that support the Gordian Principles of independence, privacy, resilience, and openness.
+------------------------
+https://github.com/starkware-libs/cairo
+Cairo is the first Turing-complete language for creating provable programs for general computation.
+-----------------------------
+https://blake12.org/
+-------------------------------
+

@@ -1,0 +1,675 @@
+- The Bouncy Castle FIPS Java API in 100 Examples:
+@[https://www.bouncycastle.org/fips-java/BCFipsIn100.pdf]
+
+# Java key store [[{]]
+
+* Since Java 9, the default keystore format is PKCS12:
+  * PKCS#12: (*.p12 o *pfx) Standardized, language-neutral way to store
+             encrypted private keys and certificates.
+  * JKS    : (*.jks) Java specific format.
+  To convert from JKS tro PKCS#12:
+  # STEP 1) Import keystoreA.jks to keystoreB.p12:
+
+  $ keytool -importkeystore \
+             -srckeystore keystoreA.jks  -srcstoretype JKS     -srcstorepass:env SRC_PASS  \
+            -destkeystore keystoreB.p12 -deststoretype PKCS12 -deststorepass:env DST_PASS
+
+  # STEP 2) Verify import:
+  $ keytool -list -v -keystore keystoreB.p12 -storetype PKCS12
+
+* Ussually a PKCS#12 *jks file used (by app server,...) to store
+  symetric and/or private key and/or 3rd party site certificates.
+  but it can be an HSM remote device, an Smart-Card, ...
+
+* Each certificate is associated with a unique alias.
+
+* Java comes bundled with a truststore (keystore of just 3rd party
+  trusted certificates) called `cacerts` in
+  `$JAVA_HOME/jre/lib/security`
+
+It contains default, trusted Certificate Authorities:
+
+# `java.security.KeyStore` API:
+* [REF](https://docs.oracle.com/javase/8/docs/api/java/security/KeyStore.html)
+* This class represents a storage facility for cryptographic keys and certificates.
+  (jks, HSM, ...)
+  ```
+  |KeyStore| 1 <··> N <<KeyStore.Entry>> 1<··> 1 Alias
+                      └────────┬───────┘
+    ┌──────────────────────────┘
+    Implementations of the interface:
+    * (Asymetric) PrivateKeyEntry: attached with Cert.Chain for the corresponding public key.
+    * (Symetric) SecretKeyEntry  : ussually a passphrase (protected by password)
+    * TrustedCertificateEntry    : single 3rd party public key
+
+* The constructor admits a keyStoreSpi (Service Provider Implementation).
+  ```
+
+* Daily Ussage:
+  ```
+  ── LOADING KeyStore ────────────────────────────────────────────────────────────────
+                                                 Alt 1: autoprobe and load
+  KeyStore ks = KeyStore.getInstance(        <·· System will detect the keystore type
+    new File("keyStoreName"),                    returning a keystore implementation with its
+    somePassword);                               entries already loaded. -no need to call load()-
+
+  KeyStore ks = KeyStore.getInstance("JKS"); <·· Alt 2: get JKS (PKCS#12) type, the load
+  try (FileInputStream fis =
+       new FileInputStream("keyStoreName")) {
+        ks.load(fis, somePassword);              <·· Use ks.load(null, pass) to create an new
+    }                                                empty keystore.
+
+                                                     LOADING private key from KeyStore
+                                                     ---------------------------------
+    KeyStore.ProtectionParameter PSECRET01 =       <·· 1) Initialize protection  password
+        new KeyStore.PasswordProtection("...");
+
+    KeyStore.PrivateKeyEntry pkEntry01 =           <·· 2) Init key-entry associated to key
+      (KeyStore.PrivateKeyEntry)
+      ks.getEntry("privateKeyAlias", PSECRET01);
+    PrivateKey myPrivateKey =                      <·· 3) get private key using key entry
+      pkEntry01.getPrivateKey();
+
+  ── SAVING KeyStore ────────────────────────────────────────────────────────────────
+    javax.crypto.SecretKey mySecretKey;            <·· Some in memory secret key
+    KeyStore.SecretKeyEntry skEntry =              <·· 1) Init key-entry associated to key
+      new KeyStore.SecretKeyEntry(mySecretKey);
+    ks.setEntry("secretKeyAlias",                  <·· 2) Save key using key-entry and
+      skEntry, PSECRET01);                                alias.
+    try (
+      FileOutputStream fos = new
+        FileOutputStream("newKeyStoreName")) {
+          ks.store(fos, password);                 <·· 3) Persist the keystore
+    }
+
+    NOTE: Different passwords can be used to protect the keystore and
+          each different private/symmetric key.
+
+  Modifier                Class                        Description
+  and Type
+
+  static class            KeyStore.Builder             description of a to-be-instantiated KeyStore object.
+
+  static class            KeyStore                     A ProtectionParameter encapsulating a CallbackHandler.
+                          .CallbackHandlerProtection
+
+  static interface        KeyStore.Entry               A marker interface for KeyStore entry types.
+  static interface        KeyStore.LoadStoreParameter  A marker interface for KeyStore load and store parameters.
+  static class            KeyStore.PasswordProtection  A password-based implementation of ProtectionParameter.
+  static final class      KeyStore.PrivateKeyEntry     A KeyStore entry that holds a PrivateKey and corresponding
+                                                       certificate chain.
+  static interface        KeyStore.ProtectionParameter A marker interface for keystore protection parameters.
+  static final class      KeyStore.SecretKeyEntry      A KeyStore entry that holds a SecretKey.
+  static final class      KeyStore                     A KeyStore entry that holds a trusted Certificate.
+                          .TrustedCertificateEntry
+
+  final                  aliases()                     Lists all the alias names of this keystore.
+    Enumeration<String>
+  final boolean          containsAlias(String alias)
+  final void             deleteEntry(String alias)
+  final boolean          entryInstanceOf(String alias, Class<? extends KeyStore.Entry> entryClass)
+  final Certificate      getCertificate(String alias)
+  final String           getCertificateAlias(Certificate cert)
+  final Certificate[]    getCertificateChain(String alias)
+  final Date             getCreationDate(String alias)
+  static final String    getDefaultType()   (as specified by keystore.type security property
+                         or "jks" if no such property exists).
+  final KeyStore.Entry   getEntry(String alias, KeyStore.ProtectionParameter protParam)
+  static final KeyStore  getInstance(File file, char[] password)
+  static final KeyStore  getInstance(File file, KeyStore.LoadStoreParameter param)
+  static KeyStore        getInstance(String type)
+  static KeyStore        getInstance(String type, String provider)
+  static KeyStore        getInstance(String type, Provider provider)
+  final Key              getKey(String alias, char[] password)
+  final Provider         getProvider()
+  final String           getType()
+  final boolean          isCertificateEntry(String alias)
+  final boolean          isKeyEntry(String alias)
+  final void             load(InputStream stream, char[] password)
+  final void             load(KeyStore.LoadStoreParameter param)
+  final void             setCertificateEntry(String alias, Certificate cert)
+  final void             setEntry(String alias, KeyStore.Entry entry, KeyStore.ProtectionParameter protParam)
+  final void             setKeyEntry(String alias, byte[] key, Certificate[] chain)
+  final void             setKeyEntry(String alias, Key key, char[] password, Certificate[] chain)
+  final int              size()
+  final void             store(OutputStream stream, char[] password)
+  final void             store(KeyStore.LoadStoreParameter param)
+  ```
+[[}]]
+
+# keytool Summary [[{security.cryptography.keytool,protocol.tls]]
+(summary from $ man keytool)
+
+* Use `stdin` or `stdout` as -file values for standard I/O.
+
+## COMMON OPTIONS:
+  ```
+  -v                                  : Verbose output
+  -conf $file_path                    : Reuse pre-configured options file.
+   Example ~/keytool.conf
+                           ┌──────────┬─······· Replaced with system property
+   keytool.all = -keystore ${user.home}/ks  <·· Add default option/s to all commands.
+   keytool.list = -v                        <·· Add default option to -list command
+   keytool.genkeypair = -keyalg rsa
+   └─────────────────·························· property names must be lower-case.
+
+  -providerpath $list                 : Set the provider classpath.
+  -J$option                           : pass $option string as Java interpreter option ($java -h or java -X)
+  -storetype $STORE_TYPE              : jceks         Ancient  "SunJCE" Java Cryptography Extension.
+                                        jks           Java Key Store (default up to and including JDK 8)
+                                        dks           ???
+                                        pkcs11        hardware like storages
+                                        pkcs12        Default since JDK 9
+                                        Windows-MY    (on Windows systems)
+                                        Windows-ROOT  (on Windows systems)
+  -keystore  $KEYSTORE_LOCATION (defaults to  ${HOME}/.keystore )
+             If the JKS storetype is used and a keystore file doesn't yet exist,
+             then certain keytool commands can result in a new keystore file being created.
+             NOTE: value MUST BE 'NONE' for non-file-based keystore(HSM, SmartCard, ...)
+
+           [http://www.oracle.com/technetwork/java/javase/javasecarootcertsprogram-1876540.html]
+  -cacerts $cacerts_path : Operates on cacerts keystore.
+                           (shortcut for  -keystore $cacerts_path -storetype $type_of_cacerts)
+  -storepass      $PASSWORD    : (6+chars) password to protect the full keystore.
+  -storepass:env  $ENVVAR_NAME   provided, it will be prompted for interactively.
+  -storepass:file $FILE_PATH
+             └──┴─ :env and :file also available for -keypass, -srckeypass, -destkeypass, -srcstorepass, -deststorepass
+  -providername $PROVIDER_NAME : Eg: "SunPKCS11", Useful to identify a cryptographic service provider's name
+                                 when listed in the security properties file.
+  -addprovider   $Security_Provider_name [-providerarg arg]. Eg: SunPKCS11.
+  -providerclass \                    : Usefull when service provider isn't listed in security properties file.
+      $fully.qualified.master_class \
+      [-providerarg arg].
+  -protected=true|false               : Password provided through a protected mechanism, such as a dedicated PIN reader
+  (-srcprotected, -destprotected)
+  -extname{:critical}=value           : Denotes an X.509 certificate extension. Used in:
+   └┬┘└─┬┘ └──┬────┘  └─┬─┘             -genkeypair│-gencert to embed extensions into generated certificate
+    ·   ·     ·         ·               -certreq: to show what extensions are requested in the certificate request.
+    ·   ·     ·         ··············· For extensions requiring a value (some extensions also have default values).
+    ·   ·     ························· when provided => the extension's isCritical attribute is true;
+    ·   ······························· a supported extension-name or an arbitrary OID-number.
+    ··································· Repeat N times to add N extensions.
+
+
+     NOTE: When generating a Certificate|Certificate-request, the DEFAULT SIGNATURE ALGORITHM
+           ,when -sigalg is NOT set, is DERIVED FROM THE ALGORITHM OF PRIVATE KEY to provide
+           an appropriate level of security strength as follows:
+           NOTE: Default key size and signature algorithm names are periodically updated
+                 to stronger values with each release of the JDK.
+
+           keyalg       keysize    default sigalg
+           ──────────────────────────────────────────────────
+           DSA          any size   SHA256withDSA
+
+           RSA          <= 3072    SHA256withRSA     <··· KEY-POINT: Bigger HASH for smaller keys.
+                        <= 7680    SHA384withRSA
+                        > 7680     SHA512withRSA
+
+           EC           < 384      SHA256withECDSA
+                        < 512      SHA384withECDSA
+                        = 512      SHA512withECDSA
+
+           RSASSA-PSS   <= 3072    RSASSA-PSS (with SHA-256)
+                        <= 7680    RSASSA-PSS (with SHA-384)
+                        > 7680     RSASSA-PSS (with SHA-512)
+
+           EdDSA        255        Ed25519
+                        448        Ed448
+
+           Ed25519      255        Ed25519
+           Ed448        448        Ed448
+  ```
+
+## Creating or adding data to the keystore
+  ```
+    -gencert [opts]   (Generate certificate or certificate chains)
+    ┌────────┴────┘
+    • -rfc               :   Use Base64 PEM  Privacy Enhanced Mail  Cert. Output File Format
+                           def.: binary DER Definite Encoding Rules Cert. Output File Format
+    • -infile infile     (STDIN  by default!!!)
+    • -outfile $outfile  (STDOUT by default!!!)
+    • -alias $alias [-keypass $some_pass]
+    • -sigalg $sign_algorithm_name
+    • -dname $distinguished_name ("subject") of generated certificate. Def: to that of Cert.request.
+    • -startdate $start_date_and_time_validity
+    • -ext $some_X509_extention_value
+    • -validity $Number_of_days
+    Eg: Create chain-of-signed-certificates:
+         $ keytool -alias CA1 -certreq                  |       <···  self              self               self
+           keytool -alias CA0 -gencert -ext san=dns:ca1 |             issued -> signs   issued -> signs    issued -> signs
+           keytool -alias CA1 -importcert                             CA0               CA1                CA2
+         $ keytool -alias CA2 -certreq                  |
+           keytool -alias CA1 -gencert -ext san=dns:ca2 |
+           keytool -alias CA2 -importcert
+  • -genkeypair [-keypass arg]
+    Generate private+associated public key.
+    AS WELL AS A SELF-SIGNED CERTIFICATE WITH
+    THE PUBLIC KEY AND THE DISTINGUISHED NAME INFORMATION.
+    (the distinguished_name will be prompted for if -dname
+    is not provided).
+    • -alias $alias
+    • -keyalg $key_alg
+    • -keysize $bit_size
+    • -groupname $Group_name (ex: "Elliptic Curve")
+    • -sigalg    $signature_algorithm_name
+    • -signer    $signer_alias [-signerkeypass arg]
+       If !set => new   self-signed Cert. with pub.key stored as   single-elem.cert-chain
+       If  set => new signer-signed Cert. with pub.key stored as multiple-elem.cert-chain
+                                                                 └───────────┬──────────┘
+                                                      actually, stored as a new keystore
+                                                      entry identified by its alias ("id")
+       alias must be that of a signer that ALREADY exists in the keystore.
+       This option is especially useful for key agreement algorithms (i.e. the -keyalg value
+       is XDH, X25519, X448, or DH) as these keys cannot be used for digital signatures, and
+       therefore a self-signed certificate cannot be created.
+    •  [-dname $distinguished_name]: ("subject")
+    • -startdate $cert_validity_start_datetime (def: current date time)
+      also known as the "Not Before" value of the X.509 certificate's Validity field.
+      Possible formats:
+      • ([+-]nnn[ymdHMS])+     : shifted time from current time. ex: +1m-5d+5h
+      • [yyyy/mm/dd] [HH:MM:SS]
+    • -ext $X_509_extension
+    • -validity $number_days
+    ex: $ keytool -alias ca  -dname CN=CA -genkeypair -keyalg rsa
+  • -genseckey [options] [-keypass $six_or_more_chars_pass]
+    • -alias ...
+    • -keyalg ...
+    • -keysize $bit_size
+  • -importcert [-v] [-keypass arg] -file $input_file_or_STDIN -keystore $destination_keystore_name
+    read cert. or cert.chain (cert.chain as PKCS#7 formatted reply or sequence of X.509 certificates)
+    used to: 1) import trusted 3rd party certificate, 2) Certificate-reply from CA after succesful CSR processing.
+    Certificate formats supported:
+    - X.509 v1/v2/v3   certificate.
+    - PKCS#7 formatted certificate-chains
+    Data input supported:
+    - binary encoding format
+    - printable encoding  format (Base64 encoding) bounded with -----BEGIN -----END.
+    • -noprompt
+    • -trustcacerts
+    • -alias $alias_name_of_entry_to_process
+  • -importpass [-v] [-keypass key_password] (import from STDIN or interactive prompt)
+    By default key_password is set to keystore_password if left blank.
+    • -alias ...
+    • -keyalg ...
+    • -keysize ...
+  ```
+* Importing contents from another keystore  ──────────────────────────────────────────
+  ```
+  • -importkeystore  -srckeystore $SRC_KEYSTORE [-destkeystore $DST_KEYSTORE]
+                                                └─ (def: $HOME/.keystore ) ─┘
+    Import one (if alias provided) or all entries from source KS.
+    • -srcstoretype $type -deststoretype $type
+    •  -srcstorepass ...  deststorepass ...
+    • -srcprotected -destprotected
+    • -srcprovidername $KS_PROVIDER_NAME -destprovidername $KS_PROVIDER_NAME
+    • -srcalias $alias => Import single entry, -destalias alias: Destination alias
+    •  [-srckeypass arg]: Source key password
+    •  [-destkeypass arg]: Destination key password
+    • -noprompt: Do not prompt for alias
+    NOTE: most 3rd-party tools require storepass and keypass in a PKCS #12 keystore to be the same.
+          In that case key-password MUST EQUAL store-password.
+    WARN: Existing entries are overwritten with the destination alias name with the -noprompt
+    WARN: Entries that can't be imported are skipped and a warning is displayed.
+  ```
+## Generating a certificate request
+  ```
+  • -certreq [-keypass arg]
+    • -alias ...
+    • -sigalg ...
+    • -file $output_filename
+    • -dname $distinguished_name
+    • -ext $X_509_extension
+    Use the -certreq command to generate a Certificate Signing Request (CSR) using the PKCS #10 format.
+    A CSR is intended to be sent to a CA.  The CA authenticates the certificate requestor (usually offline) and returns a certificate or certificate chain to replace the existing certificate chain (initially a self-signed certificate) in  the
+    keystore.
+    The  private  key associated with alias is used to create the PKCS #10 certificate request.  To access the private key, the correct password must be provided.  If -keypass isn't provided at the command line and is different from the pass‐
+    word used to protect the integrity of the keystore, then the user is prompted for it.  If -dname is provided, then it is used as the subject in the CSR.  Otherwise, the X.500 Distinguished Name associated with alias is used.
+    The -sigalg value specifies the algorithm that should be used to sign the CSR.
+    The CSR is stored in the -file file.  If a file is not specified, then the CSR is output to -stdout.
+    Use the -importcert command to import the response from the CA.
+  ```
+
+## exporting certs.
+  ```
+  • -exportcert [-rfc] [-alias ...] [-file $output_file]
+    -rfc: Output to RFC (Base64) vs binary DER
+  ```
+## displaying data
+  ```
+  • -list [-rfc] [-alias $alias_name] (dump to STDOUT)
+     SHA-256 fingerprint is show by default. use -v to print human-readable format,
+     with additional information such as owner, issuer, serial number, extensions.
+
+  • -printcert [-rfc] [-file $input_file] \
+              [-sslserver server[:port]   \
+              [-jarfile $signed_JAR_file]
+              [-trustcacerts]              <·· Use Trust certificates from cacerts
+    To pass through firewalls use::
+    -J-Dhttps.proxyHost=proxyhost
+    -J-Dhttps.proxyPort=proxyport
+  • -printcertreq [-file $input_file]  <··· print contents of PKCS #10 format Cert.Request.
+  • -printcrl [-file $input_file_name] [-trustcacerts]: Trust certificates from cacerts
+     Useful to read the Certificate Revocation List (CRL) in a fiole.
+     Note: This command can be used independently of a keystore.  It attempts to verify the
+     CRL using a certificate from the user keystore or (-trustcacerts) cacerts keystore.
+     and will print out a warning if it cannot be verified.
+  ```
+## Managing the keystore
+  ```
+  • -storepasswd -new $new_password
+  • -keypasswd -alias $alias [-keypass old_keypass] [-new new_keypass (or prompted for)]
+  • -delete -alias alias
+  • -changealias -alias $old_alias -destalias $new_alias -keypass $key_password
+  ```
+## display security-related information
+  ```
+  • -showinfo [-tls]: display various security-related information.
+    • [-tls]: displays TLS configurations, such as list-of-enabled-protocols and cipher-suites.
+  ```
+
+## supported named extensions
+* NOTE: names are NOT case-sensitive.
+
+### BasicContraints (BC) with format:
+* ca:{true|false}[,pathlen:len]
+* len (shortcut for ca:true,pathlen:len)
+  If len is omitted, the resulting value is ca:true.
+* KU or KeyUsage=value
+  value := usage(, usage)*  ¡¡¡case-sensitive!!!
+  usage := digitalSignature | nonRepudiation (contentCommitment)
+         | keyEncipherment | dataEncipherment | keyAgreement
+         | keyCertSign | cRLSign | encipherOnly | decipherOnly
+         arguments can be abbreviated when there is no ambiguity
+         (italSignature) or in camel-case style (dS, cRLS).
+* EKU or ExtendedKeyUsage=value
+  value := usage(, usage)*
+  usage := anyExtendedKeyUsage | serverAuth | clientAuth | codeSigning
+           | emailProtection | timeStamping | OCSPSigning | Any OID string
+* SAN or SubjectAlternativeName=value
+  value := type:type_value(, type:value)*
+  type  := EMAIL | URI | DNS | IP | OID
+  type_value := string-format-value for the type.
+* IAN or IssuerAlternativeName=value
+  values := "Same as SAN or SubjectAlternativeName."
+* SIA or SubjectInfoAccess = value
+  value := method:location-type:location-value(, method:location-type:location-value)*
+  method := timeStamping | caRepository | Any OID
+  location-type := any type:value supported by the SubjectAlternativeName extension.
+  location-value:= any type:value supported by the SubjectAlternativeName extension.
+* AIA or AuthorityInfoAccess=value
+  values := "Same as SIA or SubjectInfoAccess"
+  method :=  ocsp | caIssuers | Any OID
+  (See man keytool for more info)
+
+CAUTION: SOME COMBINATIONS OF EXTENSIONS (AND OTHER CERTIFICATE FIELDS) MAY NOT
+         CONFORM TO THE INTERNET STANDARD.
+
+## keytool recipes
+
+* Generate keypair (and associated self signed certificate)
+  ```
+  $ DNAME="cn=myname, ou=mygroup, o=mycompany, c=mycountry"
+  $ keytool -genkeypair \                     <·· generate the key pair.
+    -keystore .../keystore01 -storepass ... \ <·· keystore01 created if not found
+    -validity 180
+    -dname "${DNAME}" \                       <·· "attach" dist.name to priv/pub key-pair
+                                                  It will be prompted for if not provided.
+    -alias business \
+    -keyalg rsa -keypass password \            <·· default SHA256withRSA Sign.Algorithm
+                                                   will be used to create a self-signed
+                                                   certificate with the pub.key and the
+                                                   distinguished name information.
+
+* Requesting Signed certificate from CA
+  ```
+  $ keytool -certreq -alias ... -file ....csr  #  1. Generate a CSR
+  send to CA, follow offline authentication steps, and
+  wait for a newly issued CA signed certificate (ussualy
+  a chained certificate list).
+
+* Importing a certificate for the CA
+  * PRE-SETUP:
+    1. 1+ trusted-certificates in  custom or cacerts keystore.
+       (See -importcert)
+    * If the certificate reply is a certificate chain, we use
+      the "root" certificate authenticating the public key of the CA.
+    * If  the  certificate reply is a single certificate,
+      we need the another certificate for the issuing CA.
+    * NOTE: Before import a root (self-signed) certificate as trusted
+      certificate we must ensure that:
+      1. the certificate is valid, for example with:
+         `$ keytool -printcert ...`  or
+         `$ keytool -importcert .. # with -noprompt`.
+         KEYPOINT: Make sure that the displayed certificate fingerprints
+         match the expected fingerprints, by even calling the issuing
+         party for the original fingerprint.
+         KEYPOINT: IF  FINGERPRINTS DON'T MATCH THERE WAS AN ISSUANCE ERROR
+         OR THER IS AN HIDDEN ATTACKER.
+      2. Replace the self-signed certificate with a certificate chain.
+  * Once pre-setup checks are OK:
+    ```
+    $ keytool -importcert -alias ... -file $inputFile.cer
+    ```
+* Importing the certificate reply from the CA:
+  The CA cert. response can be a single certificate or a cert.-chain.
+  In the first case the cert-chain must be reconstructed
+  by using the certificate reply and trusted certificates available
+  either in the importing keystore or the (default) cacerts keystore file.
+  Ex: `$ keytool -importcert -trustcacerts -file $CA_cert_response.cer`
+* Exporting Certs. authenticating the pub.key (let 3rd parties authenticate us)
+  `$ keytool -exportcert -alias mykey -file myname.cer`
+* Import JKS keystore into PKCS #11 like hardware-based keystore.
+  ```
+  $ keytool -importkeystore \
+     -srckeystore ./path_in_fs/keystoreSRC.jks -destkeystore NONE \
+     -srcstoretype JKS                         -deststoretype PKCS11 \
+     -srcstorepass password -deststorepass password
+  # Use -alias to import just a single key entry
+  ```
+* Other imports:
+  ```
+  $ keytool -import -trustcacerts -alias root \      <- Import root/intermediate CA certificate
+    -file Thawte.crt -keystore keystore.jks
+  $ keytool -import -trustcacerts -alias mydomain \  <- Import signed certificate to
+    -file mydomain.crt -keystore keystore.jks           existing keystore
+  ```
+
+* Generating certificates for an ssl server:
+  * INPUT: ` Root CA, Intermediate CAs, SSL server`
+  * PRE-SETUP: All involved certificates reside in the same keystore.
+  * Flow:
+    ```
+    $ EXT1="-ext BasicContraint:contentCommitment"  # or "-ext bc:c" for short
+    $ EXT2="-ext BasicContraint:0"                  # or "-ext bc:0" for short
+    $ EXT3="-ext KeyUssage:c=digitalSignature,keyEncipherment" # $ or "-ext KU:c=dig,kE"
+    $ keytool -genkeypair -keystore   root.jks -alias root   ${EXT1} -keyalg rsa
+    $ keytool -genkeypair -keystore     ca.jks -alias ca     ${EXT1} -keyalg rsa
+    $ keytool -genkeypair -keystore server.jks -alias server        -keyalg rsa
+    $ keytool             -keystore   root.jks -alias root   -exportcert -rfc > root.pem
+    $ keytool  -certreq   -keystore     ca.jks -alias ca     -storepass ... | \
+      keytool  -gencert   -keystore   root.jks -alias root   ${EXT2} \
+      -storepass ...  -rfc > ca.pem
+    $ keytool -importcert -keystore     ca.jks -alias ca     -file ca.pem
+    $ keytool -certreq    -keystore server.jks -alias server -storepass ... | \
+      keytool -gencert    -keystore     ca.jks -alias ca     -storepass ...
+      ${EXT3} -rfc > server.pem
+    $ cat root.pem ca.pem server.pem | \
+      keytool -keystore server.jks -importcert -alias server
+    ```
+* Create/Update keystore:
+  ```
+  $ keytool -genkey -alias mydomain -keyalg RSA \    <- Generate a Java keystore and key pair
+    -keystore keystore.jks  -keysize 2048
+  $ keytool -certreq -alias mydomain \               <- Generate Cert.Signing request (CSR)
+      -keystore keystore.jks -file mydomain.csr         for existing Java keystore
+  * Checking keystore:
+    $ keytool -printcert -v -file mydomain.crt         <- Check a stand-alone certificate
+    $ keytool -list -v -keystore keystore.jks          <- Check which certificates are in a Java keystore
+    $ keytool -list -v -keystore keystore.jks \        <- Check a particular keystore entry using an alias
+      -alias mydomain
+
+  * Other Commands:
+    $ keytool -delete -alias mydomain \                <- Delete Cert from keystore
+      -keystore keystore.jks
+    $ keytool -storepasswd -new new_storepass \        <- Change keystore password
+      -keystore keystore.jks
+    $ keytool -export -alias mydomain \                <- Export a certificate from a keystore
+      -file mydomain.crt -keystore keystore.jks
+
+    $ keytool -list -v \                               <- List Trusted CA Certs
+      -keystore $JAVA_HOME/jre/lib/security/cacerts
+
+    $ keytool -import -trustcacerts \                  <- Import New CA into Trusted Certs
+      -file /path/to/ca/ca.pem \
+      -alias CA_ALIAS \
+      -keystore $JAVA_HOME/jre/lib/security/cacerts
+
+* Mixing openssl and keytool:
+  ```
+  $ openssl s_client \                                <··  1) fetch 1st-in-chain web cert.
+     -connect www.mywebsite.com:443 \                         adn dump to pem file
+     -showcerts </dev/null 2>/dev/null | \
+    openssl x509 \
+      -outform PEM > infura-morden.pem
+  $ ($JAVA_HOME/Contents/Home/jre/bin/)keytool \           <·· then import it to Java KeyStore:
+      -import -noprompt -trustcacerts \
+      -alias www.mywebsite.com -f infura-morden.pem
+  ```
+
+## keytool and java.security:
+  ```
+  $JAVA_HOME/
+   conf/
+     security/
+      java.security/jdk.certpath.disabledAlgorithms  <·· keytool will emit a warning when the algorithm
+      java.security/jdk.security.legacyAlgorithms        is in one those lists.
+
+  $ keytool -list -trustcacerts               <· alt 1: List certificates in truststore.
+  $ keytool -list \                           <· alt 2: List certificates in keystore
+    -keystore $JAVA_HOME/lib/security/cacerts           In this example keystore is actually
+     (output contains 100+entries)                      the truststore.
+  `$ keytool -list -cacerts`                  <·  ist registered CAs
+
+  NOTE: The cacerts keystore ships with a set of root certificates issued by the CAs of
+  the Oracle Java Root Certificate program and must be managed system-wide by sys-admins.
+  The initial password of `cacerts` is `changeit`.
+  SYSTEM ADMINISTRATORS SHOULD CHANGE THAT PASSWORD AND THE DEFAULT
+  ACCESS PERMISSION OF THAT FILE UPON INSTALLING THE SDK.
+
+### Example flow
+  (STEP 1): create  .jks file containing only the private key.
+  (STEP 2): Generate a CSR
+  (STEP 3): Generate(self-signed) or obtain Signed Certificate.
+  (STEP 4): Import it (including any parents -up to root- certificates)
+
+  ```
+[[security.cryptography.keytool,protocol.tls}]]
+
+# JOSE4J  [[{security.cryptography,PM.WiP]]
+* JOSE: JSON Object Signing and (optional) encryption
+https://bitbucket.org/b_c/jose4j/wiki/JWT%20Examples
+- JSON Web Token (JWT) Code Examples with jose4j:
+  maven/gradle "coordinates": org.bitbucket.b_c:jose4j:0.9.2
+
+Ex1: Producing and consuming a signed JWT
+    rsaJsonWebKey = RsaJwkGenerator.generateJwk(2048); // Generate RSA key pair
+    rsaJsonWebKey.setKeyId("k1"); // "polite thing to do"
+
+    JwtClaims claims = new JwtClaims();     // Create Claims data
+    claims.setIssuer("Issuer");             //
+    claims.setGeneratedJwtId();             // set unique ID for the token
+    claims.setAudience("Audience");         // "intended recipient" of token
+    claims.setSubject("subject");           // set subject/principal claims refer to
+
+    claims.setIssuedAtToNow();              // set issuance date
+    claims.setNotBeforeMinutesInThePast(2); // start validity time (2m ago)
+    claims.setExpirationTimeMinutesInTheFuture(10);
+
+    claims.setClaim("email","mail@...com"); // additional key/value claims
+    List<String> groups = Arrays.asList("group-one", "other-group", "group-three");
+    claims.setStringListClaim("groups", groups); // multi-valued claims work too and will end up as a JSON array
+
+    final JsonWebSignature jws = new JsonWebSignature();
+    jws.setPayload(claims.toJson());
+    jws.setKey(rsaJsonWebKey.getPrivateKey());
+    jws.setKeyIdHeaderValue(rsaJsonWebKey.getKeyId()); // "polite thing to do". Useful in
+                                                       // multikey&key-rollover processes
+    jws.setAlgorithmHeaderValue(            // Set signature algorithm on JWT/JWS
+      AlgorithmIdentifiers.RSA_USING_SHA256);
+
+    String jwt = jws.getCompactSerialization(); // Sign JWS & create compact (complete) JWT/JWS
+                                                // base64url-encoded "Header.Payload.Signature"
+    // It can be further encrypted  by using jwt as payload of
+    // JsonWebEncryption object with cty (Content Type) header == "jwt".
+    System.out.println("JWT: " + jwt);
+
+    // --------------------------------------------------------
+    // JwtConsumer used to validate+process incomming signed JWT.
+    // specific validation requirements are context-dependent
+    // reasonable checks:  expiration-time, trusted-issuer, matching audience.
+    // If JWT is encrypted: provide only a decryption key or decryption-key-resolver
+    JwtConsumer jwtConsumer = new JwtConsumerBuilder()
+       .setRequireExpirationTime()
+       .setAllowedClockSkewInSeconds(30)
+       .setRequireSubject()
+       .setExpectedIssuer("Issuer")
+       .setExpectedAudience("Audience")
+       .setVerificationKey(rsaJsonWebKey.getKey())
+       .setJwsAlgorithmConstraints( // allowed/expected Sig.algorithm/s
+          ConstraintType.PERMIT, AlgorithmIdentifiers.RSA_USING_SHA256)
+       .build();
+    try {
+        //  Validate the JWT and process it to the Claims
+        JwtClaims jwtClaims = jwtConsumer.processToClaims(jwt);
+        System.out.println("JWT validation succeeded! " + jwtClaims);
+    } catch (InvalidJwtException e) {
+        // InvalidJwtException will be thrown, if the JWT failed processing or validation in anyway.
+        // Hopefully with meaningful explanations(s) about what went wrong.
+        System.out.println("Invalid JWT! " + e);
+
+        // Programmatic access to (some) specific reasons for JWT invalidity is also possible
+        // should you want different error handling behavior for certain conditions.
+
+        // Whether or not the JWT has expired being one common reason for invalidity
+        if (e.hasExpired())
+        {
+            System.out.println("JWT expired at " + e.getJwtContext().getJwtClaims().getExpirationTime());
+        }
+
+        // Or maybe the audience was invalid
+        if (e.hasErrorCode(ErrorCodes.AUDIENCE_INVALID))
+        {
+            System.out.println("JWT had wrong audience: " + e.getJwtContext().getJwtClaims().getAudience());
+        }
+    }
+- Two-pass JWT consumption:
+  - e.g: we need to fetch issuer to identify a valid validation pub.key.
+    JwtConsumer firstPassJwtConsumer = new JwtConsumerBuilder()
+            .setSkipAllValidators().setDisableRequireSignature()
+            .setSkipSignatureVerification().build();
+    JwtContext jwtContext = firstPassJwtConsumer.process(jwt);
+    String issuer = jwtContext.getJwtClaims().getIssuer();
+
+    Key verificationKey = rsaJsonWebKey.getKey(); // same key here but different JWKS-URIs per issuer could exist
+    AlgorithmConstraints algorithmConstraints = // allowed and/or expected sign. algorithms
+       new AlgorithmConstraints(ConstraintType.PERMIT,
+            AlgorithmIdentifiers.RSA_USING_SHA256, AlgorithmIdentifiers.RSA_USING_SHA384);
+
+    JwtConsumer secondPassJwtConsumer = new JwtConsumerBuilder()
+       .setExpectedIssuer(issuer)
+       .setVerificationKey(verificationKey)
+       .setRequireExpirationTime()
+       .setAllowedClockSkewInSeconds(30)
+       .setRequireSubject()
+       .setExpectedAudience("Audience")
+       .setJwsAlgorithmConstraints(algorithmConstraints)
+       .build();
+    secondPassJwtConsumer.processContext(jwtContext); // Finally validate the JWT.
+
+- See original source for how-to use an HTTPS JWKS endpoint
+- See original source for the use-case when we received some JWKs out-of-band from the JWT Issuer.
+- See original page for  X.509 Resolvers.
+- See original source to produce/consume nested (signed and encrypted) JWT:
+- See original source to produce/consume signed+encrypted JWT with RFC8037's
+  Ed25519 EdDSA and X25519 ECDH
+[[security.cryptography}]]

@@ -1,21 +1,25 @@
 - The Bouncy Castle FIPS Java API in 100 Examples:
 @[https://www.bouncycastle.org/fips-java/BCFipsIn100.pdf]
 
-# Java key store [[{]]
+# Java key store [[{secret_mng]]
 
 * Since Java 9, the default keystore format is PKCS12:
-  * PKCS#12: (*.p12 o *pfx) Standardized, language-neutral way to store
-             encrypted private keys and certificates.
-  * JKS    : (*.jks) Java specific format.
-  To convert from JKS tro PKCS#12:
+  ```
+  PKCS#12: *.p12/*.pfx Standardized, language-neutral way to store
+           encrypted private keys and certificates.
+  JKS    : *.jks       Java specific format.
+  ```
+  * To convert from JKS tro PKCS#12:
+  ```
   # STEP 1) Import keystoreA.jks to keystoreB.p12:
 
   $ keytool -importkeystore \
              -srckeystore keystoreA.jks  -srcstoretype JKS     -srcstorepass:env SRC_PASS  \
             -destkeystore keystoreB.p12 -deststoretype PKCS12 -deststorepass:env DST_PASS
-
+  
   # STEP 2) Verify import:
   $ keytool -list -v -keystore keystoreB.p12 -storetype PKCS12
+  ```
 
 * Ussually a PKCS#12 *jks file used (by app server,...) to store
   symetric and/or private key and/or 3rd party site certificates.
@@ -24,10 +28,8 @@
 * Each certificate is associated with a unique alias.
 
 * Java comes bundled with a truststore (keystore of just 3rd party
-  trusted certificates) called `cacerts` in
-  `$JAVA_HOME/jre/lib/security`
-
-It contains default, trusted Certificate Authorities:
+  trusted certificates) called `cacerts` in `$JAVA_HOME/jre/lib/security`
+  It contains default, trusted Certificate Authorities:
 
 # `java.security.KeyStore` API:
 * [REF](https://docs.oracle.com/javase/8/docs/api/java/security/KeyStore.html)
@@ -293,7 +295,7 @@ It contains default, trusted Certificate Authorities:
     • -keyalg ...
     • -keysize ...
   ```
-* Importing contents from another keystore  ──────────────────────────────────────────
+## Importing contents from another keystore 
   ```
   • -importkeystore  -srckeystore $SRC_KEYSTORE [-destkeystore $DST_KEYSTORE]
                                                 └─ (def: $HOME/.keystore ) ─┘
@@ -313,20 +315,13 @@ It contains default, trusted Certificate Authorities:
   ```
 ## Generating a certificate request
   ```
-  • -certreq [-keypass arg]
-    • -alias ...
+  • -certreq [-keypass arg]         <·· Generates CSR using PKCS #10 format.
+    • -alias ...                        intended to be sent to a CA.
     • -sigalg ...
-    • -file $output_filename
-    • -dname $distinguished_name
+    • -file $output_filename        <·· Or STDOUT.
+    • -dname $distinguished_name    <·· Subject of CSR. If not provided, the X.500 
+                                        Distinguished Name associated with alias is used.
     • -ext $X_509_extension
-    Use the -certreq command to generate a Certificate Signing Request (CSR) using the PKCS #10 format.
-    A CSR is intended to be sent to a CA.  The CA authenticates the certificate requestor (usually offline) and returns a certificate or certificate chain to replace the existing certificate chain (initially a self-signed certificate) in  the
-    keystore.
-    The  private  key associated with alias is used to create the PKCS #10 certificate request.  To access the private key, the correct password must be provided.  If -keypass isn't provided at the command line and is different from the pass‐
-    word used to protect the integrity of the keystore, then the user is prompted for it.  If -dname is provided, then it is used as the subject in the CSR.  Otherwise, the X.500 Distinguished Name associated with alias is used.
-    The -sigalg value specifies the algorithm that should be used to sign the CSR.
-    The CSR is stored in the -file file.  If a file is not specified, then the CSR is output to -stdout.
-    Use the -importcert command to import the response from the CA.
   ```
 
 ## exporting certs.
@@ -371,6 +366,8 @@ It contains default, trusted Certificate Authorities:
 * NOTE: names are NOT case-sensitive.
 
 ### BasicContraints (BC) with format:
+
+```
 * ca:{true|false}[,pathlen:len]
 * len (shortcut for ca:true,pathlen:len)
   If len is omitted, the resulting value is ca:true.
@@ -403,8 +400,9 @@ It contains default, trusted Certificate Authorities:
 
 CAUTION: SOME COMBINATIONS OF EXTENSIONS (AND OTHER CERTIFICATE FIELDS) MAY NOT
          CONFORM TO THE INTERNET STANDARD.
+```
 
-## keytool recipes
+## keytool recipes  [[{doc_has.snapshot]]
 
 * Generate keypair (and associated self signed certificate)
   ```
@@ -419,6 +417,7 @@ CAUTION: SOME COMBINATIONS OF EXTENSIONS (AND OTHER CERTIFICATE FIELDS) MAY NOT
                                                    will be used to create a self-signed
                                                    certificate with the pub.key and the
                                                    distinguished name information.
+  ```
 
 * Requesting Signed certificate from CA
   ```
@@ -426,6 +425,7 @@ CAUTION: SOME COMBINATIONS OF EXTENSIONS (AND OTHER CERTIFICATE FIELDS) MAY NOT
   send to CA, follow offline authentication steps, and
   wait for a newly issued CA signed certificate (ussualy
   a chained certificate list).
+  ```
 
 * Importing a certificate for the CA
   * PRE-SETUP:
@@ -438,8 +438,10 @@ CAUTION: SOME COMBINATIONS OF EXTENSIONS (AND OTHER CERTIFICATE FIELDS) MAY NOT
     * NOTE: Before import a root (self-signed) certificate as trusted
       certificate we must ensure that:
       1. the certificate is valid, for example with:
-         `$ keytool -printcert ...`  or
-         `$ keytool -importcert .. # with -noprompt`.
+         ```
+         $ keytool -printcert ...  or
+         $ keytool -importcert .. # with -noprompt
+         ```
          KEYPOINT: Make sure that the displayed certificate fingerprints
          match the expected fingerprints, by even calling the issuing
          party for the original fingerprint.
@@ -502,29 +504,34 @@ CAUTION: SOME COMBINATIONS OF EXTENSIONS (AND OTHER CERTIFICATE FIELDS) MAY NOT
     -keystore keystore.jks  -keysize 2048
   $ keytool -certreq -alias mydomain \               <- Generate Cert.Signing request (CSR)
       -keystore keystore.jks -file mydomain.csr         for existing Java keystore
-  * Checking keystore:
-    $ keytool -printcert -v -file mydomain.crt         <- Check a stand-alone certificate
-    $ keytool -list -v -keystore keystore.jks          <- Check which certificates are in a Java keystore
-    $ keytool -list -v -keystore keystore.jks \        <- Check a particular keystore entry using an alias
-      -alias mydomain
+  ```
+* Checking keystore:
+  ```
+  $ keytool -printcert -v -file mydomain.crt         <- Check a stand-alone certificate
+  $ keytool -list -v -keystore keystore.jks          <- Check which certificates are in a Java keystore
+  $ keytool -list -v -keystore keystore.jks \        <- Check a particular keystore entry using an alias
+    -alias mydomain
+  ```
 
-  * Other Commands:
-    $ keytool -delete -alias mydomain \                <- Delete Cert from keystore
-      -keystore keystore.jks
-    $ keytool -storepasswd -new new_storepass \        <- Change keystore password
-      -keystore keystore.jks
-    $ keytool -export -alias mydomain \                <- Export a certificate from a keystore
-      -file mydomain.crt -keystore keystore.jks
+* Other Commands:
+  ```
+  $ keytool -delete -alias mydomain \                <- Delete Cert from keystore
+    -keystore keystore.jks
+  $ keytool -storepasswd -new new_storepass \        <- Change keystore password
+    -keystore keystore.jks
+  $ keytool -export -alias mydomain \                <- Export a certificate from a keystore
+    -file mydomain.crt -keystore keystore.jks
 
-    $ keytool -list -v \                               <- List Trusted CA Certs
-      -keystore $JAVA_HOME/jre/lib/security/cacerts
+  $ keytool -list -v \                               <- List Trusted CA Certs
+    -keystore $JAVA_HOME/jre/lib/security/cacerts
 
-    $ keytool -import -trustcacerts \                  <- Import New CA into Trusted Certs
-      -file /path/to/ca/ca.pem \
-      -alias CA_ALIAS \
-      -keystore $JAVA_HOME/jre/lib/security/cacerts
+  $ keytool -import -trustcacerts \                  <- Import New CA into Trusted Certs
+    -file /path/to/ca/ca.pem \
+    -alias CA_ALIAS \
+    -keystore $JAVA_HOME/jre/lib/security/cacerts
+  ```
 
-* Mixing openssl and keytool:
+## "Mixing" openssl and keytool:
   ```
   $ openssl s_client \                                <··  1) fetch 1st-in-chain web cert.
      -connect www.mywebsite.com:443 \                         adn dump to pem file
@@ -566,110 +573,233 @@ CAUTION: SOME COMBINATIONS OF EXTENSIONS (AND OTHER CERTIFICATE FIELDS) MAY NOT
 [[security.cryptography.keytool,protocol.tls}]]
 
 # JOSE4J  [[{security.cryptography,PM.WiP]]
-* JOSE: JSON Object Signing and (optional) encryption
-https://bitbucket.org/b_c/jose4j/wiki/JWT%20Examples
-- JSON Web Token (JWT) Code Examples with jose4j:
+
+* JOSE stands for **JSON** Object Signing and (optional) encryption
+* https://bitbucket.org/b_c/jose4j/wiki/JWT%20Examples
+* JSON Web Token (JWT) Code Examples with jose4j:
+* PRESETUP:
+  ```
   maven/gradle "coordinates": org.bitbucket.b_c:jose4j:0.9.2
+  ```
 
-Ex1: Producing and consuming a signed JWT
-    rsaJsonWebKey = RsaJwkGenerator.generateJwk(2048); // Generate RSA key pair
-    rsaJsonWebKey.setKeyId("k1"); // "polite thing to do"
+* Ex1: Producing and consuming a signed JWT
+  ```
+  rsaJsonWebKey = RsaJwkGenerator.generateJwk(2048); // Generate RSA key pair
+  rsaJsonWebKey.setKeyId("k1"); // "polite thing to do"
 
-    JwtClaims claims = new JwtClaims();     // Create Claims data
-    claims.setIssuer("Issuer");             //
-    claims.setGeneratedJwtId();             // set unique ID for the token
-    claims.setAudience("Audience");         // "intended recipient" of token
-    claims.setSubject("subject");           // set subject/principal claims refer to
+  JwtClaims claims = new JwtClaims();     // Create Claims data
+  claims.setIssuer("Issuer");             //
+  claims.setGeneratedJwtId();             // set unique ID for the token
+  claims.setAudience("Audience");         // "intended recipient" of token
+  claims.setSubject("subject");           // set subject/principal claims refer to
 
-    claims.setIssuedAtToNow();              // set issuance date
-    claims.setNotBeforeMinutesInThePast(2); // start validity time (2m ago)
-    claims.setExpirationTimeMinutesInTheFuture(10);
+  claims.setIssuedAtToNow();              // set issuance date
+  claims.setNotBeforeMinutesInThePast(2); // start validity time (2m ago)
+  claims.setExpirationTimeMinutesInTheFuture(10);
 
-    claims.setClaim("email","mail@...com"); // additional key/value claims
-    List<String> groups = Arrays.asList("group-one", "other-group", "group-three");
-    claims.setStringListClaim("groups", groups); // multi-valued claims work too and will end up as a JSON array
+  claims.setClaim("email","mail@...com"); // additional key/value claims
+  List<String> groups = Arrays.asList("group-one", "other-group", "group-three");
+  claims.setStringListClaim("groups", groups); // multi-valued claims work too and will end up as a JSON array
 
-    final JsonWebSignature jws = new JsonWebSignature();
-    jws.setPayload(claims.toJson());
-    jws.setKey(rsaJsonWebKey.getPrivateKey());
-    jws.setKeyIdHeaderValue(rsaJsonWebKey.getKeyId()); // "polite thing to do". Useful in
-                                                       // multikey&key-rollover processes
-    jws.setAlgorithmHeaderValue(            // Set signature algorithm on JWT/JWS
-      AlgorithmIdentifiers.RSA_USING_SHA256);
+  final JsonWebSignature jws = new JsonWebSignature();
+  jws.setPayload(claims.toJson());
+  jws.setKey(rsaJsonWebKey.getPrivateKey());
+  jws.setKeyIdHeaderValue(rsaJsonWebKey.getKeyId()); // "polite thing to do". Useful in
+                                                     // multikey&key-rollover processes
+  jws.setAlgorithmHeaderValue(            // Set signature algorithm on JWT/JWS
+    AlgorithmIdentifiers.RSA_USING_SHA256);
 
-    String jwt = jws.getCompactSerialization(); // Sign JWS & create compact (complete) JWT/JWS
-                                                // base64url-encoded "Header.Payload.Signature"
-    // It can be further encrypted  by using jwt as payload of
-    // JsonWebEncryption object with cty (Content Type) header == "jwt".
-    System.out.println("JWT: " + jwt);
+  String jwt = jws.getCompactSerialization(); // Sign JWS & create compact (complete) JWT/JWS
+                                              // base64url-encoded "Header.Payload.Signature"
+  // It can be further encrypted  by using jwt as payload of
+  // JsonWebEncryption object with cty (Content Type) header == "jwt".
+  System.out.println("JWT: " + jwt);
 
-    // --------------------------------------------------------
-    // JwtConsumer used to validate+process incomming signed JWT.
-    // specific validation requirements are context-dependent
-    // reasonable checks:  expiration-time, trusted-issuer, matching audience.
-    // If JWT is encrypted: provide only a decryption key or decryption-key-resolver
-    JwtConsumer jwtConsumer = new JwtConsumerBuilder()
-       .setRequireExpirationTime()
-       .setAllowedClockSkewInSeconds(30)
-       .setRequireSubject()
-       .setExpectedIssuer("Issuer")
-       .setExpectedAudience("Audience")
-       .setVerificationKey(rsaJsonWebKey.getKey())
-       .setJwsAlgorithmConstraints( // allowed/expected Sig.algorithm/s
-          ConstraintType.PERMIT, AlgorithmIdentifiers.RSA_USING_SHA256)
-       .build();
-    try {
-        //  Validate the JWT and process it to the Claims
-        JwtClaims jwtClaims = jwtConsumer.processToClaims(jwt);
-        System.out.println("JWT validation succeeded! " + jwtClaims);
-    } catch (InvalidJwtException e) {
-        // InvalidJwtException will be thrown, if the JWT failed processing or validation in anyway.
-        // Hopefully with meaningful explanations(s) about what went wrong.
-        System.out.println("Invalid JWT! " + e);
+  // --------------------------------------------------------
+  // JwtConsumer used to validate+process incomming signed JWT.
+  // specific validation requirements are context-dependent
+  // reasonable checks:  expiration-time, trusted-issuer, matching audience.
+  // If JWT is encrypted: provide only a decryption key or decryption-key-resolver
+  JwtConsumer jwtConsumer = new JwtConsumerBuilder()
+     .setRequireExpirationTime()
+     .setAllowedClockSkewInSeconds(30)
+     .setRequireSubject()
+     .setExpectedIssuer("Issuer")
+     .setExpectedAudience("Audience")
+     .setVerificationKey(rsaJsonWebKey.getKey())
+     .setJwsAlgorithmConstraints( // allowed/expected Sig.algorithm/s
+        ConstraintType.PERMIT, AlgorithmIdentifiers.RSA_USING_SHA256)
+     .build();
+  try {
+      //  Validate the JWT and process it to the Claims
+      JwtClaims jwtClaims = jwtConsumer.processToClaims(jwt);
+      System.out.println("JWT validation succeeded! " + jwtClaims);
+  } catch (InvalidJwtException e) {
+      // InvalidJwtException will be thrown, if the JWT failed processing or validation in anyway.
+      // Hopefully with meaningful explanations(s) about what went wrong.
+      System.out.println("Invalid JWT! " + e);
 
-        // Programmatic access to (some) specific reasons for JWT invalidity is also possible
-        // should you want different error handling behavior for certain conditions.
+      // Programmatic access to (some) specific reasons for JWT invalidity is also possible
+      // should you want different error handling behavior for certain conditions.
 
-        // Whether or not the JWT has expired being one common reason for invalidity
-        if (e.hasExpired())
-        {
-            System.out.println("JWT expired at " + e.getJwtContext().getJwtClaims().getExpirationTime());
-        }
+      // Whether or not the JWT has expired being one common reason for invalidity
+      if (e.hasExpired())
+      {
+          System.out.println("JWT expired at " + e.getJwtContext().getJwtClaims().getExpirationTime());
+      }
 
-        // Or maybe the audience was invalid
-        if (e.hasErrorCode(ErrorCodes.AUDIENCE_INVALID))
-        {
-            System.out.println("JWT had wrong audience: " + e.getJwtContext().getJwtClaims().getAudience());
-        }
-    }
-- Two-pass JWT consumption:
-  - e.g: we need to fetch issuer to identify a valid validation pub.key.
-    JwtConsumer firstPassJwtConsumer = new JwtConsumerBuilder()
-            .setSkipAllValidators().setDisableRequireSignature()
-            .setSkipSignatureVerification().build();
-    JwtContext jwtContext = firstPassJwtConsumer.process(jwt);
-    String issuer = jwtContext.getJwtClaims().getIssuer();
+      // Or maybe the audience was invalid
+      if (e.hasErrorCode(ErrorCodes.AUDIENCE_INVALID))
+      {
+          System.out.println("JWT had wrong audience: " + e.getJwtContext().getJwtClaims().getAudience());
+      }
+  }
+  ```
+* Two-pass JWT consumption:<br/>
+  e.g: we need to fetch issuer to identify a valid validation pub.key.
+  ```
+  JwtConsumer firstPassJwtConsumer = new JwtConsumerBuilder()
+          .setSkipAllValidators().setDisableRequireSignature()
+          .setSkipSignatureVerification().build();
+  JwtContext jwtContext = firstPassJwtConsumer.process(jwt);
+  String issuer = jwtContext.getJwtClaims().getIssuer();
 
-    Key verificationKey = rsaJsonWebKey.getKey(); // same key here but different JWKS-URIs per issuer could exist
-    AlgorithmConstraints algorithmConstraints = // allowed and/or expected sign. algorithms
-       new AlgorithmConstraints(ConstraintType.PERMIT,
-            AlgorithmIdentifiers.RSA_USING_SHA256, AlgorithmIdentifiers.RSA_USING_SHA384);
+  Key verificationKey = rsaJsonWebKey.getKey(); // same key here but different JWKS-URIs per issuer could exist
+  AlgorithmConstraints algorithmConstraints = // allowed and/or expected sign. algorithms
+     new AlgorithmConstraints(ConstraintType.PERMIT,
+          AlgorithmIdentifiers.RSA_USING_SHA256, AlgorithmIdentifiers.RSA_USING_SHA384);
 
-    JwtConsumer secondPassJwtConsumer = new JwtConsumerBuilder()
-       .setExpectedIssuer(issuer)
-       .setVerificationKey(verificationKey)
-       .setRequireExpirationTime()
-       .setAllowedClockSkewInSeconds(30)
-       .setRequireSubject()
-       .setExpectedAudience("Audience")
-       .setJwsAlgorithmConstraints(algorithmConstraints)
-       .build();
-    secondPassJwtConsumer.processContext(jwtContext); // Finally validate the JWT.
-
+  JwtConsumer secondPassJwtConsumer = new JwtConsumerBuilder()
+     .setExpectedIssuer(issuer)
+     .setVerificationKey(verificationKey)
+     .setRequireExpirationTime()
+     .setAllowedClockSkewInSeconds(30)
+     .setRequireSubject()
+     .setExpectedAudience("Audience")
+     .setJwsAlgorithmConstraints(algorithmConstraints)
+     .build();
+  secondPassJwtConsumer.processContext(jwtContext); // Finally validate the JWT.
+  ```
 - See original source for how-to use an HTTPS JWKS endpoint
-- See original source for the use-case when we received some JWKs out-of-band from the JWT Issuer.
+- See original source for the use-case when we received some JWKs 
+  out-of-band from the JWT Issuer.
 - See original page for  X.509 Resolvers.
 - See original source to produce/consume nested (signed and encrypted) JWT:
 - See original source to produce/consume signed+encrypted JWT with RFC8037's
   Ed25519 EdDSA and X25519 ECDH
 [[security.cryptography}]]
+
+[[{PM.low_code]]
+# Jipher for Federal Information Processing Standards ("FIPS") Environements 
+By Denis Gauthier, Director of OCI Cryptography at Oracle
+@[https://blogs.oracle.com/developers/post/open-sourcing-jipher]
+
+For several years we (Oracle) have been making significant 
+contributions to OpenSSL. We've chosen to base our products on 
+OpenSSL because it is the most open and most widely used 
+cryptographic toolkit on the planet. At Oracle, we make extensive use 
+of the OpenSSL 3.0 FIPS 140 provider to operate in regulated markets. 
+We like the OpenSSL FIPS provider so much we decided to build a Java 
+cryptography toolkit on top of it called Jipher. By converging on a 
+single toolkit (OpenSSL) we reduce our attack surface, simplify 
+security patching, achieve assembly-optimized performance, and help 
+our customers meet regulatory compliance requirements.
+
+## Jipher Benefits
+* Security: OpenSSL is ubiquitous... and   it gets tested in many 
+  real-world environments for security issues.
+* Performance: We put Jipher into Oracle Cloud Infrastructure and 
+  achieved remarkable performance gains. **Scaled across trillions of 
+  cryptographic operations every day**, the benefits stack up.
+  Based on [project Panama](https://openjdk.org/projects/panama/)
+  (Interconnecting JVM and native code).
+* Compliance: It can be hard to stay on top of the FIPS rules ...
+  ... risk of misusing the cryptography and breaking FIPS rules, 
+  **Jipher comes with safeguards so we can integrate it into thousands 
+  of Oracle applications with peace of mind that it will be done 
+  correctly.**
+[[}]]
+
+[[{protocol.KEM,secret_mng,]]
+# Key Encapsulation Mechanism API (JDK 21+)
+* REF: <https://openjdk.org/jeps/452>
+* encryption technique for securing symmetric keys using public 
+  key cryptography.
+
+### Goals
+* Enable applications to use KEM algorithms such as the RSA Key 
+  Encapsulation Mechanism (RSA-KEM), the Elliptic Curve Integrated 
+  Encryption Scheme (ECIES), and candidate KEM algorithms for the 
+  National Institute of Standards and Technology (NIST) Post-Quantum 
+  Cryptography standardization process.
+* Enable KEMs in high level protocols (TLS,...) and in cryptographic
+  schemes such as Hybrid Public Key Encryption (HPKE, RFC 9180).
+* Include an implementation of the Diffie-Hellman KEM (DHKEM) defined 
+  in §4.1 of RFC 9180.
+
+* Key encapsulation is a modern cryptographic technique that secures 
+  symmetric keys using asymmetric or public key cryptography. The 
+  traditional technique for doing so is to encrypt a randomly generated 
+  symmetric key with a public key, but that requires padding and can be 
+  difficult to prove secure. A key encapsulation mechanism (KEM) 
+  instead uses properties of the public key to derive a related 
+  symmetric key, which requires no padding.
+
+* KEM was introduced by Crammer and Shoup in §7.1 of Design and Analysis 
+  of Practical Public-Key Encryption Schemes Secure against Adaptive 
+  Chosen Ciphertext Attack. Shoup later proposed it as an ISO standard
+  in §3.1 of A Proposal for an ISO Standard for Public Key Encryption.
+  It was accepted as ISO 18033-2 and published in May 2006.
+
+* KEMs are a building block of Hybrid Public Key Encryption (HPKE).
+* The NIST Post-Quantum Cryptography (PQC) standardization process
+  explicitly calls for KEMs and digital signature algorithms to be
+  evaluated as candidates for the next generation of standard public
+  key cryptography algorithms. The Diffie-Hellman key exchange step
+  in TLS 1.3 can also be modeled as a KEM.
+
+* KEMs will be an important tool for defending against quantum attacks. 
+
+* A KEM consists of three functions:
+  * A key-pair generation-function, returning a key-pair containing
+    a public key and a private key.
+  * A key-encapsulation function, called by the sender, that takes
+    the receiver's public key and an encryption option; it returns
+    a secret key K and a key encapsulation message (called ciphertext
+    in ISO 18033-2).  
+  * sender sends the key encapsulation message to the receiver.
+  * A key decapsulation function, called by the receiver, that takes
+    the receiver's private key and the received key encapsulation 
+    message; it returns the secret key K.
+
+* The key pair generation function is covered by the existing 
+  KeyPairGenerator API. We define a new class, KEM, for the 
+  encapsulation and decapsulation functions:
+
+* A single KEM algorithm can have multiple configurations.
+  with different types of public or private keys, different
+  methods to derive the shared secrets, and emit different 
+  key encapsulation messages.
+
+* Alternatives
+  * Use existing APIs
+    (KeyGenerator, KeyAgreement, and Cipher APIs to represent KEMs),
+    but each of them has significant issues. Either they don't
+    support the required feature set, or the API does not match
+    the KEM functions:
+    * A KeyGenerator is able to generate a SecretKey, but not the
+      key encapsulation message at the same time. 
+      As a workaround, we could potentially encode both the shared 
+      secret and the key encapsulation message as the encoded form
+      of the SecretKey. ...
+    * A KeyAgreement can return a key encapsulation message as a
+      phase key and the shared secret, via different methods.
+      However, a KeyAgreement object is meant to be initialized with
+      the caller's own private key, but for a KEM there is no need
+      to create a private key on the sender side. 
+    * A Cipher is able to wrap an existing key and then unwrap it.
+      However, in a KEM the shared secret is generated by the
+      encapsulation process. We could pass in a dummy or null key and 
+      store the actual shared secret in the output, but this has the
+      same problem as KeyGenerator...
+[[protocol.KEM}]]

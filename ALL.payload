@@ -1,11 +1,15 @@
 notes.txt
 openssl.txt
+opengpg.txt
 math_behind_bip32.md
+project_everest.txt
 TODO.txt
 who-is-who.txt
 ZeroKnowledgeCrypto.txt
 zkp_why_and_how_zkSNARKS.txt
-java_cryptography.txt
+IoT_smart_cards.txt
+IoT_azure_sphere.txt
+hyperledger_ursa.txt
 // WiP:
 BSS_signature_summary.txt
 // real_world_crypto_notes.txt

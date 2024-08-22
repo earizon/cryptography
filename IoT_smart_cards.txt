@@ -1,0 +1,211 @@
+[[{IoT.SmartCards]]
+
+# Smart Cards 
+## DS/EN 14890-1 Smart-Card Standard [[{]]
+* We can see and smartCard as some sort of "slow" / low-power HSM.
+
+Extracted from <https://standards.globalspec.com/std/1167872/DS/EN%2014890-1>
+Part 1 of this series specifies the application interface to Smart Cards
+during the usage phase, used as Secure Signature Creation Devices (SSCD)
+describing the mandatory services ... covering the signing function , 
+storage of certificates, related user verification, establishment and 
+use of trusted path and channel, requirements for key generation...  
+the functionality of CWA 14890-1 is enhanced in the following areas:
+* Device authentication with Elliptic Curves (ELC)
+  for existing asymmetric authentication protocols
+  (RSA Transport, Privacy Protocol)
+* Secure Messaging Tags
+* Further hash algorithms (SHA2-family)
+* Use of AES in auth protocols and secure messaging.  [[}]]
+
+## GNUPGP SC [[{secret_mng,standards.pgp,tool.gpg,standards.smartcard,hardware.smartcard]]
+*<https://www.commoncriteriaportal.org/cc/>
+   Supporting Documents related to Smart Cards and similar devices
+   ```
+   | Document number     Document title  Class
+   | 2006-06-001         Rationale for Smart cards and similar devices
+   | CCDB-2010-03-001    Guidance for smartcard evaluation v2.0  Guidance
+   | CCDB-2014-04-001    Security Architecture requirements (ADV_ARC) for
+   |                     smart cards and similar devices (Mandatory)
+   | CCDB-2009-03-002    Application of CC to Integrated Circuits v3.0  (Mandatory)
+   | CCDB-2012-04-001    Composite product evaluation for Smartcards    (Mandatory)
+   |                     and similar devices
+   | CCDB-2007-09-02     ETR-template lite for composition Guidance
+   | CCDB-2012-04-004    Security Architecture requirements (ADV_ARC)   (Guidance)
+   |                     for smart cards and similar devices - Appendix 1
+   | CCDB-2013-05-001    Minimum ITSEF Requirements for Security  (Mandatory)
+   |                     Evaluations of Smart cards and similar devices
+   | CCDB-2013-05-002    Application of Attack Potential to Smartcards  (Mandatory)
+   ```
+
+- GNUPGP Smart Card specs
+* <https://gnupg.org/ftp/specs/>
+* <http://cardwerk.com/iso-7816-smart-card-standard/>         [standards.hardware]
+
+* Extracted from <https://en.wikipedia.org/wiki/Smart_card>
+  """PGP SmartCard is the most widely used Crypto Commands include:
+  * PSO: COMPUTE DIGITAL SIGNATURE
+  * HASH ALGORITHMS
+  * DigestInfo for RSA
+  * PSO: DECIPHER
+  * PSO: ENCIPHER
+  * INTERNAL AUTHENTICATE
+    + Client/Server Authentication
+  * GENERATE ASYMMETRIC KEY PAIR
+  * GET CHALLENGE
+  * TERMINATE DF
+  """
+[[}]]
+
+### Related: GPG SmartCard for SSH Authentication
+* <https://www.grepular.com/Smart_Cards_and_SSH_Authentication> [TODO]
+  ```
+  | SSH KEY SETUP
+  |────────────────────┬──────────────────────────────────────
+  |STANDARD(SOFTWARE)  │ PGP (HARDWARE)
+  |SSH KEYGEN          │ SMART-CARD:
+  |────────────────────┼──────────────────────────────────────
+  |          GENERATING THE KEYS
+  |────────────────────┼──────────────────────────────────────
+  |$ ssh-keygen ...    │ (Install GnuPG 2 first)
+  |                    │   $ gpg -gen-key  # Generate a keypair:
+  |                    │   $ gpg -edit-key # ← Add  authentication subkey
+  |                    │   > addkey        # ←
+  |                    │   > keytocard     # ← transfer private part of
+  |                    │                   #   subkey to smart-card
+  |                    │                   #   A stub referencing subkey 
+  |                    │                   #   is left behind
+  |                    │                   #   with your on disk keypair.
+  |                    │
+  |                    │ - Whenever you try to use that subkey, the system
+  |                    │   will request that you insert the smart card.
+  |                    │
+  |────────────────────┼──────────────────────────────────────
+  |          ADDING AUTH.SUBKEY TO SSH LIST OF AUTHORIZED KEYS
+  |────────────────────┼──────────────────────────────────────
+  |$ ssh-copy-id ...   │  ("gpgkey2ssh" utility is provided 
+  |                    │  by the gnupg-agent package )
+  |                    │  Alt 1:
+  |                    │    $ gpgkey2ssh $gpgSubkeyID_for_sshAuth \
+  |                    │      > output_ssh_formated_pubkey
+  |                    │        ^^^^^^^^^^^^^^^^^^^^^^^^^^
+  |                    │    C+P to remote "~/ssh/authorized_keys" file
+  |                    │
+  |                    │  Alt 2: (If the auth.subkey is on 
+  |                    │          public gpg keyservers):
+  |                    │    $ gpg --recv-key 0018461F
+  |                    │    $ gpgkey2ssh 13990B29 >> ~/.ssh/authorized_keys
+  |────────────────────┴──────────────────────────────────────
+  ```
+
+* AUTHENTICATING USING THE SMART CARD
+  (how do we get the OpenSSH client to use the smart card)
+  ```
+  |────────────────────┬──────────────────────────────────────
+  |STANDARD(SOFTWARE)  │ PGP (HARDWARE)
+  |SSH KEYGEN          │ SMART-CARD:
+  |────────────────────┼──────────────────────────────────────
+  |(setup ssh-agent)   │ gpg-agent has been designed to speak
+  |                    │ the same protocol as ssh-agent
+  |                    │
+  |                    │ - STEP 01:
+  |                    │   stop ssh-agent process
+  |                    │ - STEP 02:
+  |                    │   add "enable-ssh-support" to
+  |                    │   ~/.gnupg/gpg-agent.conf
+  |                    │
+  |                    │ ( OpenSSH client should start talking
+  |                    │   to gpg-agent now )
+  |                    │
+  |                    │ - STEP 03:
+  |                    │   $ ssh-add -l
+  |                    │ ( You should see that the key you
+  |                    │   generated previously is mentioned
+  |                    │   only when the S.C. is inserted!!! )
+  |                    │
+  |                    │ you’re done!!
+  |                    │ ssh'ing to a remote machine with your pubkey
+  |                    │ will ask to type your pin on the smart-card
+  |                    │ reader.
+  ```
+  (See original ref for Windows/Putty setup)
+
+* List of Implementations of the OpenPGP application for smart cards
+  <https://incenp.org/notes/2016/openpgp-card-implementations.html>
+* <https://g10code.com/>
+  """Founded by the principal author of GnuPG ...
+     we provide custom development, enhancements
+     and audits of cryptographic software.
+     An ongoing effort of ours is the development
+     and maintenance of GnuPG and related software."""
+  * OpenPGP (Smart)Card Specs:
+  <https://g10code.com/p-card.html>
+  * <https://openpgpcard.net/>
+    WARN: Does not include display
+  * Hardware cryptocurrency wallet
+  * OpenPGP smart card
+  * U2F authenticator
+  * One-time password generator
+
+## CardPeek [[{standards.smartcard,hardware.smartcard,01_PM.TODO]]
+* <http://pannetrat.com/Cardpeek>
+* Linux/Windows/Mac OS X tool to read the contents
+  of ISO7816 smart cards. It features a GTK GUI to
+  represent card data is a tree view, and is extensible
+  with a scripting language (LUA).
+* The goal of this project is to allow smart card owners to
+  be better informed about what type of personal information
+  is stored in these devices.
+* As of version 0.8.2, this tool is capable of reading the contents
+  of the following types of cards:
+* EMV "chip and PIN" bank cards, including:
+  VISA, MasterCard, CB and UK Post Office Account contact cards;
+  PayWave (VISA) and PayPass (MasterCard) contactless cards;
+* Electronic/Biometric passports, which have an embedded contactless chip;
+* The Belgian eID card;
+* Calypso transport cards including:
+  * Navigo transport cards used in Paris;
+  * MOBIB cards used in Brussels;
+  * RavKav cards used in Israel;
+  * VIVA cards used in Lisbon;
+* GSM SIM cards (without USIM data used in recent cards);
+* Vitale 2, the French health card.
+* Moneo, the French electronic purse;
+* Driver Tachograph cards;
+* OpenPGP Cards (beta);
+
+Some important card types are missing or need further development,
+however, this application can be modified and extended easily to your
+needs with the embedded LUA scripting language
+[[}]]
+
+## OpenCryptoJC.org [[{doc_has.comparative]]
+* <http://opencryptojc.org/>
+  (Speed Up JavaCard Dev)
+* [Video] Unchaining the JavaCard Ecosystem (2018-02-22)
+  <https://www.youtube.com/watch?v=vd0-Uhx2OoQ>
+* Project providing convinient libraries for JavaCard development
+  including Integers, Big Numbers, Elliptic Curves and Profilers.
+* Java Card Comparision
+  <https://www.fi.muni.cz/~xsvenda/jcalgtest/index.html>
+[[}]]
+
+
+## OpenSCDP: Dev tools for S.C. [[{IoT.smart_cards.openscdp,standards,]]
+* https://www.openscdp.org/
+* Why use more than one scripting environment for all your smart card
+  simulation, testing, data preparation, personalization and key
+  management needs ?" - Andreas Schwier, OpenSCDP founder
+* The Open Smart Card Development Platform (OpenSCDP) is a collection
+  of tools for the development, test and deployment of smart card and
+  public key infrastructure applications. It uses the capabilities of
+  Global Platform Scripting, Profile and Messaging technology to
+  provide unsurpassed flexibility and development speed.
+[[IoT.smart_cards.openscdp}]]
+
+
+## ISO 7816 for electronic identification cards
+* standard for electronic identification cards with 
+  contacts, especially smart cards.
+  * <https://en.wikipedia.org/wiki/ISO/IEC_7816>
+[[IoT.SmartCards}]]

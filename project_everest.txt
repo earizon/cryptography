@@ -1,0 +1,30 @@
+## Project Everest [[{tech_stack.f*,qa.formal_proofs,01_PM.low_code,01_PM.TODO,qa]]
+* <https://project-everest.github.io/>
+
+Combination of several sub-projects:
+* F*, a verification language for effectful programs
+* miTLS, reference implementation of the TLS protocol in F*
+* KreMLin, a compiler from a subset of F* to C
+* HACL*, a verified library of cryptographic primitives written in F*
+* Vale, a domain-specific language for verified cryptographic
+  primitives in assembly
+* EverCrypt, a verified crypto provider that combines HACL* and Vale
+  via an agile, multi-platform, self-configuring cryptographic API.
+* EverParse, a library and tool to automatically generate verified
+  parsers and serializers for binary data formats
+
+* introduced in <https://eprint.iacr.org/2020/572>
+* Using F* (<https://www.fstar-lang.org/>)formally probed language
+  for implementation of cryptographic primitives (otherwise
+  extremely difficult and error prone to implement in C/Rust/...).
+* formally-verified Curve25519, ChaCha20, Poly1305,
+  P256 elliptic curve for ECDSA and ECDH, GCM, P384/P521 elliptic
+  curves, ECDSA signature scheme,...
+* Performance close to native assembler manual implementation
+* Fiat-Crypto project:
+  <http://adam.chlipala.net/papers/FiatCryptoSP19/FiatCryptoSP19.pdf>
+* Used in newer versions of Chrome/Firefox/...
+* See also:
+* Formally Verified Cryptographic Web Applications in WebAssembly
+https://www.computer.org/csdl/proceedings-article/sp/2019/666000b002/19skg8v5fZS
+[[}]]

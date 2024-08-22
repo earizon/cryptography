@@ -915,3 +915,51 @@ our customers meet regulatory compliance requirements.
   After authentication, the application would acquire its principal and credentials 
   information (certificate and private key) from the keystore. 
 [[}]]
+
+[[{qa.UX,01_PM.low_code,tech_stack.android,tech_stack.java,secret_mng.keystore]]
+## Think lib: crypto for non-experts
+<https://www.infoq.com/news/2018/09/google-tink-cryto-ios-android>
+* Crypto.libr for *non cryptographic experts
+* cross-platform
+* developed by experts to help developers implement cryptography
+  correctly  without being cryptographic experts .
+* version 1.2 adds support for Cloud, Android, and iOS platforms,
+  C++ and Objective-C.
+* stress cryptographic libraries against known attacks:
+  * biased nonces
+  * invalid curves
+  * ...
+* Tink provides support for key management
+  including key versioning/rotation/remote key management systems(KMS):
+  * Currently, the following KMSes are supported:
+    Google Cloud KMS, Amazon KMS, Android Keystore, Apple iOS KeyChain (planned)
+* ensure crypto.algorithms behave as expected (DSA, RSA, AES-EAX, ...)
+* Tink strives to make as explicit as possible what security guarantees each
+  provided API gives:
+  * For example, if a given operation is safe against chosen-ciphertext attacks,
+    this is displayed in the interface and that same guarantee has to be satisfied
+    by each primitive used to implement it.
+* currently four cryptographic operations are provided, implemented by specific primitives:
+  * authenticated encryption with associated data (primitive: AEAD)
+  * message authentication codes (primitive: MAC),
+  * digital signatures (primitives: PublicKeySign and PublicKeyVerify)
+  * hybrid encryption (primitives: HybridEncrypt and HybridDecrypt).
+* Each operation has an associated set of minimal properties and a guarantee.
+  A primitive can have multiple implementations and the user chooses the actual
+  implementation to use by instantiating a key of a corresponding type.
+[[}]]
+
+## Java 21 Key Encapsulation Mechanism API [[{qa.java]]
+* <https://www.infoq.com/news/2023/07/modern-cryptography-on-openjdk/>
+* JEP 452, Key Encapsulation Mechanism API, has been promoted from 
+  Targeted to Completed for JDK 21. This JEP introduces an API for Key 
+  Encapsulation Mechanisms (KEMs), a modern encryption technique for 
+  securing symmetric keys using public key cryptography. The new API 
+  aims to enable applications to use KEM algorithms such as RSA Key 
+  Encapsulation Mechanism (RSA-KEM), Elliptic Curve Integrated 
+  Encryption Scheme (ECIES), and candidate KEM algorithms for the 
+  National Institute of Standards and Technology (NIST) Post-Quantum 
+  Cryptography standardization process.
+[[}]]
+
+

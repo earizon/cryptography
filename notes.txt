@@ -1,16 +1,27 @@
 ## Apropos
-   Cryptography notes
-   Content is versioned in git.  commits, issues and pull-requests welcome!
-<https://www.github.com/earizon/cryptography>
-
-Source Git: <https://github.com/earizon/cryptography>
-HTML view : <https://earizon.github.io/txt_world_domination/viewer.html?payload=../cryptography/notes.txt>
-
-## TOPIC Acronyms
-  _PM    : Project Management
-  101    : Core concepts
-  qa     : Quality Assurance
-  qa.UX  : QA User Experience
+* Growing collection of Cryptography notes with a "TL'DR touch"
+* Content is versioned in git.  commits, issues and pull-requests welcome!
+  <https://www.github.com/earizon/cryptography>
+* HTML view:
+  <https://earizon.github.io/txt_world_domination/viewer.html?payload=../cryptography/notes.txt>
+<hr/>
+* switch-on/off (translucent) rules in the settings menu 
+  `( **click ⚙ button** )`
+* To list the index click the **'≣' button**.
+* Click on the  **'◂' button** to show/hide the control pannel.
+* To filter out content based on topics/subtopics click the **∷ button** .
+  "topics" classification. Topic acronymns include:
+  * PM: Project Management.
+    * LOW_CODE: Solutions requiring low code or effort to implement.
+    * BACKLOG : Interesting information to cover in a future.
+    * TODO    : Planned in future versions.
+    * WIP     : Work in Progress.
+    * TROUBLESHOOT: Anything that can help fixing problems.
+  * DOC_HAS: Used to classify based on the type of document.
+  * QA     : Quality Assurance. Anything helping to improve tasks.
+  * 101    : Core concepts
+  * qa     : Quality Assurance
+  * qa.UX  : QA User Experience
 
 ## External Links [[{]]
 * <https://en.wikipedia.org/wiki/Index_of_cryptography_articles>
@@ -96,53 +107,58 @@ HTML view : <https://earizon.github.io/txt_world_domination/viewer.html?payload=
 * 2012: Kenny Paterson and Nigel Smart started an annual conference
         called Real World Crypto.
 
-
-
 # Cryptography 101 [[{101]]
 
 * ☞ Doing encryption right is tough, MANAGING SECRETS IS EVEN HARDER!!! ☜[[{doc_has.key-point}]]
-* PERFECT SECRECY: refers to a cryptosystem whose security derives purely
-  from INFORMATION THEORY => It cannot be broken even with unlimited resources
-  (unless the secret is exposed).
-  * There is NOT enough information to break the encryption.
-    cryptosystems are considered cryptanalytically-unbreakable.
-  * This mostly correspond to "symmetric" encryption schemas.
+### PERFECT SECRECY:
+
+It refers to a cryptosystem whose security derives purely
+from INFORMATION THEORY => It cannot be broken even with unlimited resources
+(unless the secret is exposed).
+* There is NOT enough information to break the encryption.
+  cryptosystems are considered cryptanalytically-unbreakable.
+* This mostly correspond to "symmetric" encryption schemas.
 <https://en.wikipedia.org/wiki/Information-theoretic_security>
 
-- (PERFECT) FORWARD SECRECY ensures that session (temporal/on-demand) keys
-  will not be compromised even if the private key of the server is compromised.
-  Forward secrecy protects past sessions against future compromises of secret
-  keys or passwords.
-  WARN: Simple symetric encryption schemas are NOT forward secrecy compliant,
-        and a compromised keys can reveal past encrypted-communications.
-<https://en.wikipedia.org/wiki/Forward_secrecy>
+### (PERFECT) FORWARD SECRECY
+... ensures that session (temporal/on-demand) keys
+will not be compromised even if the private key of the server is compromised.
+Forward secrecy protects past sessions against future compromises of secret
+keys or passwords.
 
-- SECRET SHARING: refers to methods for distributing a secret amongst a group
+WARN: Simple symetric encryption schemas are NOT forward secrecy compliant,
+      and a compromised keys can reveal past encrypted-communications.
+* REF <https://en.wikipedia.org/wiki/Forward_secrecy>
+
+### SECRET SHARING
+* refers to methods for distributing a secret amongst a group
   of participants, each of whom is allocated a share of the secret.
   The secret can be reconstructed only when a sufficient number, of possibly
   different types, of shares are combined together; individual shares are of
   no use on their own.
 <https://en.wikipedia.org/wiki/Secret_sharing>
 
-- AVALANCHE EFFECT: desirable property of cryptographic algorithms,
-  typically block ciphers and cryptographic hash functions, wherein if an
+### AVALANCHE EFFECT
+* desirable property of cryptographic algorithms.
+* typically block ciphers and cryptographic hash functions, wherein if an
   input is changed slightly (for example, flipping a single bit), the output
   changes significantly.
-<https://en.wikipedia.org/wiki/Avalanche_effect>
+* <https://en.wikipedia.org/wiki/Avalanche_effect>
 
-- Cryptographic Primitive: Informal term. Conceptually, it is the smallest
-  useful construction we can have in cryptography. The term appears
+### Cryptographic Primitive
+* Informal term. Conceptually, it is the smallest
+* useful construction we can have in cryptography. The term appears
   frequently in text books.
-- Cryptographic Protocol: Construction based in cryptographic primitives
+* Cryptographic Protocol: Construction based in cryptographic primitives
   in order to build a protocol.
 
-- MALLEABILITY:
-  - An (often) UNdesirable property of some cryptographic algorithms.
-  - An encryption algorithm is "malleable" if it is possible to transform
-    a ciphertext into another ciphertext which decrypts to a related plaintext.
+### MALLEABILITY
+* An (often) UNdesirable property of some cryptographic algorithms.
+* An encryption algorithm is "malleable" if it is possible to transform
+  a ciphertext into another ciphertext which decrypts to a related plaintext.
 <https://en.wikipedia.org/wiki/Malleability_(cryptography)>
 
-- SPONGE FUNCTION (OR SPONGE CONSTRUCTION):
+### SPONGE FUNCTION (OR SPONGE CONSTRUCTION):
   algorithms with finite internal state taking an input bit stream
   of any length and producing an output bit stream of desired length.
   Used to model and implement many cryptographic primitives, including
@@ -151,34 +167,37 @@ HTML view : <https://earizon.github.io/txt_world_domination/viewer.html?payload=
   authenticated encryption.
 <https://en.wikipedia.org/wiki/Sponge_function>
 
-- BRUTE FORCE ATTACKS:
+### BRUTE FORCE ATTACKS
 <https://twitter.com/fermatslibrary/status/969935429712666625>
+
   According to the second law of thermodynamics, the minimum amount
-  of energy required to record a single bit by changing the state
-  of a system is:
+of energy required to record a single bit by changing the state
+of a system is:
+  ```
+  ┌─····· Boltzman-Constant
+  ·   ┌·· temperature of the system
+  v   v
+  K x T 
+  ```
 
-  K x T  (Boltzman-Constant "times" temperature-of-the-system)
+Assuming an ideal computer running at 3.2ºK (The temperature
+of the cosmic background radiation), a bit change would consume
+4.4 x 10^-16 erg.
+* Annual energy output of the Sun: 1.21 x 10^41 Erg, enough to
+  power 2.7 x 10^56 single bit changes, or enough to put a
+  187-bit counter through all its values.
+* To run through a 256-bit key we would need to build Dyson spheres
+  and capture the energy of:
+  2^69 = 5.9 x 10^20 Suns during a year!!!
 
-  Assuming an ideal computer running at 3.2ºK (The temperature
-  of the cosmic background radiation), a bit change would consume
-  4.4 x 10^-16 erg.
-  - Annual energy output of the Sun: 1.21 x 10^41 Erg, enough to
-    power 2.7 x 10^56 single bit changes, or enough to put a
-    187-bit counter through all its values.
-  - To run through a 256-bit key we would need to build Dyson spheres
-    and capture the energy of:
-    2^69 = 5.9 x 10^20 Suns during a year!!!
-
-- RANDOM NUMBER GENERATORS TYPES: [[{crypt_asymmetric.rsa,protocol.TLS]]
-  - True random number generators(quantum, thermal, oscillators,...)
-  - Cryptographically secure pseudorandom generators
+* RANDOM NUMBER GENERATORS TYPES: [[{,protocol.TLS]]
+  * True random number generators: quantum, thermal, oscillators,...
+  * Cryptographically secure pseudorandom generators
     (Unix /dev/urandom, Windows CryptGenRandom,...)
-  - Pseudo-random number generators.
+  * Pseudo-random number generators.
 
-  WARN: Wrong Random number generation can break many systems. Example:
-  <https://www.infoq.com/news/2019/12/rsa-iot-vulnerability/>
-  !!!!Poor Random Number Generation Makes 1 in every
-      172 RSA Certificates Vulnerable!!!! ← !!!!
+WARN: damaged or wrong random number generators will break most cryptographic systems. [[{key-point}]]. As a example a poor random number generator [Makes 1 in every 172 RSA Certificates Vulnerable](<https://www.infoq.com/news/2019/12/rsa-iot-vulnerability/>) [[{101,crypt_asymmetric.rsa}]]
+
   [[}]]
 [[}]]
 
@@ -198,7 +217,7 @@ HTML view : <https://earizon.github.io/txt_world_domination/viewer.html?payload=
 NOTE: In symmetric cryptography the key is often refered with
 the name of **"PASSWORD" to distinguish from  
 "PRIVATE KEY" used in asymmetric cryptographic schemas**.
-[[{02_doc_has.comparative}]]
+[[{doc_has.comparative}]]
 
 Symmetric crypto. broadly splits in two categories:
 
@@ -242,7 +261,7 @@ Symmetric crypto. broadly splits in two categories:
       cipher's single-block operation to securely transform N blocks.
     * Most modes require an initialization vector (IV) for each new encrypt.  [[crypt_symmetric.IV]]<br/>
       **IV must be non-repeating and, for some modes, random as well.
-        and unpredictable => Difficult to generate (vs Nonce).**              [[02_doc_has.comparative]]
+        and unpredictable => Difficult to generate (vs Nonce).**              [[doc_has.comparative]]
       * KEYPOINT: IV ENSURE DISTINCT CIPHERTEXTS ARE PRODUCED EVEN FOR THE SAME PLAINTEXT.
         WHEN REUSING THE SAME PASSWORD.
 
@@ -285,8 +304,9 @@ Operation modes include:
 [[}]]
 
 ## AES [[{101,crypt_symmetric.aes,use_case.encryption]]
+
 * used by "almost every block cipher" 
-* Supersedes DES(2002 Standard)[[crypt_symmetric.des,02_doc_has.comparative]]
+* Supersedes DES(2002 Standard)[[crypt_symmetric.des,doc_has.comparative]]
 * Built around Rijndael (SP-Network with 128bit block size) with 
   128|192|256 bits keys.
 * Round count depends on key lenght: 10|12|14 cycles
@@ -467,7 +487,8 @@ REAL-WORLD ...
    and outer keys will have fewer bits in common.
 [[}]]
 
-## Authenticated Encryption with associated data(AEAD) [[{use_case.data_integrity,01_PM.TODO]]
+[[{use_case.data_integrity,01_PM.TODO]]
+## Authenticated Encryption with associated data(AEAD) 
 <https://en.wikipedia.org/wiki/Authenticated_encryption>
 - The need for AE emerged from the observation that securely combining
    separate confidentiality and authentication block cipher operation modes
@@ -514,7 +535,7 @@ REAL-WORLD ...
   the matching private key by providing the decrypted challenge.
 [[}]]
 
-# IVs,nonces,Salt [[{crypt_oneway.salt,101,crypt_symmetric.IV,crypt.nonce,02_doc_has.comparative]]
+# IVs,nonces,Salt [[{crypt_oneway.salt,101,crypt_symmetric.IV,crypt.nonce,doc_has.comparative]]
 - Randomness of secret keys is not enough in most scenarios due to
   the attacks by replication or repeated XORs of different messages
   encoded with the same private shared-by-peers keys.
@@ -730,11 +751,13 @@ WARN: key-generation algorithm is as important as the encryption or signing.
   | │
   | ├> Schnorr patented signature method          1989 (expired in 2008).
   | │  (safer than DSA equivalent)
-  | │  ├> EdDSA (Ed25519)                         2011 (By Daniel J.Bernstein, 
-  | │  │                                                Niels Duif, Tangja Lange, 
-  | │  │  Variant of Schnorr using Twisted              Peter Schwabe, Bo-Ying Yang
-  | │  │  Edwards Curves.                               et all)
-  ``` │  Edwards Curves.                               et all)
+  | │  ├> EdDSA (Ed25519 is an alias/legacy name) 2011 (By Daniel J.Bernstein, Niels 
+  | │  │  Variant of Schnorr using Twisted              Duif, Tangja Lange, Peter
+  | │  │  Edwards Curves.                               Schwabe, Bo-Ying Yang et all)
+  | │  │  
+  | │  │  (Ed)wards-Curve (D)igital (S)ignature (A)lgorithm Informal RFC:
+  | │  │  <https://www.rfc-editor.org/rfc/rfc8032>2017     
+  ```
 
 * 1976: Whitfield Diffie and Marting Hellman describe the notion of digital Signature
   (previous work existed but not disclosed in public)
@@ -824,6 +847,7 @@ WARN: key-generation algorithm is as important as the encryption or signing.
 [[}]]
 
 ## Who-is-Who:
+* Ross Anderson <https://medium.com/asecuritysite-when-bob-met-alice/ross-anderson-rip-59233c75fadf>
 * RSA Security LLC: Pionering company founded by the creators of the
   RSA algorithm. They also developed the first PKCS standars.
   (Public Key Cryptography Standards)
@@ -959,7 +983,7 @@ Can be used with prime number groups or with Eliptic Curve groups.
   ```
 [[}]]
 
-## RSA vs DSA Comparative [[{02_doc_has.comparative]]
+## RSA vs DSA Comparative [[{doc_has.comparative]]
 
   ```
   |RSA                                        DSA
@@ -975,7 +999,7 @@ Can be used with prime number groups or with Eliptic Curve groups.
   ```
 [[}]]
 
-[[{02_doc_has.comparative,crypt_asymmetric,use_case.signature]]
+[[{doc_has.comparative,crypt_asymmetric,use_case.signature]]
 ## ed25519 vs ECDSA "secp256k1" Digital Signatures Comparative 
 
 NOTE: 25519 comes from: (2^255 - 19).is_prime() # returns True  [[{doc_has.key-point}]]
@@ -1143,7 +1167,8 @@ NOTE: 25519 comes from: (2^255 - 19).is_prime() # returns True  [[{doc_has.key-p
     use jsonld-signatures..."""
 [[}]]
 
-## XML Signature [[{use_case.signature,standards.xml,02_doc_has.comparative]]
+[[{use_case.signature,standards.xml,doc_has.comparative]]
+## XML Signature 
 <https://en.wikipedia.org/wiki/XML_Signature>
 * also called XMLDSig, XML-DSig, XML-Sig
 * XML syntax for digital signatures
@@ -1170,7 +1195,8 @@ NOTE: 25519 comes from: (2^255 - 19).is_prime() # returns True  [[{doc_has.key-p
 [[{standards.OASIS,01_PM.TODO]]
 NOTE: *AdES formats are the ones widely legally accepted for business transactions,
       eg. eInvoincing.
-## OASIS XAdES (X)ML (Ad)vanced (E)lectronic (S)ignatures [[{use_case.signature,standards.xml,PM.TODO]]
+[[{use_case.signature,standards.xml,PM.TODO]]
+## OASIS XAdES (X)ML (Ad)vanced (E)lectronic (S)ignatures 
 <https://www.w3.org/TR/XAdES/>
 <https://en.wikipedia.org/wiki/XAdES>
   The Cryptographic Message Syntax (CMS) is the IETF's standard
@@ -1228,7 +1254,7 @@ the integration and use of DSS in their applications.
   or time-stamp tokens into one single digital (zip) container.
 [[}]]
 
-## JaDES vs EADES [[{use_case.signature,02_doc_has.comparative,01_PM.TODO]]
+## JaDES vs EADES [[{use_case.signature,doc_has.comparative,01_PM.TODO]]
 Why do we want to support AdES formats using x509 certificates? JAdES
 may be the only one worth considering if it can be used e.g. in a VC
 proof and under certain conditions... I'd even argue that JAdES could
@@ -1251,7 +1277,7 @@ and they want to publish in March this year.
 
 # ADVANCED PRIMITIVES
 
-[[{use_case.data_integrity,crypt_symmetric,02_doc_has.comparative,01_PM.TODO]]
+[[{use_case.data_integrity,crypt_symmetric,doc_has.comparative,01_PM.TODO]]
 ## FERNET Simmetric Encryption 
 
 * Fernet guarantees that a message encrypted using it
@@ -1259,7 +1285,8 @@ and they want to publish in March this year.
 * Fernet also has support for implementing key rotation via MultiFernet. [[qa.UX]]
 [[}]]
 
-## CRYPTO ACCUMULATOR [[{101,crypt_oneway.hash,crypt_oneway.accumulator,use_case.privacy,use_case.data_integrity,01_PM.TODO]]
+[[{101,crypt_oneway.hash,crypt_oneway.accumulator,use_case.privacy,use_case.data_integrity,01_PM.TODO]]
+## CRYPTO ACCUMULATOR 
 * introducced in 1993 by Benaloh and de Mare.
 * one way non-invertible function.
 * It answers a query as to whether a potential candidate is
@@ -1367,7 +1394,7 @@ Extracted from:
 
 # Advanced Signature Schemas
 
-## MULTISIG VS THRESHOLD SIGNATURE SCHEMES [[{101,use_case.signature,02_doc_has.comparative]]
+## MULTISIG VS THRESHOLD SIGNATURE SCHEMES [[{101,use_case.signature,doc_has.comparative]]
 
 * Multi-signature schemes require the network to verify each signature,
   increasing load with the number of participants.
@@ -1511,10 +1538,6 @@ Extracted from:
   must obtain and/or store this additional information, the primary
   benefit of aggregate signatures is largely negated.
 [[}]]
-
-## BBS Signature Scheme [[{use_case.identity,PM.TODO]]
-* <https://identity.foundation/bbs-signature/draft-irtf-cfrg-bbs-signatures.html>
-* <https://github.com/decentralized-identity/bbs-signature>
 
 # Data Integrity & Protection
 
@@ -1715,368 +1738,10 @@ Extracted from:
   ```
 [[}]]
 
-## openSSL How-To Summary [[{protocol.tls.openssl]]
-* Ext. Refs:
-  * <https://ciphersuite.info/cs/>:  DDBB about different chipher-suites strenghts
-  * <https://en.wikipedia.org/wiki/X.509>
-  * <https://www.openssl.org/docs/manmaster/man1/>
-  * <https://www.ietf.org/rfc/rfc5280.txt> X.509 PKI
-* Common openssl opts:
-  * -in   : path for input certificate being examined. Many times
-            STDIN from previous 'openssl s_client ...' is preferred.
-            $ openssl s_client ... | openssl ...
-  * -noout: prevents encoded version output (of request/response)
-  * -text : Show OUTPUT in human readable text (vs hex formated binary)
-  * -nodes: flag:  DO NOT  pass-phrase-encrypt Pub.Key
-
-* Commonly used script/batch ENV.VARs:
-  ```
-  export DOMAIN="mydomain.com"
-  export SUBJ="/C=ES/ST=Aragon/L=Zaragoza/O=MyOrganization/CN=${DOMAIN}"
-  export NUM_OF_DAYS="999"
-  ```
-
- ```
- | **Request>create>install new Server Certificate Flow**
- |   admin>admin: Create Private Key ← Pub.Key autogenerated from Priv.Key
- |   alt
- |     admin>admin : Sign self-Cert  ← Dev. Purposes
- |   else:
- |     admin>admin: Create CSR       ← CSR: Cert. Signing Request with Pub.key
- | ┌>  admin>CA    : CSR
- | │   CA←>admin   : Validate KYC,...← KYC: "Know Your Customer"
- | │   CA>CA       : Create Cert     ← Happy path. CSR approved.
- | │   CA>amdin    : Cert.
- | │   admin>server: Cert.           ← Server: Apache, Nginx, ...
- | │
- | └─ $ openssl req  -new  -nodes              ← Create key + CSR.
- |    -newkey rsa:2048 -keyout ${DOMAIN}.key \   ← Replace -newkey ... -keyout ...
- |    -out ${DOMAIN}.csr -subj "${SUBJ}" \         by -key ${DOMAIN}.key to reuse
- |                                                 already existing private key
- |    -addext "subjectAltName = DNS:foo.co.uk" \
- |    -addext "certificatePolicies = 1.2.3.4" \  ← Can Sign? Can
- ```
-
- ```
- | **Managing Private Keys**       | **dump x509 inf**
- | CREATE A PRIVATE KEY:           | $ openssl x509 -in myCert.pem -text
- |$ openssl \                      | $ openssl x509 -in myCert.crt -text -inform DER
- |    genrsa -des3 \                                           ^                 ^
- |    -out ${DOMAIN}.key 2048                     crt/cer admits PEM and DER binary
- |(Enter password when prompted)                  encoding. For binary the option
- |                                                "-inform DER" must be passed or
- |                                                the command will fail.
- | **VERIFY PRIVATE KEY**
- |$ openssl rsa -check -in ${DOMAIN}.key
- |
- | **Verify private key matches certificate and CS**
- | (If the output of each of the next command is identical there is an
- |  extremely high probability that the private key, certificate,
- |  and CSR are related)
- |  $ openssl rsa  -noout -modulus -in ${DOMAIN}.key | openssl md5
- |  $ openssl x509 -noout -modulus -in ${DOMAIN}.crt | openssl md5
- |  $ openssl req  -noout -modulus -in ${DOMAIN}.csr | openssl md5
- |
- | Encrypt/Decrypt private key
- |$ openssl rsa -des3 -in unencrypted.key -out encrypted.key
- |$ openssl rsa       -in encrypted.key   -out decrypted.key
- ```
-
- ```
- | Self-Signed-Cert
- | working on Chrome/Java/...
- |REF:
- |- chrome deprecates subject cn matching]
- |<https://textslashplain.com/2017/03/10/chrome-deprecates-subject-cn-matching/>
- |- Fixing Fixing Chrome 58+ [missing_subjectAltName] with openssl&amp;S.S.certs</a>
- |<https://alexanderzeitler.com/articles/Fixing-Chrome-missing_subjectAltName-selfsigned-cert-openssl/>
- |- getting-chrome-to-accept-self-signed-localhost-certificate
- |<https://stackoverflow.com/questions/7580508/getting-chrome-to-accept-self-signed-localhost-certificate/43666288#43666288>
- | create_root_cert_and_key.sh
- | |#!/usr/bin/env bash
- | |openssl genrsa -out rootCA.key 2048
- | |openssl req -x509 -nodes \
- | |    -days $NUM_OF_DAYS \
- | |    -key rootCA.key -sha256 \
- | |    -out rootCA.pem
- | |    -new
- |      ^^^^
- |      replace with -in $DOMAIN.csr to reuse crt
- ```
-
- ```
- ```
- | **create_certificate_for_domain.sh**
- | #!/usr/bin/env bash
- | 
- | if [ -z "$1" ]; then
- |   echo "Ussage: $0 myDomain.com"
- |   echo "           ^^^^^^^^^^^^"
- |   echo "    # alt1     wildcard"
- |   echo "        $0 www.myDomain.com"
- |   echo "           ^^^^^^^^^^^^^^^^"
- |   echo "    # alt2 non-wildcard"
- |   exit 1;
- | fi
- | if [ ! -f rootCA.pem ]; then 
- |   echo 'no rootCA.pem detected. Please, run create_root_cert_and_key.sh first, and try again!' 
- |   exit 1
- | fi
- | if [ ! -f v3.ext     ]; then
- |   echo 'Please download the "v3.ext" file and try again!'
- |   exit
- | fi
- | if [ -f $DOMAIN.key ]; then #  ← Create new Priv.Key || reuse existing one
- |   KEY_OPT="-key"
- |  else 
- |   KEY_OPT="-keyout"
- | fi 
- | 
- | cat << EOF > /tmp/__v3.ext
- | authorityKeyIdentifier=keyid,issuer
- | basicConstraints=CA:FALSE
- | keyUsage = digitalSignature, nonRepudiation, keyEncipherment, dataEncipherment
- | subjectAltName = @alt_names
- | 
- | [alt_names]
- | DNS.1 = $COMMON_NAME
- | EOF
- | 
- | openssl req -new -newkey rsa:2048 \
- |    -sha256 -nodes $KEY_OPT $DOMAIN.key \
- |    -subj "$SUBJECT" -out $DOMAIN.csr
- | openssl x509 -req -in $DOMAIN.csr \
- |    -CA rootCA.pem -CAkey rootCA.key \
- |    -CAcreateserial -out $DOMAIN.crt \
- |    -days $NUM_OF_DAYS -sha256 \
- |    -extfile /tmp/__v3.ext
- |
- | Ussage:
- |$ ./create_root_cert_and_key.sh        # ← STEP 01: create root Auth cert
- |
- |$ ./create_certificate_for_domain.sh \ # ← STEP 02
- |   mysite.com                          #   Alt 1
- |   www.mysite.com www.mysite.com       #   Alt 2
- |
- |Note: You will also new to import the new cert. authority.
- |For example on Mac:
- |    Open Keychain Access
- |    Choose "System" in the "Keychains" list
- |    Choose "Certificates" in the "Category" list
- |    Choose "File | Import Items..."
- |    Browse to the file created above, "rootCA.pem", select it, and click "Open"
- ```
 
 
-### Certificate Formats
-
-* X.509 v3+ ENCODINGS:
-  * DER: (Binary) DER == ASN.1 (D)istinguised -vs Basic/Canonical- (E)ncoding (R)ules
-  * PEM: (Base64) PEM == (P)rivacy (E)nhanced (M)ail, prefixed with "—– BEGIN ..."
-    Default encoding in OpenSSL/ssh/.... Easier to C&P
-* Common FILE-EXTENSIONS:
-  * *.CRT: Certificates encoded as binary DER/PEM.
-  * *.CER: Mostly similar to .CRT, recognized by some Micrsooft apps.
-  * *.KEY: used for private PKCS#8 keys encoded as DER/PEM.
-
-* RELATED STANDARDS: PKCS #7, PCKS #12  <#PKCS_summary>
-  P7B ASCII files which can contain (non-secret) Certs. and CA certificates.
-
-* PKCS#12: FILE FORMAT commonly used for (PRIVATE)KEYSTORES, protected with
-           password-based symmetric key. Used by:
-  * Java key store
-  * client auth. certs in Firefox, Apache Tomcat, ...
-  * "PFX" files.
-
-  ```
-  |                                                                      # CONVERTING TO/FROM
-  |$ openssl x509 -inform pem -in ${DOMAIN}.crt \                        # PEM   > DER
-  |  -outform der -out ${DOMAIN}.der
-  |$ openssl x509 -inform der -in ${DOMAIN}.der \                        # DER   > PEM
-- |outform pem -out ${DOMAIN}.crt
-  |$ openssl crl2pkcs7 -nocrl -certfile ${DOMAIN}.crt \                  # PEM   > PKCS7
-  |  -certfile ca-chain.crt -out ${DOMAIN}.p7b
-  |$ openssl pkcs7 -in ${DOMAIN}.p7b \                                   # PKCS7 > PEM
-  |   -print_certs -out ${DOMAIN}.crt     
-  |$ openssl pkcs12 -inkey ${DOMAIN}.key \                               # PEM   > PKCS12
-  |   -in ${DOMAIN}.crt -export -out ${DOMAIN}.pfx
-  |$ openssl pkcs12 -in ${DOMAIN}.pfx -nodes  \                          # PKCS12 > PEM
-  |  -out ${DOMAIN}.combined.crt 
-  |$ openssl x509 -in ${DOMAIN}.cer -outform PEM -out ${DOMAIN}.pem      # x509 > PEM
-  ```
-
-### Random Recipes
-
-* Generate FINGERPRINT from TLS certificate.<br/>
-  CRYPTOG_HASH(public_key) used as ID of pub.keys.
-  ```
-  |$ openssl x509 -in ${DOMAIN}.crt \
-  |  -noout -fingerprint -sha256        
-  | fa:23:a4:48:............:56
-  ```
-* Protect JS from remote changes [[{tech_stack.javascript]]
-  ```
-  |$ cat jquery-2.1.4.min.js | openssl dgst -sha256 # 
-  |> f321e2a........ <·· hexadecimal format           
-  |
-  |<script src="./jequery-2.1.4.min.js"
-  |        integrity="sha256-8WqyJLuWKRB...="> <·· base64 format
-  |</script>
-  ```
- [[}]]
-* fetch 1st-in-chain web cert, then add to Java.KeyStore:                     
-  ```
-  |$ openssl s_client \
-  |   -connect www.mywebsite.com:443 \
-  |   -showcerts </dev/null 2>/dev/null | \        VIEW AND VERIFY CS
-  |  openssl x509 \                               │$ openssl req \
-  |    -outform PEM > infura-morden.pem           │  -text  \  # "view"
-  |$ ($JAVA_HOME/Contents/Home/jre/bin/)keytool \ │  -verify \ # "verify"
-  |    -import -noprompt -trustcacerts \          │  -noout \
-  |    -alias www.mywebsite.com -f                │-in ${DOMAIN}.csr
-  ```
-* Check version/build
-  ```
-  | $ openssl version -a
-  ```
-* LIST SUPPORTED CIPHERS
-  ```
-  |$ openssl ciphers -s -tls1_3 ← -s -tls1_1: filter for sepcific TLS version
-  |> TLS_AES      _256_GCM_SHA384:TLS_AES      _128_GCM_SHA256:...
-  ```
-* test cipher-suite against serve
-  ```
-  | $ openssl s_client \              Ex:
-  |   -connect domain.com:443 \      Using weak (128bit) cipher will probably fail
-  |   -cipher PSK-AES128-CBC-SHA \ ← or -tls1_1 to test TLS supported version.
-  |   -quiet -no_tls1_3
-  ```
-* Verify that cert. was signed by given CA:
-  ```
-  |$ openssl verify -verbose -CAFile ca.crt ${DOMAIN}.crt
-  ```
-* Examine Cert. Extension/s
-  ```
-  | $ openssl x509 \               check Subject Alternative Name(SAN) extension ,
-  |   -in ... -noout \             used to associate 1+ values (FQDNs,...) to 1 Cert.
-  |   -ext subjectAltName       ←  Also used as alternative to deprecated common name.
-  | > X509v3 Subject Alt. Name:    NOTE: Use commas to separate 2+ extensions:
-  | >   DNS:*.domi01.com, DNS:...  OTHER WIDELY USED X509 EXTENSIONS INCLUDE:
-  |                                · 'basicConstraints'
-  |                                · 'keyUsage'  (Can Sign?, Can Sign CRL?...)
-  |                                (leave -ext alone to show all extensions in Cert)
-  ```
-
-### CRL how-to with OpenSSL
-
-* WARN: Some companies/apps have deprecated CRLs in
-  favor of  Online Certificate Status Protocol (OCSP).
-  CRL == Cert. list of ALREADY revoked Certs.
-
-  * PRE-SETUP) Set crl_day check period
-    ```
-    | $ editor .../intermediate/openssl.cnf 
-    |  [ CA_default ]
-    |  ...
-    |  default_crl_days = 30                <·· periodic checking ...
-    |  [ server_cert ]
-    |  # ... snipped ...
-    | *crlDistributionPoints = URI:http...  <·· See man for + crl options
-    ```
-  * STEP 2: Periodically recreate CLR.
-    perioadically according to default_crl_days defined in STEP 1)
-    ```
-    | $ export CLR_OUTPUT=intermediate/crl/intermediate.crl.pem
-    |
-    | $ cd ~/ca                           
-    | $ openssl ca \
-    |   -config intermediate/openssl.cnf \
-    |   -gencrl  \                        
-    |   -out ${CLR_OUTPUT}
-    ```
-  * STEP 3: Verify output of STEP 2. 
-    ```
-    | $ openssl crl \                     
-    |   -in ${CLR_OUTPUT} \
-    |   -noout -text
-    | > ... No Revoked Certificates
-    |  (No certificates have been revoked yet)
-    ```
-  * STEP 4: make CLR_OUTPUT accessible through HTTP URL indicated in STEP 1
-    ```
-    | NOTE: For servers authenticating clients through X.509 certs,
-    |       copy the generated crl file to a path indicated by the server config
-    |       ('SSLCARevocationPath' in Apache HTTP, 'crl-verify' in OpenVPN,...)
-    ```
-  * REVOKE A CERTIFICATE
-    ```
-    | $ cd ~/ca
-    | $ openssl ca \
-    |   -config intermediate/openssl.cnf \
-    |   -revoke  \
-    |   intermediate/certs/bob@example.com.cert.pem
-    ```
-  * NOTE: CRL distribution points in X.509 Certs visible in X509v3 details.
-    ```
-    |    # openssl x509 -in ${DOMAIN}.cert.pem -noout -text
-    |    ...
-    |      X509v3 CRL Distribution Points:
-    |
-    |          Full Name:
-    |            URI:http://domain1.com/intermediate.crl.pem
-    |    ...
-    ```
-
-
-[[{monitoring.TLS]]
-### check TLS cert.expiration 
-<https://www.cyberciti.biz/faq/find-check-tls-ssl-certificate-expiry-date-from-linux-unix/>
-  ```
-  | $ export server="www.nixcraft.com"
-  | $ export port="443"
-  |                              **Show validity/expiration dates for CERT**
-  |                                =======================================
-  | $ echo | \                   ← Avoid pressing CTRL+C
-  |   openssl s_client \         ← implements generic TLS network client
-  |   -servername $server \      ← Set TLS Ser.NameIndication(SNI)@ClientHello msg
-  |   -connect $server:$port  | \
-  |   openssl x509 \             ← Run certificate display and signing utility.
-  |                                Use '-in file_input.pem' if no STDIN is present.
-  |       -noout \               ← Prevent encoded version output
-  |       -dates                 ← show also start+expiry dates
-  | (Output will be similar to...)
-  | depth=2 C = US, O = Inet Sec...Group, CN = ISRG Root X1
-  | verify return:1
-  | depth=1 C = US, O = Let's Encrypt, CN = R3
-  | verify return:1
-  | depth=0 CN = www.nixcraft.com
-  | verify return:1
-  | DONE
-  | notBefore=Nov 11 01:15:45 2021 GMT
-  | notAfter=Feb  9 01:15:44 2022 GMT
-  |
-  |                              **Check: expiration date before 4 months**?
-  |                                =======================================
-  | $ echo | \                   ← Avoid pressing CTRL+C
-  |   openssl s_client \         ← implements generic TLS network client
-  |   -servername $server \      ← Set TLS Ser.NameIndication(SNI)@ClientHello msg
-  |   -connect $server:$port  | \
-  |   openssl x509 \             ← Run certificate display and signing utility.
-  |                                Use '-in file_input.pem' if no STDIN is present.
-  |       -noout \               ← Prevent encoded version output
-  |       -enddate \
-  |       -checkend 10540800     ← == 4months x 30.5days/m x 24hour/d x 3600 secs/h
-  | (Output will be similar to...)
-  | ...
-  | DONE
-  | notAfter=Feb  9 01:15:44 2022 GMT
-  | Certificate will expire      ← $? will return 1 (it will expire!)
-  ```
-[[monitoring.TLS}]]
-[[protocol.tls.openssl}]]
-
-
-## Caddy HTTPS server [[{standards.pki,protocol.TLS,01_PM.low_code,qa.UX,tech_stack.java,01_PM.TODO]]
+[[{standards.pki,protocol.TLS,01_PM.low_code,qa.UX,tech_stack.java,01_PM.TODO]]
+## Caddy HTTPS server 
 * <https://caddyserver.com/>
 * Caddy simplifies your infrastructure. It takes care of TLS
   certificate renewals, OCSP stapling, static file serving, reverse
@@ -2107,7 +1772,7 @@ Extracted from:
   bug fixes.
 [[}]]
 
-## Portecle: Cert+Keystore GUI [[{protocol.tls.ca,protocol.TLS,secret_mng.wallet,]]
+## Portecle: Cert+Keystore GUI [[{protocol.tls.ca,protocol.TLS,secret_mng.wallets,]]
                                [[ qa.UX,use_case.secret_mng,use_case.signature,tech_stack.java]]
 <https://www.sslsupportdesk.com/portecle-advanced-keystore-creation-and-manipulation-tool/>
 * user friendly Java GUI: import/create/manage/examine/convert keystores, key-pairs,
@@ -2132,10 +1797,13 @@ Extracted from:
   * View the details of certificate revocation list (CRL) files.
 [[}]]
 
-## RFC 8555: PKI using X.509 [[{standards.pki.x509,protocol.TLS.ca,02_doc_has.comparative,01_PM.TODO]]
-<https://tools.ietf.org/html/rfc8555>
-Published on 2015-05-22 according to
-<https://datatracker.ietf.org/doc/rfc8555/>
+[[{standards.pki.x509,protocol.TLS.ca,doc_has.comparative,01_PM.TODO]]
+## RFC 8555: PKI using X.509 
+
+* <https://tools.ietf.org/html/rfc8555>
+* Published on 2015-05-22 according to
+  <https://datatracker.ietf.org/doc/rfc8555/>
+
 Public Key Infrastructure using X.509 (PKIX) certificates are used
 for a number of purposes, the most significant of which is the
 authentication of domain names.  Thus, certification authorities
@@ -2279,12 +1947,7 @@ on HTTP Web servers.
 * Curiosly TLS certificate is not allowed by major browers.
 [[}]]
 
-### make-ca (KISS CA)
-<https://github.com/djlucas/make-ca/blob/master/make-ca>
-*  Simple scripts around OpenSSL to create a local certificate authority.
-[[protocol.tls.letsencrypt}]]
-
-## OCSP: Online Certificate Status Protocol [[{02_doc_has.comparative]]
+## OCSP: Online Certificate Status Protocol [[{doc_has.comparative]]
 <https://en.wikipedia.org/wiki/Online_Certificate_Status_Protocol>
 * Internet protocol used for obtaining the revocation status of an X.509 digital certificate.
 * Alternative to Certificate Revocation Lists to addressg problems associated with
@@ -2967,7 +2630,7 @@ browser API for efficient and secure delivery of cryptographic primitives.
 * "other" encryption components.
   Being directly implemented into (trusted) browser and taking advantage of
   local native execution and even hardware acceleration) they are much 
-  safer than js code. [[{02_doc_has.comparative}]]<br/>
+  safer than js code. [[{doc_has.comparative}]]<br/>
   WARN: They do NOT prevent certain attacks, like just sending an
   unencrypted copy of the data to the "bad guys".
 * See also notes about "Trusted web code".
@@ -3165,7 +2828,8 @@ https://www.computer.org/csdl/proceedings-article/sp/2019/666000b002/19skg8v5fZS
   Cryptography standardization process.
 [[}]]
 
-## Azure Sphere Pluton IoT [[{secret_mng.hardware,use_case.IoT,secret_mng.keystore,01_PM.TODO]]
+[[{secret_mng.hardware,use_case.IoT,secret_mng.keystore,01_PM.TODO]]
+## Azure Sphere Pluton IoT 
 * <https://azure.microsoft.com/en-us/services/azure-sphere/>
 * Solution for creating highly secured, connected MCU-powered devices.
 * The Pluton security subsystem creates a hardware root of trust,
@@ -3229,8 +2893,6 @@ The operations provided by KMIP include
 - Operations to implement the NIST key life cycle.
 [[}]]
 
-
-
 ## HashCat: Password Recovery [[{use_case.secret_mng,01_PM.TODO]]
 <https://github.com/hashcat/hashcat>
 <https://hashcat.net/wiki/>
@@ -3260,8 +2922,7 @@ data is GPG-encrypted, and managed with a Git repository. More
 information: https://www.passwordstore.org.
 [[}]]
 
-[[{secret_mng.wallets]]
-## Wallet vs KeyStore vs Vault [[{101,secret_mng.wallet,secret_mng.keystore]]
+## Wallet vs KeyStore vs Vault [[{101,secret_mng.wallets,secret_mng.keystore]]
 * In a KeyStore, secrets are kept safe until needed by an application.
   At that moment the secret becomes vulnerable to any virus/warm/attacker on
   the Operating System.
@@ -3377,7 +3038,7 @@ information: https://www.passwordstore.org.
 [[}]]
 
 
-## Wallet vs Smart-Cards [[{secret_mng,hardware,02_doc_has.comparative]]
+## Wallet vs Smart-Cards [[{secret_mng,hardware,doc_has.comparative]]
 * Some types of Smart-Cards can be considered a type of wallet, in
   the sense that they can be used to sign content using a hardware
   protected private-key.
@@ -3420,8 +3081,8 @@ information: https://www.passwordstore.org.
   locked with one master key (The only pass needed to remember) or a key file.
 [[}]]
 
-[[{secret_mng.wallets.hardware]]
-## Lattice 1 [[{secret_mng.hardware.lattice1,standards.25519,secret_mng.wallet,use_case.signature]]
+[[{secret_mng.hardware.lattice1,standards.25519,secret_mng.wallets,use_case.signature]]
+## Lattice 1 
 * <https://github.com/GridPlus>
 * <https://blog.gridplus.io/lattice1-sdk-and-generalized-signatures-e17da7cf65d7>
 * Generalized remote (WiFi, Bluetooth?,...) transaction signer.
@@ -3571,54 +3232,53 @@ application is capable of communicating with the device wirelessly.
   ```
 [[secret_mng.hardware.lattice1}]]
 
-## "Top" hard.Wallets [[{]]
+## "Top" hard.Wallets <!-- { top hardware wallets -->
 (WARM: Last update 2018, but still relevant as of 2022)
-* Ledger Nano
-  <https://shop.ledger.com/products/ledger-nano-s>
-  * securised key store system:
-    * WYSIWYS/BOLOS:
-    * Fully-certified by ANSSI, the French cybersecurity agency.
-    * Backup:  crypto assets stay safe even if you lose Ledger Nano S.
-      A confidential recovery phrase backs up your device,
-      and your accounts can easily be restored on any Ledger device.
-* KeepKey
-  * Controlled through Google Chrome.
-  <https://shapeshift.io/keepkey/>
-  * Recovery method?
-* Safe T-Mini (Archos)
-  "Notre avis complet sur le Safe T-mini"
-  <https://shop.archos.com/es/hardware-wallet/588-archos-safe-t-mini.html>
-  * Recovery method?
-* Ledger Blue:
-<https://shop.ledger.com/products/ledger-blue>
-  * architecture double-chip.
-  * To validate TXs, it can comunicate through USB/Bluethooth.
-  * Targeting business.
-  * "Big" screen for easy ussage.
-  *   Recovery method?
-* CoolBitX CoolWallet
-<https://www.coolwallet.io/>
-  * Credit Card format
-  * Recovery method?
-* Trezor Wallet
-  <https://en.bitcoin.it/wiki/TREZOR>
-  * BIP 0032 Deterministic hardware wallet.
-  * TREZOR is basically a small computer. It is designed to
-    protect your private keys from possible online and
-    offline risks.
-  * Recovery method?
-[[}]]
-[[secret_mng.wallets.hardware}]]
+### Ledger Nano
+* <https://shop.ledger.com/products/ledger-nano-s>
+* securised key store system:
+  * WYSIWYS/BOLOS:
+  * Fully-certified by ANSSI, the French cybersecurity agency.
+  * Backup:  crypto assets stay safe even if you lose Ledger Nano S.
+    A confidential recovery phrase backs up your device,
+    and your accounts can easily be restored on any Ledger device.
+### KeepKey
+* Controlled through Google Chrome.
+<https://shapeshift.io/keepkey/>
+* Recovery method?
+### Safe T-Mini (Archos)
+* "Notre avis complet sur le Safe T-mini"
+* <https://shop.archos.com/es/hardware-wallet/588-archos-safe-t-mini.html>
+* Recovery method?
+### Ledger Blue:
+* <https://shop.ledger.com/products/ledger-blue>
+* architecture double-chip.
+* To validate TXs, it can comunicate through USB/Bluethooth.
+* Targeting business.
+* "Big" screen for easy ussage.
+*   Recovery method?
+### CoolBitX CoolWallet
+* <https://www.coolwallet.io/>
+* Credit Card format
+* Recovery method?
+### Trezor Wallet
+* <https://en.bitcoin.it/wiki/TREZOR>
+* BIP 0032 Deterministic hardware wallet.
+* TREZOR is basically a small computer. It is designed to
+  protect your private keys from possible online and
+  offline risks.
+* Recovery method?
+<!-- top hardware wallets } -->
 [[secret_mng.wallets}]]
 
-## Fuzzy Encryption [[{use_case.secret_mng,secret_mng.wallet,qa.UX,01_PM.TODO]]
+## Fuzzy Encryption [[{use_case.secret_mng,secret_mng.wallets,qa.UX,01_PM.TODO]]
 <https://github.com/decentralized-identity/fuzzy-encryption>
 
 * A variant of a Fuzzy Vault cryptographic scheme, designed for
   encrypting secrets that can be more easily recovered by humans.
 [[}]]
 
-## Key Shadowing [[{secret_mng.wallet]]
+## Key Shadowing [[{secret_mng.wallets]]
 ```
 | X: how many of the key shadows are to be generated,
 | Y: how many of the key shadows are to be required for decrypting
@@ -3632,7 +3292,8 @@ application is capable of communicating with the device wirelessly.
 
 # Hardware Security Module(HSM) (Vaults, encrypt modules,...)
 
-## HSM PROTOCOL/APIs SCHEMA [[{secret_mng,hardware,02_doc_has.diagram]]
+## HSM PROTOCOL/APIs SCHEMA [[{secret_mng,hardware,doc_has.diagram]]
+
 ```
 |        ┃  COMMUNICATION          ┃
 |        ┃ APIs/PROTOCOLS          ┃
@@ -3666,7 +3327,8 @@ Ex:
   <https://www.youtube.com/watch?v=ydMMb1wcCT0&list=PLi1PppB3-YrVeHKIhNxm3_4NvO0AFSvWr> (~8min:00)
 [[}]]
 
-## USB Armory  [[{secret_mng,hardware,secret_mng.keystore,use_case.signature,use_case.AAA,tech_stack.java]]
+[[{secret_mng,hardware,secret_mng.keystore,use_case.signature,use_case.AAA,tech_stack.java]]
+## USB Armory  
 <https://inversepath.com/usbarmory>
 The following example security application ideas
 illustrate the flexibility of the USB armory concept:
@@ -3683,7 +3345,9 @@ illustrate the flexibility of the USB armory concept:
 * low level USB security testing
 [[}]]
 
-## Enterprise HSM [[{standards.PKCS,secret_mng,use_case.AAA,hardware,use_case.signature,secret_mng.keystore]]
+[[{standards.PKCS,secret_mng,use_case.AAA,hardware,use_case.signature,secret_mng.keystore]]
+## Enterprise HSM 
+
 <https://safenet.gemalto.com/data-encryption/hardware-security-modules-hsms/protectserver-security-module/>
 
   ```
@@ -3880,7 +3544,7 @@ however, this application can be modified and extended easily to your
 needs with the embedded LUA scripting language
 [[}]]
 
-## OpenCryptoJC.org [[{02_doc_has.comparative]]
+## OpenCryptoJC.org [[{doc_has.comparative]]
 * <http://opencryptojc.org/>
   (Speed Up JavaCard Dev)
 * [Video] Unchaining the JavaCard Ecosystem (2018-02-22)
@@ -4041,7 +3705,7 @@ underlying features, which, together, provide a trusted
 execution environment (TEE).
 [[}]]
 
-## TresorSGX [[{secret_mng.wallet,secret_mng.hardware,01_PM.TODO]]
+## TresorSGX [[{secret_mng.wallets,secret_mng.hardware,01_PM.TODO]]
 * attempt to isolate+secure an OS component of the Linux kernel.
   - It outsources a functionality of a kernel module into a SGX
   container / enclave. TresorSGX provides a cryptographic algorithm for
@@ -4127,7 +3791,7 @@ execution environment (TEE).
   found. online demo.
 [[}]]
 
-## Homomorphic Encryption [[{crypt.zero_knowledge,use_case.privacy,PM.RADAR]]
+## Homomorphic Encryption [[{crypt.zk,use_case.privacy,PM.BACKLOG]]
 * <https://en.wikipedia.org/wiki/Homomorphic_encryption>
 * <http://enigma.media.mit.edu/>
 * Fully homomorphic Encrypt.:
@@ -4150,7 +3814,8 @@ execution environment (TEE).
     <https://github.com/google/private-join-and-compute>
 [[}]]
 
-## OKKA ASA: SSH + PKI [[{protocol.ssh,qa.automatization,use_case.secret_mng,use_case.identity]]
+[[{protocol.ssh,qa.automatization,use_case.secret_mng,use_case.identity]]
+## OKKA ASA: SSH + PKI 
 * <https://dzone.com/articles/ssh-is-dead-long-live-ssh-one-million-ssh-logins-w>
 *  ...more of our customers have come to the realization that server
    access is an identity problem first and foremost....
@@ -4172,4 +3837,44 @@ execution environment (TEE).
   Client Certificate (vs SSH Key). Client Certs metadata carry
   cryptographically verifiable metadata to store usernames, roles, ...
   and an  expiration date .
+[[}]]
+
+# Cert Spotter Certificate Transparency log monitor [[{protocol.tls,monitoring.tls]]
+* <https://github.com/SSLMate/certspotter>
+
+* Certificate Transparency log monitor from SSLMate
+* Alerts when a SSL/TLS certificate is issued for one of your domains.
+  * Certificates issued to attackers who have compromised your DNS
+  * Certificates issued to attackers who have taken over an abandoned sub-domains.
+  * Certificates issued to attackers who have compromised a CA.
+  * Certificates issued in violation of your corporate policy or outside of 
+    your centralized certificate procurement process.
+* Easier to use since it does not require a database, just a simple 
+  file listing DNS names to monitor.
+  ```
+  mydomain1.com              <·· monitor parent domain only
+  .mydomain2.com             <·· monitor parent and all subdomains.
+  sub.mydomain3.com          <·· monitor subdomain
+  a.com valid_at:2014-05-02  <·· monitor "bygone" SSL certs that
+                                 outlived their prior domain owner's
+                                 registration into the next owners 
+                                 registration.
+  ```
+  `~/.certspotter/watchlist` file listing DNS names to monitor.
+* More robust, since it uses a special certificate parser that ensures 
+  it won't miss certificates.
+* Golang based. Binary integrates with cron and e-mail for report alerts.
+* Also available as a hosted service by SSLMate with web dashboard.
+  <https://sslmate.com/certspotter>
+* Any certificate that is logged to a Certificate Transparency log trusted
+  by Chromium will be detected by Cert Spotter. All certificates issued
+  after April 30, 2018 must be logged to such a log to be trusted by Chromium.
+* Generally, certificate authorities will automatically submit certificates
+  to logs so that they will work in Chromium.  In addition, certificates
+  that are discovered during Internet-wide scans are submitted to Certificate
+  Transparency logs.
+* To detect these certificates add a valid_at
+  argument to each domain in the watchlist followed by the date the domain was
+  registered in the following format YYYY-MM-DD. For example:
+
 [[}]]

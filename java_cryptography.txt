@@ -1,7 +1,7 @@
 - The Bouncy Castle FIPS Java API in 100 Examples:
-@[https://www.bouncycastle.org/fips-java/BCFipsIn100.pdf]
+<https://www.bouncycastle.org/fips-java/BCFipsIn100.pdf>
 
-# Java key store [[{secret_mng]]
+# Java key store [[{security.secret_mng]]
 
 * Since Java 9, the default keystore format is PKCS12:
   ```
@@ -402,7 +402,7 @@ CAUTION: SOME COMBINATIONS OF EXTENSIONS (AND OTHER CERTIFICATE FIELDS) MAY NOT
          CONFORM TO THE INTERNET STANDARD.
 ```
 
-## keytool recipes  [[{doc_has.snapshot]]
+## keytool recipes  [[{doc_has.snippet]]
 
 * Generate keypair (and associated self signed certificate)
   ```
@@ -692,7 +692,7 @@ CAUTION: SOME COMBINATIONS OF EXTENSIONS (AND OTHER CERTIFICATE FIELDS) MAY NOT
 [[{PM.low_code]]
 # Jipher for Federal Information Processing Standards ("FIPS") Environements 
 By Denis Gauthier, Director of OCI Cryptography at Oracle
-@[https://blogs.oracle.com/developers/post/open-sourcing-jipher]
+<https://blogs.oracle.com/developers/post/open-sourcing-jipher>
 
 For several years we (Oracle) have been making significant 
 contributions to OpenSSL. We've chosen to base our products on 
@@ -720,7 +720,7 @@ our customers meet regulatory compliance requirements.
   correctly.**
 [[}]]
 
-[[{protocol.KEM,secret_mng,]]
+[[{protocol.KEM,security.secret_mng,]]
 # Key Encapsulation Mechanism API (JDK 21+)
 * REF: <https://openjdk.org/jeps/452>
 * encryption technique for securing symmetric keys using public 
@@ -803,3 +803,115 @@ our customers meet regulatory compliance requirements.
       store the actual shared secret in the output, but this has the
       same problem as KeyGenerator...
 [[protocol.KEM}]]
+
+# JAVA 17 PKCS #11 extensions  [[{security.cryptography.hardware]]
+* <https://docs.oracle.com/en/java/javase/17/security/pkcs11-reference-guide1.html>
+
+* Allows for extra flexibility and capabilities like:
+  * deal with smartcards being removed dynamically.
+  * PKCS#11 tokens requiring pre-authentication for 
+    some non-key-related operations.
+
+## SunPKCS11 JCA+JCE to Native PKCS#11 bridge Provider
+
+* PRESETUP:
+  * cryptographic devices (Smartcards, HSM,...) provide a PKCS#11
+    implementation, which needs to be connected/pre-installed. 
+  * PKCS#11 v2.20+ implementation installed as a a shared-object library 
+    (.so Linux,  .dll Windows, .dylib macOS)
+    that must be provided by cryptographic device vendor.
+  * Java module jdk.crypto.cryptoki configuration must be installed
+    (statically or programmatically) in java.security. 
+    1. Static config. example:
+       ```
+       | $ editor ${JAVA_HOME}/conf/security/java.security
+       |   ... #configuration for security providers 1-12 omitted
+       | + security.provider.13=SunPKCS11 /opt/bar/cfg/pkcs11.cfg
+       |   └──────────────────────┬─────────────────────────────┘
+       |   $ editor /opt/bar/cfg/pkcs11.cfg
+       |     name = FooAccelerator
+       |     # Some comment
+       |     library = /opt/foo/lib/libpkcs11.so
+       |     Values described in Table 5.1 @
+       |     <https://docs.oracle.com/en/java/javase/17/security/pkcs11-reference-guide1.html>
+       | 
+       | $ export LD_LIBRARY_PATH=... # <·· Maybe needed too
+       |          \-------------^----  LD_LIBRARY_PATH linux
+       |                               PATH            Windows
+       |                               LIBRARY_PATH    MacOS
+       ```
+    2. Alt 2: Dynamically:
+       ```
+       String configName = "/opt/bar/cfg/pkcs11.cfg";
+       Provider p = Security.getProvider("SunPKCS11");
+                p = p.configure(configName);
+       Security.addProvider(p);
+       
+       Provider pSlot01 =                    // slot01: "device 1 for provider 1
+           Security.getProvider("SunPKCS11")
+           .configure("/app01/pkcs11.cfg");
+       Security.addProvider(pSlot01);
+       ```
+    (Repeat the installation for each new PKCS#11 provider implementation).
+
+###  for Attributes Configuration
+
+* SunPKCS11 provider only specifies mandatory PKCS#11 attributes.
+  For example, for RSA public keys it specifies the key type and
+  algorithm (CKA_CLASS and CKA_KEY_TYPE) and the key values for
+  RSA public keys (CKA_MODULUS and CKA_PUBLIC_EXPONENT). The 
+* Other attributes will be assigned default values.
+* The attributes option can be used to override default.
+(See original doc for full info, -recommended lecture-)
+
+
+## Troubleshooting PKCS#11
+
+* To show debug info about Library, Slots, Token, and Mechanism, add 
+  showInfo=true in the SunPKCS11 provider configuration file.
+* For additional debugging info, restart the Java processes with one
+  of the following options:
+    ```
+    -Djava.security.debug=sunpkcs11     <·· General SunPKCS11 provider debugging info
+    -Djava.security.debug=pkcs11keystore <·· PKCS#11 keystore specific debugging info
+    ```
+* Disabling PKCS#11 Providers and/or Individual PKCS#11 Mechanisms causing troubles 
+  (Se original doc)
+* Disabling Specific Mechanisms (ex: SecureRadom)
+  (Se original doc)
+
+
+## Application Developers
+
+* Java applications can use the existing JCA and JCE APIs to access PKCS#11 tokens through the SunPKCS11 provider.
+* login to the keystore using a Personal Identification Number (PIN) to perform PKCS#11 operations.
+  * OK for static keystores
+  ```
+  char[] pin = ...;
+  KeyStore ks = KeyStore.getInstance("PKCS11");
+  ks.load(null, pin);
+  ```
+  * new support for dynamic keystores (smartcards being plugged in/out)
+  ```
+  KeyStore.CallbackHandlerProtection chp =
+      new KeyStore.CallbackHandlerProtection(new MyGuiCallbackHandler());
+  KeyStore.Builder builder =
+      KeyStore.Builder.newInstance("PKCS11", null, chp);
+    KeyStore ks = builder.getKeyStore();
+    Key key = ks.getKey(alias, null);
+  ```
+(See original doc for full details)
+
+### Unextractable Keys
+
+* A software Key object does contain the actual key material and allows access to that material.
+* An unextractable key on a secure token (such as a smartcard) is  
+  represented by a Java Key object that does not contain the actual key 
+  material. The Key object only contains a reference to the actual key. [[{security.secret_mng.keystore}]]
+
+
+## JDK JAAS KeyStoreLogin Module
+* Allows an application to authenticate using its identity in a specified keystore.
+  After authentication, the application would acquire its principal and credentials 
+  information (certificate and private key) from the keystore. 
+[[}]]

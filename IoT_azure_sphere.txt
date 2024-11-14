@@ -1,8 +1,8 @@
-[[{iot.sphere,secret_mng.hardware,use_case.IoT,secret_mng.keystore,,01_PM.TODO]]
+[[{hardware.sphere,use_case.iot,secret_mng.hardware,use_case.IoT,secret_mng.keystore,PM.TODO]]
 ## Azure Sphere Pluton IoT 
 
 * <https://azure.microsoft.com/en-us/services/azure-sphere/>
 * Solution for creating highly secured, connected MCU-powered devices.
 * The Pluton security subsystem creates a hardware root of trust,
   stores private keys, and executes complex cryptographic operations.
-[[iot.sphere}]]
+[[hardware.sphere}]]

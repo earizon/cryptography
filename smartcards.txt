@@ -1,4 +1,4 @@
-[[{IoT.SmartCards]]
+[[{hardware.smartcards]]
 
 # Smart Cards 
 ## DS/EN 14890-1 Smart-Card Standard [[{]]
@@ -18,7 +18,7 @@ the functionality of CWA 14890-1 is enhanced in the following areas:
 * Further hash algorithms (SHA2-family)
 * Use of AES in auth protocols and secure messaging.  [[}]]
 
-## GNUPGP SC [[{secret_mng,standards.pgp,tool.gpg,standards.smartcard,hardware.smartcard]]
+## GNUPGP SC [[{secret_mng.pgp,standards.pgp,tool.opengpg,standards.smartcards,hardware.smartcards]]
 *<https://www.commoncriteriaportal.org/cc/>
    Supporting Documents related to Smart Cards and similar devices
    ```
@@ -147,7 +147,7 @@ the functionality of CWA 14890-1 is enhanced in the following areas:
   * U2F authenticator
   * One-time password generator
 
-## CardPeek [[{standards.smartcard,hardware.smartcard,01_PM.TODO]]
+## CardPeek [[{standards.smartcards,hardware.smartcards,PM.TODO]]
 * <http://pannetrat.com/Cardpeek>
 * Linux/Windows/Mac OS X tool to read the contents
   of ISO7816 smart cards. It features a GTK GUI to
@@ -191,7 +191,7 @@ needs with the embedded LUA scripting language
 [[}]]
 
 
-## OpenSCDP: Dev tools for S.C. [[{IoT.smart_cards.openscdp,standards,]]
+## OpenSCDP: Dev tools for S.C. [[{hardware.smartcards.openscdp,standards,]]
 * https://www.openscdp.org/
 * Why use more than one scripting environment for all your smart card
   simulation, testing, data preparation, personalization and key
@@ -201,11 +201,11 @@ needs with the embedded LUA scripting language
   public key infrastructure applications. It uses the capabilities of
   Global Platform Scripting, Profile and Messaging technology to
   provide unsurpassed flexibility and development speed.
-[[IoT.smart_cards.openscdp}]]
+[[hardware.smartcards.openscdp}]]
 
 
 ## ISO 7816 for electronic identification cards
 * standard for electronic identification cards with 
   contacts, especially smart cards.
   * <https://en.wikipedia.org/wiki/ISO/IEC_7816>
-[[IoT.SmartCards}]]
+[[hardware.smartcards}]]

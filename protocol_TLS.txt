@@ -1,0 +1,1021 @@
+[[{protocol.tls]]
+# TLS Protocol
+
+* External Links:
+  * https://en.wikipedia.org/wiki/Transport_Layer_Security
+  * Mozilla SSL config generator:
+  <https://mozilla.github.io/server-side-tls/ssl-config-generator/>
+  * Mozilla Server Side TLS
+  <https://wiki.mozilla.org/Security/Server_Side_TLS>
+  * The Most Dangerous Code in the World: Validating SSL Certs ...:
+  <https://www.cs.utexas.edu/~shmat/shmat_ccs12.pdf>
+
+* SSL Server Test: free online service performing deep analysis of 
+  the configuration of any SSL web server on the 
+  public Internet. <https://www.ssllabs.com/ssltest/>
+  [[{PM.troubleshoot}]]
+
+[[{101,protocol.tls,standards.pki.x509,standards.web,tech_stack.java,tool.openssl]]
+## TLS, X.509v3 
+ 
+  ```
+  | X.509 v3:            <·· ITU_T standard for Certificate 
+  | =========                Storage and Serialization.
+  | Version#                 Used, amongst others, by Internet 
+  | Serial Number            TLS/SSL protocols.
+  | Signature algorithm
+  | Issuer name
+  | Validity period
+  | ---------------
+  | Subject Name
+  | Subject PK Info
+  | Issuer  ID
+  | Subject ID#
+  | Extended attributes (Used by different services)
+  | ──────────────────
+  | CA3 Signature       <·· The signature is the 
+  |                         non-repudiable claim made by 
+                            the CA that X.509 certificate 
+                            data is valid (from its point 
+                            of view):
+  ```
+
+* The  certification path validation algorithm  allows
+  delegation of signatured to an associative list of "trusted-by" CAs.
+  ```
+  | CA1 > trust for   > CA2 > trust for   > CA3 > CA3 Signed Certificate
+  | └┬┘   certificate   └┬┘   certificate   └┬┘
+  |  ·    issuance       ·    issuance       ·
+  |  ·                   ·                   ·
+  |  ·                   └─ intermediate CAs ┘
+  | DIRECT TRUST            ASSOCIATVE TRUST
+  ```
+[[}]]
+
+
+[[{standards.pki,protocol.TLS,PM.low_code,qa.UX,tech_stack.java,PM.TODO]]
+## Caddy HTTPS server 
+* <https://caddyserver.com/>
+* Caddy simplifies your infrastructure. It takes care of TLS
+  certificate renewals, OCSP stapling, static file serving, reverse
+  proxying, Kubernetes ingress, and more.
+* Its modular architecture means you can do more with a single, static
+  binary that compiles for any platform.
+* Caddy runs great in containers because it has no dependencies—not
+  even libc. Run Caddy practically anywhere.
+* https://github.com/AmadeusITGroup/AutoSSL
+  Automated SSL certificates monitoring, renewal and deployment from blueprint.
+  module for Python 2.7+/3.5+ that can be used to to automate SSL 
+  certificate monitoring, renewal and deployment.
+* This module can be customized with plugins mechanism to support any type of:
+  * server: where the certificate is deployed, can be 1 or more server,
+    potentially of different types
+  * storage: where to store your artifacts (private key, public
+    certificate, ...)
+  * tracking mechanism: how to track renewal process (ticket creation)
+  * renewal method: how to get a new certificate (local CA, ACME
+    protocol, ....)
+* AutoSSL in OpenLiberty:
+<https://developers.redhat.com/blog/2020/10/07/install-a-signed-certificate-with-open-liberty-20-0-0-10s-automatic-certificate-management-environment-support-2-0/>
+* Red Hat Runtimes now supports the new Open Liberty 20.0.0.10 Java
+  runtime. Open Liberty 20.0.0.10 features support for the Automatic
+  Certificate Management Environment (ACME) protocol, which automates
+  the process of obtaining a certificate signed by a certificate
+  authority (CA). The Open Liberty 20.0.0.10 release also includes many
+  bug fixes.
+[[}]]
+
+## Portecle: Cert+Keystore GUI [[{protocol.tls.ca,protocol.TLS,secret_mng.wallets,]]
+                               [[ qa.UX,use_case.secret_mng,use_case.signature,tech_stack.java]]
+<https://www.sslsupportdesk.com/portecle-advanced-keystore-creation-and-manipulation-tool/>
+* user friendly Java GUI: import/create/manage/examine/convert keystores, key-pairs,
+  certificates, certificate signing requests, CRL, ...
+* Scenario 1: server lacking the capability of generating a CSR keypair on its own.
+* Scenario 2: large networks of servers faced with a CSR keypair on one system
+              environment that needs key store conversions to it into a different
+              environment (ussually very time consuming and frustrating).
+* Use Cases examples:
+  * Create, load, save, and convert keystores.
+  * Generate DSA and RSA key-pair entries with self-signed X.509 certificates.
+  * Import X.509 certificate files as trusted certificates.
+  * Import key pairs from PKCS#12.
+  * Clone and change the password of key pair entries and keystores.
+  * View the details of certificates contained within keystore entries.
+    certificate files, and SSL/TLS connections.
+  * Export keystore entries in a variety of formats.
+  * Generate and view certification requests (CSRs).
+  * Import Certificate Authority (CA) replies.
+  * Change the password of key pair entries and keystores.
+  * Delete, clone, and rename keystore entries.
+  * View the details of certificate revocation list (CRL) files.
+[[}]]
+
+[[{standards.pki.x509,protocol.TLS.ca,doc_has.comparative,PM.TODO]]
+## RFC 8555: PKI using X.509 
+
+* <https://tools.ietf.org/html/rfc8555>
+* Published on 2015-05-22 according to
+  <https://datatracker.ietf.org/doc/rfc8555/>
+
+Public Key Infrastructure using X.509 (PKIX) certificates are used
+for a number of purposes, the most significant of which is the
+authentication of domain names.  Thus, certification authorities
+(CAs) in the Web PKI are trusted to verify that an applicant for a
+certificate legitimately represents the domain name(s) in the
+certificate.  As of this writing, this verification is done through a
+collection of ad hoc mechanisms.  This document describes a protocol
+that a CA and an applicant can use to automate the process of
+verification and certificate issuance.  The protocol also provides
+facilities for other certificate management functions, such as
+certificate revocation.
+[[}]]
+
+## IETF ACME [[{protocol.tls,standards.pki,qa.automatization,PM.TODO]]
+<https://tools.ietf.org/html/rfc8555>
+* ACME stands for Automatic Certificate Management Environment (ACME) protocol.
+* Public Key Infrastructure using X.509 (PKIX) certificates are used
+  for a number of purposes, the most significant of which is the
+  authentication of domain names.  Thus, certification authorities
+  (CAs) in the Web PKI are trusted to verify that an applicant for a
+  certificate legitimately represents the domain name(s) in the
+  certificate.  As of this writing, this verification is done through a
+  collection of ad hoc mechanisms.  This document describes a protocol
+  that a CA and an applicant can use to automate the process of
+  verification and certificate issuance.  The protocol also provides
+  facilities for other certificate management functions, such as
+  certificate revocation.
+[[}]]
+
+## Certificate Transparency [[{protocol.tls,standards.pki,monitoring.tls,monitoring.certificates,PM.TODO]]
+* <https://www.certificate-transparency.org/>
+* Context: No efficient method/protocol was in place before to allows fetching a
+  FULL LIST OF ISSUED CERTIFICATES FOR A GIVEN DOMAIN. Any byzantine CA could
+  issue malicious certificates to cheat users and spy their (supposely secure)
+  encrypted traffic.
+* Cert. Transparency is an Open framework for Cert. Auditing.
+  Admins and security teams can use it to supervise wrong issues certificates.
+* Starting 2018, Google Chrome (and others) will not trust any certificate not
+  passing Cert. Transparency requirements.
+* Main objectives:
+  * Minimize the possibility for a CA to issue a new TLS Cert. for a given domain,
+    without domain owner being aware of it.
+  * Provide an open auditing system for any domain owner/CA to query if some
+    given certificate has been issued by error or maliciously in nearly real time.
+  * Protect users from maliciously issued certs.
+  * Identify byzantine/maliciously-behaving Certificate Authorities (CAs).
+
+### Definitions:
+* Certificate LOGS : Simple network services  keeping CRYPTOGRAPHICALLY
+  SECURE AND PUBLICLY AUDITABLE, APPEND-ONLY RECORDS OF CERTIFICATES.
+  · Anyone (most probably CAs)  can submit certificates to a log.
+* Monitors : publicly run servers that periodically contact all of the log
+  servers and watch for suspicious certificates. For example, monitors can tell
+  if an illegitimate or unauthorized certificate has been issued for a domain,
+  and they can watch for certificates that have unusual certificate extensions
+  or strange permissions, such as certificates that have CA capabilities.
+* Auditors : lightweight components PERFORMING TWO FUNCTIONS:
+  1. verify that logs behave correctly and are cryptographically consistent.
+     IF THAT'S NOT THE CASE, THE LOG WILL NEED TO EXPLAIN ITSELF OR RISK BEING
+     SHUT DOWN.
+  2. verify that a particular certificate appears in a log.
+     Particularly important auditing function because the Cert.Transp. framework
+     requires that all SSL certificates be registered in a log. If a Cert. has
+     not been registered in a log, it’s a sign that the certificate is suspect, and
+     TLS clients may refuse to connect to sites that have suspect certificates.
+* Trillian: implementation of concepts described in VerifiableDataStructures.pdf
+  white paper, which in turn is an extension and generalisation of the ideas
+  which underpines <https://certificate-transparency.org>
+[[}]]
+
+## Cert Spotter Certificate Transparency log monitor [[{protocol.tls,monitoring.tls,monitoring.certificates,security]]
+* <https://github.com/SSLMate/certspotter>
+
+* Certificate Transparency log monitor from SSLMate
+* Alerts when a SSL/TLS certificate is issued for one of your domains.
+  * Certificates issued to attackers who have compromised your DNS
+  * Certificates issued to attackers who have taken over an abandoned sub-domains.
+  * Certificates issued to attackers who have compromised a CA.
+  * Certificates issued in violation of your corporate policy or outside of 
+    your centralized certificate procurement process.
+* Easier to use since it does not require a database, just a simple 
+  file listing DNS names to monitor.
+  ```
+  mydomain1.com              <·· monitor parent domain only
+  .mydomain2.com             <·· monitor parent and all subdomains.
+  sub.mydomain3.com          <·· monitor subdomain
+  a.com valid_at:2014-05-02  <·· monitor "bygone" SSL certs that
+                                 outlived their prior domain owner's
+                                 registration into the next owners 
+                                 registration.
+  ```
+  `~/.certspotter/watchlist` file listing DNS names to monitor.
+* More robust, since it uses a special certificate parser that ensures 
+  it won't miss certificates.
+* Golang based. Binary integrates with cron and e-mail for report alerts.
+* Also available as a hosted service by SSLMate with web dashboard.
+  <https://sslmate.com/certspotter>
+* Any certificate that is logged to a Certificate Transparency log trusted
+  by Chromium will be detected by Cert Spotter. All certificates issued
+  after April 30, 2018 must be logged to such a log to be trusted by Chromium.
+* Generally, certificate authorities will automatically submit certificates
+  to logs so that they will work in Chromium.  In addition, certificates
+  that are discovered during Internet-wide scans are submitted to Certificate
+  Transparency logs.
+* To detect these certificates add a valid_at
+  argument to each domain in the watchlist followed by the date the domain was
+  registered in the following format YYYY-MM-DD. For example:
+
+[[}]]
+
+## Cerbot: LET’S ENCRYPT + ACME PROTOCOL: free+automated+open CA [[{protocol.tls.letsencrypt]]
+
+* <https://letsencrypt.org/>
+* <https://certbot.eff.org/about/>
+* To use Certbot, you'll need... [[{PM.low_code}]]
+  * comfort with the command line
+  * Website already Online through HTTP in port 80.
+  * A server accesible through ssh with sudo access
+  * A Wildcard Certificate
+  * DNS credentials
+* PRESETUP:
+  Install Certbot (https://certbot.eff.org/) ACME client. Ex:
+  ```
+  | $ sudo apt install certbot
+  | ...
+  | The following additional packages will be installed:
+  |   python3-acme python3-certbot ... python3-zope.component...
+  | Suggested packages:
+  |   python3-certbot-apache python3-certbot-nginx
+  |   python-certbot-doc python-acme-doc python-mock-doc <··· !!!
+  | ...
+  | Need to get 785 kB of archives.
+  | After this operation, 4207 kB of additional disk space will be used.
+  ```
+* STEP 0) Just once:
+  Agent software interacts with Let’s Encrypt and generates a new
+  key pair identifying the local server.<br/>
+  LET'S ENCRYPT IDENTIFIES THE SERVER ADMINISTRATOR BY ITS PUBLIC-KEY.
+
+* STEP 1) 
+  ```
+  | agent -> LetsEncryptCA: what I need to do to prove control/ownership
+  |          of example.com?
+  |
+  | LetsEncryptCA -> agent:  1+ challenges.
+  |                          Challenges can be:
+  |                          - Provisioning DNS-record under example.com
+  |                          - Provisioning HTTP-resource under well-known URI
+  |                            on http://example.com/
+  |
+  | LetsEncryptCA -> agent: new nonce (to be signed by agent  to prove
+  |                         controls over key pair).
+  | ...
+  | agent         -> agent: complete one challenge
+  | agent         -> agent: signs nonce with private-key.
+  | agent -> LetsEncryptCA: signed-nonce + "validation-ready" event
+  | LetsEncryptCA -> Let's-Encrypt-CA: verify signed-nonce
+  | LetsEncryptCA -> Let's-Encrypt-CA: verify challenge.
+  |                          (by downloading the file for example)
+  | LetsEncryptCA -> Let's-Encrypt-CA: agent (its public key) is authorized.
+  ```
+  STEP 2) 
+  ```
+  | agent request/renew/revoke certificates for that domain.
+  | agent -> LetsEncryptCA:  request/renew/revoke certificates
+  |                          by constructing a PKCS#10 Cert.Sign.Req (CSR)
+  | LetsEncryptCA -> LetsEncryptCA: Verify CSR signature against authorized
+  |                          pub.key.
+  | LetsEncryptCA -> agent: New Certificate.
+  |
+  | (Revocation/renew) works in a similar manner.
+  |
+  | revocation-information "normal" channels: OCSP.
+  |   Relying parties such as browsers can know that they
+  |  shouldn’t accept the revoked certificate by "querying"
+  |  those channels.
+  ```
+
+### cacert.org [[{]]
+<http://www.cacert.org>,
+* Target: create alternative Non-Profit CA to commercial ones.
+* Curiosly TLS certificate is not allowed by major browers.
+[[}]]
+
+## OCSP: Online Certificate Status Protocol [[{doc_has.comparative]]
+<https://en.wikipedia.org/wiki/Online_Certificate_Status_Protocol>
+* Internet protocol used for obtaining the revocation status of an X.509 digital certificate.
+* Alternative to Certificate Revocation Lists to addressg problems associated with
+  using CRLs in a public key infrastructure (PKI).
+* Messages are encoded in ASN.1
+* Architecture is "request/response" message based.
+* Supported by different web browsers
+
+Comparision to CRLs
+* OCSP response contains less data than a typical CRL file
+* easier to parse by end client-side libraries
+* OCSP discloses to the responder that """a particular
+  network host used a particular certificate at a particular time"""
+* OCSP lookups can be performed on transaction or authorization level,
+  but CRLs must be updated at intervals.
+* Basic PKI implementation
+  ```
+  | participant: Alice  with certificate issued by CA Carol
+  | participant: Bob    with certificate issued by CA Carol
+  | Carol      : CA
+  | 
+  | Alice wishes to perform a transaction with Bob.
+  | Alice > Bob: Alice pub.key Certificate
+  | Bob   > Bob:(concerned that Alice's priv.key is compromised)
+  |              creates an 'OCSP-request'
+  |                         --------------
+  |                         Alice_cert.serial_number
+  | Bob   > Carol: OCSP-request
+  | Carol > Carol: reads certificate serial number.
+  |                Search if serial number is in revocation ddbb
+  | Carol > Bob  : Signed OCSP-response with
+  |                'good'|'revoked'|'unknown'|'error code'
+  |                key signing OCSP-response must be the
+  |                original key signing the cert. originally
+  |                or another cert. issued by the original CA
+  |                that is marked with a certain extension to
+  |                flag it as OCSP signing authority.
+  | 
+  | Bob   > Bob  : verifies Carol's signed response.
+  |                (it's supposed that Bob has stored Carol's
+  |                 pub.key sometime before this transaction)
+  | 
+  | Bob   > Alice: ...
+  ```
+* Protocol details
+* OCSP request format supports additional extensions.
+* OCSP can be vulnerable to replay attacks,[5] where a signed,
+  'good' response is captured by a malicious intermediary and
+  replayed to the client at a later date after the subject
+  certificate may have been revoked.  A nonce can be included
+  to avoid it.
+  * Because of high load, most OCSP responders do not use the
+    nonce extension to create a different response for each
+    request, instead using presigned responses with a validity
+    period of multiple days.<br/>
+    Thus, the replay attack is a major threat to validation systems
+* OCSP can support more than one level of CA chaining/forwarding
+  initial OCSP-requests to by delegated path validation (DPV) servers.
+  (See Criticisms in original wikipedia article)
+* Supported by Internet Explorer, Mozilla Firefox 3+, Safari-macOS.
+  Google Chrome disabled OCSP checks by default in 2012
+  citing latency and privacy issues and instead uses thei
+  own update mechanism to retrieved revoked certificates
+[[}]]
+
+## TLS 1.3 [[{]]
+* should be used over TLS1.2 whenever possible!!!
+* major update to the TLS protocol, with many security enhancements.
+* TLS1.3 is different enough that even though the OpenSSL APIs are
+  technically API/ABI compatible when TLS1.3 is negotiated, changes in
+  the timing of protocol records and of callbacks broke assumptions
+  hard-coded into the ‘tls’ module.
+[[}]]
+
+[[{protocol.tls}]]
+
+# Best Practices  [[{ $best_patterns ]]
+[[{101,qa,tech_stack.java,crypt_symmetric.aes,standards.25519]]
+## Common protocol issues
+* ciphertext that aren't secured with a MAC
+* message that don't include a time-stamp or counter
+* protocols that don't use PK for authenticity
+* Reuse of Nonces of IVs
+* ... many more
+
+## Best Practices, Dont's!!!
+* Don't Implement your own algorithms:<br/>
+  Cite by Bruce Schneier:
+  """ANYONE, FROM THE MOST CLUELESS AMATEUR TO THE BEST CRYPTOGRAPHER,
+   CAN CREATE AN ALGORITHM THAT HE HIMSELF CAN'T BREAK"""
+  ("Memo to the Amateur Cipher Desginer", 1998)
+* Don't Use hard-coded keys, use a Vault service.
+  Don't use a Vault when you can use wallet. (that will use an
+  internal vault and never expose secrets outside).
+* Never use ECB mode. Prefer CBC, better yet CTR or
+  GCM<https://en.wikipedia.org/wiki/Galois/Counter_Mode>
+  * WARN: ECB is the default mode in JAVA .
+  * Ex.: AES is secure , but   pairing it with ECB is insecure .
+  * WARN: even GCM has its flaws; encrypting too much data
+    with the same key or make a mistake with the IV/nonce,
+    can leak key material.  Other modes are free in to
+    those leaks.
+* Don't use small public key sizes. At least 2048
+* Elliptic curve preferable: p-256 or X25519
+* Don't use the same private key for encrypting and signing
+* Don't reuse the same nonce twice -it will no be a nonce-
+* Don’t use old/broken stuff. Non-exhaustive list includes:
+  * DES, MD4, MD5, SHA1, RC4, AES-EC
+  * RSA is old, but not broken ,  but prefer ECC-mode.
+[[}]]
+
+## Universal Composability [[{PM.TODO]]
+* <https://en.wikipedia.org/wiki/Universal_composability>
+  universal composability (UC)[1] is a general-purpose model for the
+  analysis of cryptographic protocols. It guarantees very strong
+  security properties. Protocols remain
+* <https://en.wikipedia.org/wiki/Commitment_scheme>
+  It is impossible to realize commitment schemes in the universal
+  composability (UC) framework
+[[}]]
+[[ $best_patterns }]]
+
+## PKCS #11 [[{]]
+* PKCS #11 also refers to the platform-independent API to create and
+  manipulate cryptographic tokens ( cryptographic keys).
+* Underlying platforms can be HSM, Smart Cards, ...
+* The API itself is called "Cryptoki" /crypto-key/ for
+  (cryp)tographic (tok)en (i)nterface but is also referred to as just
+  "PKCS #11" and is defined using ANSI-C standard and ANSI-C headers.
+* Cyptoki API defines the most commonly used cryptographic object types:
+  (RSA keys, X.509 certificates, ...  DES/Triple-DES keys ...) as well
+  as all the functions needed to use, create/generate, modify and
+  delete those objects.
+
+* PCKS #11 Usage:
+  Most commercial certificate authority (CA) software uses PKCS #11 to
+  access the CA signing key[clarification needed] or to enroll user
+  certificates. Cross-platform software that needs to use smart cards
+  uses PKCS #11, such as Mozilla Firefox and OpenSSL (through extension).
+
+* PCKS #11 and KMIP Relationship:
+  Key Management Interoperability Protocol (KMIP) defines a **wire
+  protocol** with similar functionality to PKCS#11 API.
+  * Originally developed independently and overlapping, thery are now
+    both governed by an OASIS technical committee with the aim to
+    align both of them when practicable.
+    e.g: PKCS#11 Sensitive and Extractable attributes
+    are being added to KMIP v.1.4.
+
+* PCKS #11 History
+  ```
+  1994-01: project launched by RSA Security Company
+  1995-04: v1.0
+  1997-12: v2.01
+  1999-12: v2.10
+  2001-01: v2.11
+  2004-06: v2.20[1]
+  2005-12: amendments 1&2 (one-time password tokens, CT-KIP [3])
+  2007-01: amendment 3 (additional mechanisms)
+  2009-09: v2.30 draft published for review
+           (final version never published)
+  2012-12: RSA announce PKCS #11 management being transitioned to OASIS
+  2013-03: v2.40 work starts [5]
+  2015-04: v2.40 spec approved
+  2016-05: v2.40 Errata 01 Spec approved
+  2020-07: v3.0  spec approved
+  ```
+
+### PCKS #11 v3 Cryptoki summary:
+* [Cyrptoki base API](https://docs.oasis-open.org/pkcs11/pkcs11-base/v3.0/os/pkcs11-base-v3.0-os.html) [[{]]
+  ```
+  | GENERAL PURPOSE FUNCTIONS  ──────────────────────────────────────────────────────────────
+  |   C_Initialize              initializes Cryptoki
+  |   C_Finalize                clean up miscellaneous Cryptoki-associated resources
+  |   C_GetInfo                 obtains general information about Cryptoki
+  |   C_GetFunctionList         obtains entry points of Cryptoki library functions
+  |   C_GetInterfaceList        obtains list of interfaces supported by Cryptoki library
+  |   C_GetInterface            obtains interface specific entry points to library functions
+  | SLOT AND TOKEN MANAGEMENT FUNCTIONS  ────────────────────────────────────────────────────
+  |   C_GetSlotList             obtains a list of slots in the system
+  |   C_GetSlotInfo             obtains information about a particular slot
+  |   C_GetTokenInfo            obtains information about a particular token
+  |   C_WaitForSlotEvent        waits for a slot event (token insertion, removal, etc.)
+  |   C_GetMechanismList        obtains a list of mechanisms supported by a token
+  |   C_GetMechanismInfo        obtains information about a particular mechanism
+  |   C_InitToken               initializes a token
+  |   C_InitPIN                 initializes the normal user’s PIN
+  |   C_SetPIN                  modifies the PIN of the current user
+  | SESSION MANAGEMENT FUNCTIONS  ───────────────────────────────────────────────────────────
+  |   C_OpenSession             opens a connection between an application and a particular
+  |                             token or sets up an application callback for token insertion
+  |   C_CloseSession            closes a session
+  |   C_CloseAllSessions        closes all sessions with a token
+  |   C_GetSessionInfo          obtains information about the session
+  |   C_SessionCancel           terminates active session based operations
+  |   C_GetOperationState       obtains the cryptographic operations state of a session
+  |   C_SetOperationState       sets the cryptographic operations state of a session
+  |   C_Login                   logs into a token
+  |   C_LoginUser               logs into a token with explicit user name
+  |   C_Logout                  logs out from a token
+  | OBJECT MANAGEMENT FUNCTIONS ─────────────────────────────────────────────────────────────
+  |   C_CreateObject            creates an object
+  |   C_CopyObject              creates a copy of an object
+  |   C_DestroyObject           destroys an object
+  |   C_GetObjectSize           obtains the size of an object in bytes
+  |   C_GetAttributeValue       obtains an attribute value of an object
+  |   C_SetAttributeValue       modifies an attribute value of an object
+  |   C_FindObjectsInit         initializes an object search operation
+  |   C_FindObjects             continues an object search operation
+  |   C_FindObjectsFinal        finishes an object search operation
+  | ENCRYPTION FUNCTIONS  ───────────────────────────────────────────────────────────────────
+  |   C_EncryptInit         initializes an encryption operation
+  |   C_Encrypt             encrypts single-part data
+  |   C_EncryptUpdate       continues a multiple-part encryption operation
+  |   C_EncryptFinal        finishes a multiple-part encryption operation
+  | MESSAGE-BASED ENCRYPTION FUNCTIONS  ─────────────────────────────────────────────────────
+  |   C_MessageEncryptInit  initializes a message-based encryption process
+  |   C_EncryptMessage      encrypts a single-part message
+  |   C_EncryptMessageBegin begins a multiple-part message encryption operation
+  |   C_EncryptMessageNext  continues or finishes a multiple-part message encryption operation
+  |   C_MessageEncryptFinalfinishes a message-based encryption process
+  | DECRYPTION FUNCTIONS   ──────────────────────────────────────────────────────────────────
+  |   C_DecryptInit         initializes a decryption operation
+  |   C_Decrypt             decrypts single-part encrypted data
+  |   C_DecryptUpdate       continues a multiple-part decryption operation
+  |   C_DecryptFinal        finishes a multiple-part decryption operation
+  | MESSAGE-BASED DECRYPTION FUNCTIONS  ─────────────────────────────────────────────────────
+  |   C_MessageDecryptInit  initializes a message decryption operation
+  |   C_DecryptMessage      decrypts single-part data
+  |   C_DecryptMessageBegin starts a multiple-part message decryption operation
+  |   C_DecryptMessageNext  Continues and finishes a multiple-part message decryption operation
+  |   C_MessageDecryptFinal finishes a message decryption operation
+  | MESSAGE DIGESTING FUNCTIONS ─────────────────────────────────────────────────────────────
+  |   C_DigestInit          initializes a message-digesting operation
+  |   C_Digest              digests single-part data
+  |   C_DigestUpdate        continues a multiple-part digesting operation
+  |   C_DigestKey           digests a key
+  |   C_DigestFinal         finishes a multiple-part digesting operation
+  | SIGNING FUNCTIONS ────────────────────────────────────────────────────────────────────────
+  |   C_SignInit            initializes a signature operation and MACing
+  |   C_Sign                signs single-part data
+  |   C_SignUpdate          continues a multiple-part signature operation
+  |   C_SignFinal           finishes a multiple-part signature operation
+  |   C_SignRecoverInit     initializes a signature operation, where the data can be recovered from the signature
+  |   C_SignRecover         signs single-part data, where the data can be recovered from the signature
+  | MESSAGE-BASED SIGNATURE FUNCTIONS  ──────────────────────────────────────────────────────
+  |   C_MessageSignInit     initializes a message signature operation
+  |   C_SignMessage         signs single-part data
+  |   C_SignMessageBegin    starts a multiple-part message signature operation
+  |   C_SignMessageNext     continues and finishes a multiple-part message signature operation
+  |   C_MessageSignFinal    finishes a message signature operation
+  | FUNCTIONS FOR VERIFYING SIGNATURESAND MACS  ─────────────────────────────────────────────
+  |   C_VerifyInit          initializes a verification operation
+  |   C_Verify              verifies a signature on single-part data and MACs
+  |   C_VerifyUpdate        continues a multiple-part verification operation
+  |   C_VerifyFinal         finishes a multiple-part verification operation
+  |   C_VerifyRecoverInit   initializes a verification operation where the data is recovered from the signature
+  |   C_VerifyRecover       verifies a signature on single-part data, where the data is recovered from the signature
+  | MESSAGE-BASED FUNCTIONS FOR VERIFYING SIGNATURES AND MACS  ──────────────────────────────
+  |   C_MessageVerifyInit   initializes a message verification operation
+  |   C_VerifyMessage       verifies single-part data
+  |   C_VerifyMessageBegin  starts a multiple-part message verification operation
+  |   C_VerifyMessageNext   continues and finishes a multiple-part message verification operation
+  |   C_MessageVerifyFinal  finishes a message verification operation
+  | DUAL-PURPOSE CRYPTOGRAPHIC FUNCTION  ────────────────────────────────────────────────────
+  |   C_DigestEncryptUpdate continues simultaneous multiple-part digesting  and encryption   ops
+  |   C_DecryptDigestUpdate continues simultaneous multiple-part decryption and digesting    ops
+  |   C_SignEncryptUpdate   continues simultaneous multiple-part signature  and encryption   ops
+  |   C_DecryptVerifyUpdate continues simultaneous multiple-part decryption and verification ops
+  | KEY MANAGEMENT FUNCTIONS ────────────────────────────────────────────────────────────────
+  |   C_GenerateKey         generates a secret key
+  |   C_GenerateKeyPair     generates a public-key/private-key pair
+  |   C_WrapKey             wraps (encrypts) a key
+  |   C_UnwrapKey           unwraps (decrypts) a key
+  |   C_DeriveKey           derives a key from a base key
+  | RANDOM NUMBER GENERATION FUNCTIONS ─────────────────────────────────────────────────────
+  |   C_SeedRandom          mixes in additional seed material to the random number generator
+  |   C_GenerateRandom      generates random data
+  | Parallel function management functions ─────────────────────────────────────────────────
+  |   C_GetFunctionStatus   legacy function which always returns CKR_FUNCTION_NOT_PARALLEL
+  | C_CancelFunction        legacy function which always returns CKR_FUNCTION_NOT_PARALLEL
+  | CALLBACK FUNCTION  ────────────────────────────────────────────────────────────────
+  |   "xxxx"                application-supplied function to process notifications from Cryptoki
+  ```
+[[}]]
+* [profiles](https://docs.oasis-open.org/pkcs11/pkcs11-profiles/v3.0/os/pkcs11-profiles-v3.0-os.html)
+  * Baseline Consumer/Provider
+  * Extender Consumer/Provider/ Authentication Token Clause, Public Certificates Token Clause
+* [historical](https://docs.oasis-open.org/pkcs11/pkcs11-curr/v3.0/os/pkcs11-curr-v3.0-os.html)
+* [historical](https://docs.oasis-open.org/pkcs11/pkcs11-hist/v3.0/os/pkcs11-hist-v3.0-os.html)
+[[}]]
+
+# Other Standard Protocols
+
+## One Time Password OTP  [[{101,]]
+* https://en.wikipedia.org/wiki/One-time_password
+* also known as a one-time PIN, one-time authorization code (OTAC)
+  or dynamic password, is a password that is valid for only one login
+  session or transaction.
+* OTP algorithms implementations vary greatly.
+* OTPs avoid several shortcomings that are associated with traditional
+  (static) password-based authentication, for example not being
+  not vulnerable to replay attacks.
+* a number of implementations also incorporate two-factor authentication
+* Very briefly, OTP algorithms makes use of (pseudo)randomness to
+  generate a shared key or seed, and cryptographic hash functions,
+  which can be used to derive a value but are hard to reverse and
+  therefore difficult for an attacker to obtain the data that was
+  used for the hash. This is necessary because otherwise, it would
+  be easy to predict future OTPs by observing previous ones.
+* CONS:
+  * OTPs can be intercepted or rerouted, and hard tokens can get lost,
+    damaged, or stolen.
+* OTP Standard implmentations include:
+  * RFC 1760 (S/KEY)
+  * RFC 2289 (OTP)
+  * RFC 4226 (HOTP)
+  * RFC 6238 (TOTP)
+[[}]]
+
+## Signal Protocol (Telegram, Whatsapp,...) [[{]]
+* What Is the Signal Encryption Protocol? 
+  <https://www.wired.com/story/signal-encryption-protocol-hacker-lexicon/>
+[[}]]
+
+## S/MIME [[{standards.S/MIME,protocol,PM.TODO]]
+* Uses Crypto.Message (PKCS#7) and pub.key infraestructure for encryption and signing
+* https://www.infoq.com/news/2018/05/efail-pgp-smime-vulnerability
+  PGP/SMIME EFail vulneravility.
+[[}]]
+
+## OTR [[{use_case.aaa]]
+* OTR stands for Off-The-Record Messaging
+<https://en.wikipedia.org/wiki/Off-the-Record_Messaging>
+* protocol for securing/authentication/encrypting instant messaging
+  communication amongst people.
+  Encrypts messages, prevents eavesdroppers, authenticates peers to each other.
+  It also provides OTR provides forward secrecy and malleable encryption.
+* OTR uses a combination of AES 128bits sym-key algorithm,
+  1536-bits group-size Diffie–Hellman and the SHA-1 hash function.
+* The primary motivation behind the protocol was providing deniable
+  authentication for the conversation participants while keeping
+  conversations confidential, like a private conversation in real life, or
+  off the record in journalism sourcing. This is in contrast with
+  cryptography tools that produce output which can be later used as a
+  verifiable record of the communication event and the identities of the
+  participants. The initial introductory paper was named "Off-the-Record
+  Communication, or, Why Not To Use PGP".[1]
+* The OTR protocol was designed by cryptographers Ian Goldberg and Nikita
+  Borisov and released on 26 October 2004.[2] They provide a client library
+  to facilitate support for instant messaging client developers who want to
+  implement the protocol. A Pidgin and Kopete plugin exists that allows OTR
+  to be used over any IM protocol supported by Pidgin or Kopete, offering an
+  auto-detection feature that starts the OTR session with the buddies that
+  have it enabled, without interfering with regular, unencrypted
+[[}]]
+
+## Dmarc sec mail [[{protocol.email.dmarc,standards.compliance]]
+* <http://www.eweek.com/security/dmarc-email-security-adoption-soars-as-us-government-deadline-hits>]
+*  DMARC: protocol protecting integrity and authenticity of email.
+   It is the result of combining several components, including:
+   * Sender Policy Framework (SPF) + Domain Keys Identified Email (DKIM):
+     to help verify email authenticity.
+* There are also different levels of DMARC policies:
+  * "p=none"   policy: enables organizations to monitor their email systems
+                       for senders,
+  * "p=reject" policy: block non-compliant messages completely.
+* BOD 18-01 mandates the use of the p=reject policy by Oct.16.    [compliance]
+  [[}]]
+
+## WebCrypto API [[{]]
+browser API for efficient and secure delivery of cryptographic primitives.
+* low-level ciphers.
+* hashes
+* "other" encryption components.
+  Being directly implemented into (trusted) browser and taking advantage of
+  local native execution and even hardware acceleration) they are much 
+  safer than js code. [[{doc_has.comparative}]]<br/>
+  WARN: They do NOT prevent certain attacks, like just sending an
+  unencrypted copy of the data to the "bad guys".
+* See also notes about "Trusted web code".
+[[}]]
+
+## BaseLine Protocol [[{PM.TODO]]
+* Normally zk-SNARKs are used as a way to say "I have a secret" to
+  someone and prove that you indeed have the secret without telling
+  them what the secret is.
+  What the Baseline Protocol uses it for is a little different.
+  It's more like saying to a specific set of counterparties,
+  "We have a secret" and using a machine that we all can access
+  to tell us that we all have the same secret (or that we do
+  not) without telling that machine anything that would let someone
+  else with access to it discover anything about the secret...or even
+  that we have one.
+[[}]]
+
+## Universal Second Factor (U2F) [[{standards,101,use_case.AAA,PM.TODO]]
+* <https://en.wikipedia.org/wiki/Multi-factor_authentication>
+
+### Security token [[{use_case.AAA,hardware,secret_mng]]
+* <https://en.wikipedia.org/wiki/Security_token>
+* Physical devices used to gain access to an
+  electronically restricted resource
+* Used in addition to or in place of a password like a
+  wireless keycard to open/unlock doors,...
+* All tokens contain some secret information used to
+  prove identity
+* There are four ways in which this info. can be used:
+  * Static password: token containing a password
+    transmitted for each authentication (vulnerable to
+    replay attacks)
+  * Syncrhonous dynamic password</def> token, using a
+    timer to rotate through various combinations. Need
+    time synchronization with server
+  * Asyncrhonous password</def> token generating One-time
+    password (no clock involved)
+  * Challenge-response</def> token using pub.key
+    cryptography
+[[}]]
+
+## Yubikey [[{use_case.AAA,hardware,PM.TODO]]
+* <https://www.yubico.com/products/yubikey-hardware/>
+* <https://github.com/drduh/YubiKey-Guide>
+* ""the industry's #1 security key, enabling strong
+  two-factor (2FA), multi-factor and passwordless authentication."""
+* Works with hundreds of services incluing Windows/Mac login,
+  Gmail, Dropbox, Facebook, Salesforce, Duo, ...
+* Multi-protocol support: FIDO2, U2F, Smart card, OTP
+[[}]]
+
+### Yubico u2f
+* <https://www.yubico.com/solutions/fido-u2f/>
+* internet open auth. enabling users to securely access services
+  with one single sec.key and with no drivers or client software needed
+* u2f at github.com/google:
+  <https://github.com/google?utf8=%E2%9C%93&q=u2f&type=&language=>
+* See also: Universal Authentication Framework (UAF) protocol:
+  * vision: "take strong public key crypto to the mass market"  [[qa.UX]]
+  * Successfully deployed by Facebook, Gmail, Dropbox, GitHub, Salesforce.com,
+    the UK government, and many more.
+[[}]]
+
+## X.509 TimeStamp Protocol [[{crypt_oneway.hash,use_case.non_repudability,]]
+                            [[use_case.proof-of-existence,standards.pki.x509]]
+* <https://tools.ietf.org/html/rfc3161>
+* RFC describes format for request and responses sent to a
+  Time Stamping Authority (TSA)
+* It establishes several security-relevant requirements for TSA
+   operation
+* TSA service:
+  * provides proof-of-existence:
+    * Some data datum existed before a particular time.
+      (only the hash representation is used by the protocol)
+  * Can also be used as the base for Non-repudiation services [ISONR]
+  * only time-stamp a hash representation of the datum, i.e., a
+  * CAs will issue custom certificates for this service indicating
+    that it is exclusively used for this TSA purpose
+
+REF: 2.2. TSA Transactions
+  ```
+  | A > TSA: request1
+  |          --------
+  |          type:TimeStampReq
+  | 
+  | TSA > A: response1
+  |          ---------
+  |          TimeStampResp
+  |            TimeStampToken(TST)
+  | 
+  | A >   A:- verify status error
+  |         - verify fields contained in the TimeStampToken
+  |         - verify validity of digital signature
+  |         - verify that what was time-stamped corresponds
+  |            to what was requested
+  |         - verify that the TimeStampToken contains:
+  |           - the correct certificate identifier of the TSA
+  |           - the correct data imprint
+  |           - the correct hash algorithm OID.
+  |         - verify time included in the response against
+  |           local trusted time reference
+  ```
+
+See original RFC for extended details
+[[}]]
+
+## Fuzzy Encryption [[{use_case.secret_mng,secret_mng.wallets,qa.UX,PM.TODO]]
+
+* <https://github.com/decentralized-identity/fuzzy-encryption>
+* A variant of a Fuzzy Vault cryptographic scheme, designed for
+  encrypting secrets that can be more easily recovered by humans.
+[[}]]
+
+## Key Shadowing [[{secret_mng.wallets]]
+```
+| X: how many of the key shadows are to be generated,
+| Y: how many of the key shadows are to be required for decrypting
+|    an encrypted message, determining or receiving a master key
+|    for decrypting the encrypted message, and determining X key
+|    shadows of the master key.
+|    >=Y: key-shadows is sufficient to computationally find the master key
+|    < Y: computationally infeasible to determine any part of master key.
+```
+[[}]]
+
+# Hardware Security Module(HSM) (Vaults, encrypt modules,...)
+
+## HSM PROTOCOL/APIs SCHEMA [[{secret_mng,hardware,doc_has.diagram]]
+
+```
+|        ┃  COMMUNICATION          ┃
+|        ┃ APIs/PROTOCOLS          ┃
+|        ┃                         ┃
+|        ┃ Standard Cross-Platform ┃
+|        ┃   - PKCS#10             ┃
+|        ┃   -OpenSSL              ┃ HARDWARE
+|        ┃   -KMIP                 ┃ SECURITY
+|APP     ┃                         ┃  MODULE
+|        ┃ Non-Standard and/or     ┃
+|        ┃ Non-Cross-Platform      ┃
+|        ┃   -Java JCE             ┃
+|        ┃   -MS/CAPI              ┃
+|        ┃   -"others"             ┃
+```
+
+```
+ |                         PKCS#11 flow
+ |──────────────────────────────────────────────────────────────────────────────────
+ |     SOFTWARE                 ┇            HARDWARE
+ |______________________________    ┃   ____________________________________________
+ |                              ┃       ┌─────────────┐  ┌───┐  ┌──────────────────┐
+ |App ←> Driver PKCS#11 ←> OpenSC > ┃ <>│Crypto OpenSC│<>│Phy│<>│SmartCard ISOXXXX │
+ |                              ┃       └─────────────┘  └───┘  └──────────────────┘
+```
+
+Ex:
+* Securosys HSM, used by R3 Corda to encrypt and sign offline.
+  * REF:
+  <https://www.securosys.com/en/products/primus-hardware-security-modules-hsm>
+  <https://www.youtube.com/watch?v=ydMMb1wcCT0&list=PLi1PppB3-YrVeHKIhNxm3_4NvO0AFSvWr> (~8min:00)
+[[}]]
+
+[[{secret_mng,hardware,secret_mng.keystore,use_case.signature,use_case.AAA,tech_stack.java]]
+## USB Armory  
+<https://inversepath.com/usbarmory>
+The following example security application ideas
+illustrate the flexibility of the USB armory concept:
+* Hardware Security Module (HSM)
+* encrypted file storage with malware scanning,
+  host authentication and data self-destruct
+* USB firewall, bridging built-in receptacle and plug ports
+* OpenSSH client and agent for untrusted hosts (kiosk)
+* router for end-to-end VPN tunnelling, Tor
+* password manager with integrated web server
+* electronic wallet (e.g. pocket Bitcoin wallet)
+* authentication, provisioning or licensing token
+* portable penetration testing platform
+* low level USB security testing
+[[}]]
+
+[[{standards.PKCS,secret_mng,use_case.AAA,hardware,use_case.signature,secret_mng.keystore]]
+## Enterprise HSM 
+
+<https://safenet.gemalto.com/data-encryption/hardware-security-modules-hsms/protectserver-security-module/>
+
+  ```
+  |             SECP256K1                      Crytographic APIs
+  |           │          ┌────────┬─────────────┬──────────────┬────────┐
+  |           │          │ PKCS#11│Java(JCA/JCE)│ MS CAPI  CNG │ OpenSSL│
+  |───────────│──────────┼────────┼─────────────┼──────────────┼────────┤
+  |nChiper    │          │        │             │              │        │
+  |           │          │        │             │              │        │
+  |Gemalto    │          │        │             │              │        │
+  |(LunaHSM)  │          │        │             │              │        │
+  |           │          │        │             │              │        │
+  |....
+  ```
+[[}]]
+
+
+@ma
+# Trusted Execution Environment [[{]]
+* REFS: 
+  <https://en.wikipedia.org/wiki/Trusted_execution_environment>
+  <https://en.wikipedia.org/wiki/Trusted_Platform_Module>
+
+Summary from:
+<https://www.infoq.com/presentations/iot-cloud-options-production/>
+* different providers, platforms and structures.
+* 10-second pitch: "you can do something with secrets in
+  a trusted environment where nobody else has access or
+  visibility into what's going on
+  It's ability to encrypt, decrypt, sign, provide attestation.
+  A general purpose environment that is structured separately
+  from the rest of the runtime.
+  It changes the model for security. ...
+  really anything that requires some sensitive computing
+  really should be considered in the realm of TXE.
+* hardware enclaves are a subset of TXE.
+* Before TXE:
+  "You had some process running on some machine that would
+   contact a HSM and perform an operation sign/verify/encrypt/...
+   It would typically happen over a PKCS 11 channel or
+   HTTP REST APIs.
+   If you wanted something encrypted, you would send it to
+   HSM and it would come back encrypted.
+   PRETTY SIMPLE IDEA, VERY COMPLICATED SETUP, VERY COSTLY TO USE.
+   ULTIMATELY, REDUNDANCY AND RESILIENCY WERE DIFFICULT PROBLEMS
+   TO SOLVE."
+* After TXE:
+  "TXE changes the model a little bit. Now I'm going to live
+  inside of the execution runtime of the application,
+  inside or close to the processor.
+  Data edge shipped in and out of the process runtime, and
+  special instruction sets or special machine code can be
+  run to perform the enclave or a T.Env.Exec.
+  you're in a world where there's not maybe a reliable network,
+  or the ability to communicate with an HSM.
+  Intel has Software Guard Extensions SGX. .. full end-to-end
+  example of how to seal and unseal a secret inside of SGX
+  AMD has a similar platform Secure Execution Environment: SEV.
+  with a few notable differences.
+  ARM has TrustZone available on a majority of the ARM platform
+  system on a chip environments.
+  Apple has Secure Enclave: (It has been around for quite a while).
+  AWS has Nitro Enclaves.
+  Google Cloud and Microsoft Azure have similar enclave offerings,
+  but they tend to rely on AMD SEV or Intel SGX.
+* KEY-POINT: hardware enclaves represent a change in the threat model.
+  (what can go wrong).  while side channels are a lot more difficult 
+  to pull off, they still exist.
+* you have a bunch of untrusted code ... when you need to operate on
+  a secret, you enter a trusted code.
+* You'll ship the code or you'll ship the data you want to en/de-crypt
+  into the enclave, let it perform its duties, and it will return the
+  results.
+* different vendors offer different "ergonomics" (simplicity/SDKs)
+  * Apple wins head on: The ease of use in Apple's Secure Enclave environment
+    is awesome. Great documentation, available in Swift and Objective-C.
+    Build very easily to Xcode. It feels "batteries included".
+  * ARM TrustZone looks to be the one going further into the market of mobile, IoT,...
+  * Intel offers the more comple approach....unfortunately it is one of the more
+    difficult ones to get going and use.
+* Some designs rely on protection rings versus true separation:
+  you're at a kernel level at ring 0 dropping to ring -3 to do the enclave transaction.
+  (Intel SGX style).
+* Some designs have even separate chips. (vs separate instruction set)
+* Some implementations requires registering a set of keys with the vendor, authorizing
+  your keys to run inside of an environment. There's not just a plug and play deploy
+* Availability:
+  * ARM:  there are unssuported chips.
+  * Apple: supports it for a broad majority.
+  * Intel: SGX available in pizza boxes, smaller servers but more capable enterprise grade
+         servers don't come with any support for SGX. (roadmap to include in next generations)
+* SGX gives the simulation mode """As long as you have the SDK and the SDK can be compiled and installed,
+  you can compile and run SGX based applications in simulation mode, which is great
+  if I understand it correctly, still just using OpenSSL under the hood. You're getting all of the same
+  types of operations you'd get. OpenSSL is inside of the enclave as well.  """
+* """ If you have a fleet of thousands of machines in a fully networked environment,
+   I think the scale problem, HSMs are going to solve that in a more meaningful way.
+   ... If you're designing an IoT system ...  it's a whole different conversation"""<br/>
+   <br/>
+   """ we're putting a lot of faith in vendors much like we put a lot
+     of faith in the hardware security module vendors...  There used to be
+     a lot of them and they keep buying each other ... the vendor trust is
+     actually shrinking in the HSM space """
+   <br/>
+  """ attackers have 100% of their time to attack and you have some very
+   small fraction of your time to defend unless your entire business is
+   security and protection """
+* In the world of ASICs and FPGAs, you only get what you design.
+* The most critical thing here is, in your application, preventing the side channel.
+  As you're marshaling data, making sure that you're not leaking the key material.
+  The key material goes into the enclave sealed. It stays sealed. You're never
+  exporting key material out. The idea of the OCALL versus ECALL. The sensitive data
+  needs to always happen in the ECALL. Then what's shipped out in the OCALL boundary
+  needs to be vanilla plain, not secret.
+[[}]]
+
+## [Intel SGX](https://en.wikipedia.org/wiki/Software_Guard_Extensions)
+
+REF: <https://software.intel.com/en-us/blogs/2013/09/26/protecting-application-secrets-with-intel-sgx>
+
+  WARN: SGX was vulnerable to Meltdown and Spectre hardware bugs
+CPU instruction set allowing user-level code to allocate
+private regions of memory (enclaves) protected from
+processes running at higher privilege levels. (secure
+remote computation, secure web browsing, DRM).
+
+SGX is a set of instruction set extensions for CPUs
+released in Fall 2015 and available on recent CPUs. The
+key ability SGX provides is the notion of confidential,
+private execution with integrity guarantees. In essence,
+the chip has a special construct called an enclave. An
+enclave is like an ordinary program, except that the
+memory contents of an enclave are encrypted whenever they
+are off-chip, and accessible only on-chip, and only while
+the special enclave code is running. Further, the
+decryption keys are available solely to code with a
+certain hash: if you or a hacker were to hack the enclave
+code and change its hash, that hacked code will no longer
+have access to the encryption keys, repelling attacks. As
+a result, this ingenious technology does not permit anyone
+, even the owner of the machine who can modify the code
+arbitrarily, to peek at the contents of the enclave or to
+modify execution within an enclave. Further, the SGX
+hardware enables remote attestation, that is, the ability
+to prove to a remote computer that a given enclave is
+running a particular software distribution. In essence,
+the chip is able to issue a statement that says "I
+guarantee to any remote party that I am running this code
+with this particular hash," which is a critical
+bootstrapping mechanism. Teechan is built on these two
+underlying features, which, together, provide a trusted
+execution environment (TEE).
+[[}]]
+
+[[protocol.tls}]]

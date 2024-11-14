@@ -1,15 +1,44 @@
-notes.txt
+101.txt
+advanced_primitives.txt
+rm secret_protection_primitives.txt
+data_integrity_and_protection.txt
 openssl.txt
+PCKS_standard.txt
+protocol_TLS.txt 
 opengpg.txt
+XML_Signatures.txt
+../Identity/JWT_JWS_JOSE.txt
 math_behind_bip32.md
 project_everest.txt
+vaults_and_HSMs.txt
 TODO.txt
 who-is-who.txt
 ZeroKnowledgeCrypto.txt
 zkp_why_and_how_zkSNARKS.txt
-IoT_smart_cards.txt
+smartcards.txt
 IoT_azure_sphere.txt
 hyperledger_ursa.txt
 // WiP:
 BSS_signature_summary.txt
 // real_world_crypto_notes.txt
+
+//  REVIEW
+// RFC 4122, P. Leach et al., A Universally Unique IDentifier (UUID) URN Namespace, July 2005
+// RFC 4648, S Josefsson, The Base16, Base32, and Base64 Data Encodings, October 2006
+// RFC 5246, T. Dierks et al., The Transport Layer Security (TLS) Protocol Version 1.2, August 2008
+// RFC 5280, D. Cooper et al., Internet X.509 Public Key Infrastructure Certificate and Certificate Revocation List (CRL) Profile, May 2008
+// RFC 5639, M. Lochter et al., Elliptic Curve Cryptography (ECC) Brainpool Standard Curves and Curve Generation, March 2010
+// RFC 5869, H. Krawczyk, HMAC-based Extract-and-Expand Key Derivation Function (HKDF), May 2010
+// RFC 6066, D. Eastlake 3rd, Transport Layer Security (TLS) Extensions: Extension Definitions, January 2011
+// RFC 7049, C. Bormann et al., Concise Binary Object Representation (CBOR), October 2013
+// RFC 7748, A. Langley et al., Elliptic Curves for Security, January 2016
+// RFC 7905, A. Langley et al., ChaCha20-Poly1305 Cipher Suites for Transport Layer Security (TLS), June 2016
+// RFC 8032, S. Josefsson et al., Edwards-Curve Digital Signature Algorithm (EdDSA), January 2017
+// RFC 8152, J. Schaad, CBOR Object Signing and Encryption (COSE), July 2017
+// RFC 8252, W. Denniss et al., Oauth 2.0 for Native Apps, October 2017
+// RFC 8259, T. Bray, The JavaScript Object Notation (JSON) Data Interchange Format, December 2017
+// RFC 8410, S. Josefsson et al., Algorithm Identifiers for Ed25519, Ed448, X25519, and X448 for Use in the Internet X.509 Public Key Infrastructure, 2018-08
+// RFC 8422, Y. Nir et al., Elliptic Curve Cryptography (ECC) Cipher Suites for Transport Layer Security (TLS) Versions 1.2 and Earlier, August 2018
+// RFC 8943, M. Jones et al., Concise Binary Object Representation (CBOR) Tags for Date, November 2020
+// RFC, CBOR Object Signing and Encryption (COSE): Headers for carrying and referencing X.509 certificates
+// Wi-Fi Alliance, Neighbor Awareness Networking Specification, Version 3.1

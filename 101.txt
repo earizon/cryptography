@@ -1,0 +1,1317 @@
+## Apropos
+* Growing collection of Cryptography notes with a "TL'DR touch"
+* Content is versioned in git.  commits, issues and pull-requests welcome!
+  <https://www.github.com/earizon/cryptography>
+* HTML view:
+  <https://earizon.github.io/txt_world_domination/viewer.html?payload=../cryptography/notes.txt>
+<hr/>
+* switch-on/off (translucent) rules in the settings menu
+  `( **click ⚙ button** )`
+* To list the index click the **'≣' button**.
+* Click on the  **'◂' button** to show/hide the control pannel.
+* To filter out content based on topics/subtopics click the **∷ button** .
+  "topics" classification. Topic acronymns include:
+  * PM: Project Management.
+    * LOW_CODE: Solutions requiring low code or effort to implement.
+    * BACKLOG : Interesting information to cover in a future.
+    * TODO    : Planned in future versions.
+    * WIP     : Work in Progress.
+    * TROUBLESHOOT: Anything that can help fixing problems.
+  * DOC_HAS: Used to classify based on the type of document.
+  * QA     : Quality Assurance. Anything helping to improve tasks.
+  * 101    : Core concepts
+  * qa     : Quality Assurance
+  * qa.UX  : QA User Experience
+
+## External Links [[{]]
+* <https://en.wikipedia.org/wiki/Index_of_cryptography_articles>
+* <https://cryptography.io/en/latest/>
+* <https://crypto.stackexchange.com>
+* <https://www.rsaconference.com/>
+* <https://iancoleman.io/>JS Tools for:
+   * BIP39 Mnemonic Code Converter
+   * Blockchain Blocksize/SAFE Network Attack/...
+   * Group Size Calculator
+   *  Cost Benefit Calculator
+   * Multisig Tool
+   * ...
+-<https://keccak.team/index.html>
+  information about our different cryptographic schemes and constructions,
+  their specifications, cryptanalysis on them, the ongoing contests and the
+  related scientific papers.
+- Outline of Cryptography at Wikipedia:
+<https://en.wikipedia.org/wiki/Outline_of_cryptography>
+- Ronald L.Rivest List of Links!!!
+<http://people.csail.mit.edu/rivest/crypto-security.html>
+- Kevin McCurley's links:
+<http://www.swcp.com/~mccurley/cryptographers/cryptographers.html>
+- University of Southern California (Information Sciences Institute;
+  Global Operating Systems Technology (GOST) Group)
+<http://nii.isi.edu/gost-group/>
+- Rootshell.be articles on exploits, security alerts, ...:
+<http://https://blog.rootshell.be/>
+- Electronic Colloquium on Computational Complexity:
+<https://eccc.weizmann.ac.il/>
+- ACM Special Interest Group on Security, Audit and Control (SIGSAC):
+<http://www.sigsac.org/>
+- NSA Playset (OOSS ANT catalog):
+<https://en.wikipedia.org/wiki/NSA_Playset>
+- Cryptology ePrint Archive:
+  <https://eprint.iacr.org/>
+  * rapid access to recent research in cryptology.
+  * Papers have been placed here by the authors and did
+    not undergo any refereeing process other than verifying
+    that the work seems to be within the scope of cryptology
+    and meets some minimal acceptance criteria and publishing
+    conditions.
+* SCIPR Lab:
+<http://www.scipr-lab.org/>
+<https://github.com/scipr-lab>
+  multi-institutional academic collaboration of researchers
+  seeking to bring to practice cryptographic proof systems that
+  provide succinct integrity and privacy.
+
+### External Links on Number Theory
+* <http://numbertheory.org>
+- [Number Theory and its History](https://archive.org/stream/NumberTheoryItsHistory/Ore-NumberTheoryItsHistory)
+- The Prime Pages <http://primes.utm.edu>
+- [NTL](http://www.shoup.net/ntl): A Library for Doing Number Theory
+
+## Bibliography/Books
+* Crypto101
+  <https://www.crypto101.io/>
+* Real-World Cryptography: by ... 2021 (Maning)
+* Encyclopedia of Cryptography and Security
+  <https://www.springer.com/us/book/9781441959058>
+* Handbook of Applied Cryptography, by Menezes, van Oorschot, and Vanstone.
+  <http://www.cacr.math.uwaterloo.ca/hac/>
+* Intro to Crypto.
+<https://www.cs.umd.edu/~waa/414-F11/IntroToCrypto.pdf>
+ <https://en.wikipedia.org/wiki/List_of_important_publications_in_cryptography>
+* "Applied Cryptography", Bruce Schneier, ISBN 0-471-11709-9, 1993
+* <https://cryptobook.nakov.com/>
+  [github link](https://github.com/nakov/Practical-Cryptography-for-Developers-Book)
+  modern practical book on cryptography for developers with code examples,
+  covering core concepts like hashes (like SHA-3 and BLAKE2), MAC codes
+  (HMAC,GMAC, ...), key derivation functions (like Scrypt, Argon2), key
+  agreement protocols (like DHKE, ECDH), symmetric ciphers (AES, ChaCha20,
+  cipher block modes, authenticated encryption, AEAD, AES-GCM,
+  ChaCha20-Poly1305), asymmetric ciphers and public-key cryptosystems
+  (RSA, ECC, ECIES), elliptic curve cryptography (ECC, secp256k1, curve25519),
+  digital signatures (ECDSA and EdDSA), secure random numbers (PRNG, CSRNG)
+  and quantum-safe cryptography, along with crypto libraries and developer tools,
+  with a lots of code examples in Python and other languages.
+[[}]]
+
+## Conferences and Groups
+* 2012: Kenny Paterson and Nigel Smart started an annual conference
+        called Real World Crypto.
+
+# Cryptography 101 [[{101]]
+
+  ☞ Doing encryption right is tough, MANAGING SECRETS IS EVEN HARDER!!! ☜[[{doc_has.keypoint}]]
+
+  ☞ Do not reinvent cryptographic schemas. Reuse what has been
+audited by experts for years. Delegate on well audited and supported
+libraries. For network communication try to reuse proyects like Envoy
+for TLS and mutual TLS, Linux Kernel WireGuard or SSH client/servers
+for VPNs, .. !!! ☜[[{doc_has.keypoint}]]
+
+### PERFECT SECRECY:
+
+It refers to a cryptosystem whose security derives purely
+from INFORMATION THEORY => It cannot be broken even with unlimited resources
+(unless the secret is exposed).
+* There is NOT enough information to break the encryption.
+  cryptosystems are considered cryptanalytically-unbreakable.
+* This mostly correspond to "symmetric" encryption schemas.
+<https://en.wikipedia.org/wiki/Information-theoretic_security>
+
+### (PERFECT) FORWARD SECRECY
+... ensures that session (temporal/on-demand) keys
+will not be compromised even if the private key of the server is compromised.
+Forward secrecy protects past sessions against future compromises of secret
+keys or passwords.
+
+WARN: Simple symetric encryption schemas are NOT forward secrecy compliant,
+      and a compromised keys can reveal past encrypted-communications.
+* REF <https://en.wikipedia.org/wiki/Forward_secrecy>
+
+### SECRET SHARING
+* refers to methods for distributing a secret amongst a group
+  of participants, each of whom is allocated a share of the secret.
+  The secret can be reconstructed only when a sufficient number, of possibly
+  different types, of shares are combined together; individual shares are of
+  no use on their own.
+<https://en.wikipedia.org/wiki/Secret_sharing>
+
+### AVALANCHE EFFECT
+* desirable property of cryptographic algorithms.
+* typically block ciphers and cryptographic hash functions, wherein if an
+  input is changed slightly (for example, flipping a single bit), the output
+  changes significantly.
+* <https://en.wikipedia.org/wiki/Avalanche_effect>
+
+### Cryptographic Primitive
+* Informal term. Conceptually, it is the smallest
+* useful construction we can have in cryptography. The term appears
+  frequently in text books.
+* Cryptographic Protocol: Construction based in cryptographic primitives
+  in order to build a protocol.
+
+### MALLEABILITY
+* An (often) UNdesirable property of some cryptographic algorithms.
+* An encryption algorithm is "malleable" if it is possible to transform
+  a ciphertext into another ciphertext which decrypts to a related plaintext.
+<https://en.wikipedia.org/wiki/Malleability_(cryptography)>
+
+### SPONGE FUNCTION (OR SPONGE CONSTRUCTION):
+  algorithms with finite internal state taking an input bit stream
+  of any length and producing an output bit stream of desired length.
+  Used to model and implement many cryptographic primitives, including
+  cryptographic hashes, message authentication codes, mask generation
+  functions, stream ciphers, pseudo-random number generators, and
+  authenticated encryption.
+<https://en.wikipedia.org/wiki/Sponge_function>
+
+### BRUTE FORCE ATTACKS
+<https://twitter.com/fermatslibrary/status/969935429712666625>
+
+  According to the second law of thermodynamics, the minimum amount
+of energy required to record a single bit by changing the state
+of a system is:
+  ```
+  ┌─····· Boltzman-Constant
+  ·   ┌·· temperature of the system
+  v   v
+  K x T
+  ```
+
+Assuming an ideal computer running at 3.2ºK (The temperature
+of the cosmic background radiation), a bit change would consume
+4.4 x 10^-16 erg.
+* Annual energy output of the Sun: 1.21 x 10^41 Erg, enough to
+  power 2.7 x 10^56 single bit changes, or enough to put a
+  187-bit counter through all its values.
+* To run through a 256-bit key we would need to build Dyson spheres
+  and capture the energy of:
+  2^69 = 5.9 x 10^20 Suns during a year!!!
+
+### RANDOM NUMBER GENERATORS TYPES: [[{101,protocol.TLS]]
+  * True random number generators: quantum, thermal, oscillators,...
+  * Cryptographically secure pseudorandom generators
+    (Unix /dev/urandom, Windows CryptGenRandom,...)
+  * Pseudo-random number generators.
+
+* WARN: damaged or wrong random number generators will break most cryptographic systems.
+  As a example a poor random number generator:
+  [Makes 1 in every 172 RSA Certificates Vulnerable](<https://www.infoq.com/news/2019/12/rsa-iot-vulnerability/>) [[{101,crypt_asymmetric.rsa,doc_has.keypoint}]]
+  [[}]]
+
+# Symmetric Cryptography
+
+## Symmetric primitives [[{101]]
+
+* Diagram summary:
+  ```
+  | Peer 1                              Peer 2
+  | Plain > |Encrypt|> C1 > |Decrypt| > Plain
+  |             ^                ^
+  |             └─ KEY("Secret") ┘
+  |             SHARED BY PEER 1 AND 2
+  ```
+
+NOTE: In symmetric cryptography the key is often refered with
+the name of **"PASSWORD" to distinguish from "PRIVATE KEY"
+ used in asymmetric cryptographic schemas**.
+[[{doc_has.comparative}]]
+
+Symmetric crypto. broadly splits in two categories:
+
+* SYMMETRIC STREAM CIPHERS:          [[{crypt_symmetric.stream_cipher]]
+  * inputs of "any lenght". Very difficult to implement properly.
+  * Implementations: ChaCha, ...
+  ```
+  |  INPUT          KEYSTREAM
+  |                 GENERATOR
+  |  ----------     ---------
+  |  KEY, NONCE ···············> K0, K1, ...  ┐
+  |                                           ├·> XOR ·> C0, C1, ...
+  |  MESSAGE    ···············> M0, M1, ...  ┘
+  ```
+  * **"BUTS"**
+    Generating a safe (non predictive) KEY for the stream cipher is "difficult"
+[[}]]
+
+* BLOCK  CIPHER:                    [[{crypt_symmetric.block_cipher]]
+  * inputs must be divided into chunks of same size.
+  * Hide plaintext transformation to ciphertext through:
+    * confusion : mapping input to output hard to predict (not linear and parts of keys)
+    * diffusion : permutate bits
+  * Block ciphers have one or more block size(s), but during transformation
+    the block size is always fixed.
+  * Block cipher operation modes:
+    * A block cipher alone can only encrypt a single block of N-bits.
+    * The operation mode describes how to repeatedly apply a
+      cipher's single-block operation to securely transform N blocks.
+    * Most modes require an initialization vector (IV) for each new encrypt.  [[crypt_symmetric.IV]]<br/>
+      **IV must be non-repeating and, for some modes, random as well.
+        and unpredictable => Difficult to generate** (vs Nonce).              [[doc_has.comparative]]
+      * KEYPOINT: IV ENSURE DISTINCT CIPHERTEXTS ARE PRODUCED EVEN FOR THE SAME PLAINTEXT.
+        WHEN REUSING THE SAME PASSWORD.
+  * Most block ciphers are based on SP-Networks composed of:
+    * Subtitution box : "map<byte, byte>"   (replace bytes with bytes )
+    * Permutation box :  moves bits around.
+    * Some substitution plus permutation are combined into a single round.
+    * Rounds are then repeated enough times to ensure the algorithm is secure
+    * SP-Networks alone are not enought. An extra  (secret)KEY  is used like:
+      ```
+      |                  ROUND1                ROUND2       ...   
+      |                                                           
+      | Plain > XOR > │Subsitution│ > XOR > │Subsitution│ > ... > C
+      |         KEY   │Permutation│   KEY   │Permutation│          
+      ```
+
+### Block Chipers Operation modes include:
+
+* ELECTRONIC CODE BLOCK (ECB):
+  WARN: Deprecated. Don't use it, if different messages share
+  same data information data leaks cans rise
+   ```
+   | M1 > |E_k| > C1 |
+   | M2 > |E_k| > C2 |
+   | M3 > |E_k| > C3 |
+   ```
+* CIPHER BLOCK CHAINING (CBC): <- "BUTs":
+  1. NOT PARALELIZABLE.
+  1. can not seek randomnly
+  1. Needs an UNPREDICTABLE IV
+  ```
+  |IMPUT                           
+  |_____                           
+  |IV                              
+  |M1    > |XOR(IV)| > |E_k| > C1
+  |      > |XOR(M2)| > |E_k| > C2
+  |      > |XOR(M3)| > C3
+  ```
+* COUNTER MODE (CT):  (Can be paralellized)
+  ```
+  |Nonce + 0 > |E_k| > XOR(M1) > C1  ← Noces are used once         [[crypt.nonce]]
+  |Nonce + 1 > |E_k| > XOR(M2) > C2
+  |Nonce + 2 > |E_k| > XOR(M3) > C3
+      ```
+
+* BLOCK CHIPER "BUTS":
+  * block chipers require Padding when the message does NOT exactly
+    match a multiple of key size. This can introduce security bugs if not
+    implemented properly.<br/>
+   <https://en.wikipedia.org/wiki/Padding_(cryptography)>
+    (There are block chiper operation modes that do NOT require padding
+     because they effectively use a block cipher as a stream cipher).
+  [[}]]
+[[}]]
+
+## AES [[{101,crypt_symmetric.aes,use_case.encryption]]
+
+* used by "almost every block cipher"
+* Supersedes DES(2002 Standard)[[crypt_symmetric.des,doc_has.comparative]]
+* Built around Rijndael (SP-Network with 128bit block size) with
+  128|192|256 bits keys.
+* Round count depends on key lenght: 10|12|14 cycles
+* For each Round: SubBytes -> ShiftRows -> MixColumns
+* Modern CPUs have hardware instruccions to accelerate AES computation.<br/>
+  REF: study of AES-NI acceleration using (Libre|Open)SSL, 2018-11-08
+  <https://calomel.org/aesni_ssl_performance.html>
+  * AES-NI x86-extension **MUST BE ENABLED THROUGH THE BIOS** [[troubleshooting.AES,standards.AES]]
+    ```
+    |$ cat /proc/cpuinfo | grep flags <·· Checking AES-NI enabled on linux
+    | flags: fpu vme ... aes  ... arat
+    ```
+  * Only supported by real CPU cores - vs hyper-threaded/Virtual cores -
+  * LibreSSL 2.5.0 ( ~ OpenSSL 1.0.2d) ; FreeBSD 11 ; Clang LLVM compiler
+    8192 byte blocks
+    Script used for testing:
+    ```
+    | $ openssl speed -elapsed -evp chacha
+    | $ openssl speed -elapsed -evp aes-128-gcm
+    | $ openssl speed -elapsed -evp aes-256-gcm
+    | $ openssl speed -elapsed -evp aes-128-cbc
+    | $ openssl speed -elapsed -evp aes-256-cbc
+    |
+    | Results: (ChaCha20 256 bit stream cipher,
+    | NOT accelerated used as reference/baseline)
+    |
+    | AES Performance per-CPU-core for TLS v1.2 Ciphers
+    | (Note, Google opts for ChaCha20 for low-powered devices )
+    |
+    |                     ┌···················· ChaCha20
+    |                     ·    ┌··············· AES-128-GCM
+    |                     ·    ·    ┌·········· AES-256-GCM
+    |                     ·    ·    ·    ┌····· AES-128-CBC
+    |                     ·    ·    ·    ·    ┌ AES-256-CBC
+    |                     ·    ·    ·    ·    ·    Total
+    |                     ·    ·    ·    ·    ·    Score
+    |                     v    v    v    v    v    -----
+    | AMDRyzen7 1800X   573 3006 2642 1513 1101  = 8835
+    | Intel W-2125      565 2808 2426 1698 1235  = 8732
+    | Intel i7-6700     585 2607 2251 1561 1131  = 8135
+    | AMD FX 8350       367 1453 1278  716  514  = 4328
+    | AMD FX 8150       347 1441 1273  716  515  = 4292
+    | Int.E5-2650 v4    404 1479 1286  652  468  = 4289
+    | Int.i5-2500K      358 1274 1140  728  522  = 4022
+    | Int.Xeon E5-2630  247  962  864  541  394  = 3008
+    | Int.Xeon L5630    225  701  610  626  450  = 2612
+    | Int.ATOM D525      98   51   43   28   20  =  240
+    | Snapdra. S4 Pro*1 131   41    -    -    -  =  172
+    | ARM Cortex A9  *1  73   24    -    -    -  =   97
+    | [[{scalability.algorithm}]]
+    | *1: Snapdragon and ARM Cortex values reported by Google Developers
+    ```
+How do I interpret the results? Let's suppose:
+* connection bandwidth: 10 Gbs (=1,250MBs)
+* Web server is able to concurrently encrypt|decrypt
+  data to saturate the 10 gigabit connection.
+* Suppose 100% of our clients use AES-128-GCM cipher
+* we need at least two CPU cores: one to recieve/decrypt and one for encrypting/send
+* IDEALLY each CPU must be able to sustain 10Gbs/1,250MBs of AES encrypted data/cpu-core.
+* From previous performance-table, just "AMD Opteron 6380" and  faster ones will be able
+  to keep to pace.
+  (Note: Opteron-6380 has 16 cores, so it leaves many other CPU cores for network I/O,
+   firewall rules, ...)
+
+REAL-WORLD ...
+* Clients connect with a variety of ciphers.
+* System is not dedicated to just cipher processing.
+* Some ciphers can be paralellized in multiple cpu-cores
+  e.g: "Intel Xeon L5630" 4-cores can process up to 701 MB/s AES-128-GCM data (2,804 MBs)
+  (enough for en/de-crypting data on a 10 gigabit link using AES-128-GCM)
+
+[[{crypt_oneway.hash,101,use_case.data_integrity,use_case.proof-of-existence]]
+
+# Hash (Oneway) Primitives
+
+  ```
+  |             ···· computationally feaseable ······>
+  |             <··· computationally non-feaseable ···
+  |
+  | Small/Big input ····> | Hash Function | ····> Hash Result
+  | (preimage)
+  ```
+
+- A single bit change in "Plain" input causes a completely
+  different Hash Result. ("avalanche effect").
+- There are infinite inputs for each possible hash output.
+  Still, given a single hash output, it's extremnly difficult to
+  find any of the infinite plain inputs (without previous knowledge)
+- Used to validate input integrity (input has not been modified).
+- Frequently combined with symmetric/asymmetric primitives.
+- Cryptographic Hash function desired security properties:
+  * preimage resistance: It must be imposible to reverse the hash to
+    recover the input. ("one-way computation")
+  * collision resistance: No one should be able to produce two different inputs
+    that hash to the same output.
+  * second pre-image resistance: it must be imposible to find a different input
+    that hashes to the same digest.
+    (similar to collision resitance, but in this case we have information
+     about a first input)
+
+### Math 101 "Birthday bound": (Probability theory)
+* **Q** : _How many people in a room are needed to find, at least with a
+     50% of chance, two people sharing the same birthday_?<br/>
+  **A** : 23 people on average!!!<br/>
+  IN GENERAL, IF WE RANDOMLY GENERATE STRINGS FROM A SPACE OF 2^n
+  POSSIBILITIES, WE CAN EXPECTE A 50% CHANCE THAT SOMEONE WILL FIND A
+  COLLISION AFTER HAVING GENERATED APPROXIMATELY 2^(n/2) STRINGS.
+  ```
+  | eg: IN A 2²⁵⁶ SPACE, WE NEED TO GENERATE 2¹²⁸ HASHES =>
+  |     We need 128 bits for pre-image&second-preimage
+  |     resistance and 256 bits for collision-resistance.
+  ```
+* Hash functions take messages of any lenght, and returns a
+  pseudo-ramdom hash of fixed length.
+  ```
+  | ┌··· Loop <··┐
+  | ·            ·
+  | Block of   Current ··> Final
+  | message     Hash       Hash
+  | ·            ·
+  | └··> Loop ···┘
+  ```
+
+### CipherText + HASH(KEY+CipherText)
+
+* **Q**. Why the "5381"/"33"/... constant in hash?
+  [REF@stackoverflow](https://stackoverflow.com/questions/10696223/reason-for-5381-number-in-djb-hash-function)<br/>
+  **A**. """ 5381 is just a number that, in testing, resulted in
+  [fewer collisions](http://en.wikipedia.org/wiki/Collision_%28computer_science%29) and
+  [better avalanching](http://en.wikipedia.org/wiki/Avalanche_effect).
+  You'll find "magic constants" in just about every hash algorithm.
+
+## SHA-3
+* Subset of [Keccak](https://en.wikipedia.org/wiki/SHA-3)
+
+## BLAKE3  
+* Extremely Fast+Parallelizable Crypto.Hash
+* [REF@InfoQ](https://www.infoq.com/news/2020/01/blake3-fast-crypto-hash/)
+  """ BLAKE3 is the most recent evolution of the BLAKE cryptographic hash
+    function. Created by Jack O'Connor, Jean-Philippe Aumasson, Samuel
+    Neves, and Zooko Wilcox-O'Hearn, BLAKE3 combines general purpose
+    cryptographic tree hash bao with BLAKE2 to provide a big performance
+    improvement over SHA-1, SHA-2, SHA-3, and BLAKE2. """ [[{scalability.algorithm}]]
+[[crypt_oneway.hash}]]
+
+# Message Authentication
+
+[[{101,crypt_symmetric,crypt_oneway.hash,use_case.AAA,use_case.data_integrity]]
+## HMAC Authentication (sym.encrypt + hash)
+- PRESETUP: A shared symmetric key must have been pre-deployed on both peers.
+- HMAC stands for (H)ashed (M)essage (A)uthentication (C)ode "symmetric encryption"
+- HMAC allows for authentication of signer of a "frozen" message (file/email/...).
+  (vs authentication in temporal session establishment in network protocol)
+  Verifier must own also the same password/secret-key used by HMAC "prover".
+  Identity principal == "owner of private key".
+  ```
+  | INPUT                      OUTPUT                        STEP 1)
+  | -----                      ------
+  | secret key ···(derive) ··> inner key
+  |                            outer key
+  | INPUT                                          OUTPUT    STEP 2)
+  | -----                                          ------
+  | msg  > sym.cypher > hash > sym.cypher > hash > HMAC
+  |        inner key           outer key
+  |        └───┬───┘           └───┬───┘
+  |  The algorithm provides better immunity against length extension attacks:
+  |  "with most hash functions, it is easy to append data to the message
+  |   without knowing the key and obtain another valid MAC".
+  |  (length extension collision malleability).
+  |  More info at <https://en.wikipedia.org/wiki/HMAC>.
+  ```
+   With HMAC, because the outer application of the hash function masks the
+   intermediate result of the internal hash. The values of ipad and opad are
+   not critical to the security of the algorithm, but were defined in such
+   a way to have a large Hamming distance from each other and so the inner
+   and outer keys will have fewer bits in common.
+[[}]]
+
+[[{use_case.data_integrity,PM.TODO]]
+## Authenticated Encryption with associated data(AEAD)
+<https://en.wikipedia.org/wiki/Authenticated_encryption>
+- The need for AE emerged from the observation that securely combining
+   separate confidentiality and authentication block cipher operation modes
+   could be error prone and difficult confirmed by a number of practical
+   attacks introduced into production protocols and applications by
+   incorrect implementation, or lack, of authentication (including SSL/TLS)
+
+- A typical programming interface for AE mode implementation would provide the following functions:
+
+ Encryption
+     Input : plaintext, key, and optionally a header in plaintext that will not
+             be encrypted, but will be covered by authenticity protection.
+     Output: ciphertext and authentication tag (message authentication code).
+ Decryption
+     Input : ciphertext, key, authentication tag, and optionally a header.
+     Output: plaintext, or an error if the authentication tag does not match
+             the supplied ciphertext or header.
+
+- Approaches to authenticated encryption:
+  - Encrypt-then-MAC (EtM)
+  - Encrypt-and-MAC (E-and-M)
+  - MAC-then-Encrypt (MtE)
+  [[}]]
+
+[[{101,secret_mng.key_exchange,use_case.remote_session_establishment]]
+[[ crypt_asymmetric,]]
+## DIFFIE-HELLMAN(and Merkle) KEY "EXCHANGE"
+- two non-local parties can jointly agree a shared secret over an insecure channel
+- DH-KEX (Key exchange) UNDERPINS ALMOST EVERY ASPECT OF OUR MODERN LIVES!
+- DH security is based first on "very big numbers" (~4096 bits).
+- KEYPOINT: Key is not actually "exchanged" but calculated by both
+            parties simultaneously.
+- The DH-KEX generated shared-secret is usually called the "pre-master secret"
+- It's used to derive (minutes/hours) session keys through hashing for example.
+- Ephemeral Mode. DH ARE NOT STORED.
+[[}]]
+
+[[{use_case.Authentication.remote]]
+## Challenge-response
+* cryptographic primitive
+* Used mostly in communication protocols.
+* Authentication server encrypts a challenge (typically a random
+  number) with a public key.  The device proves it possesses a copy of
+  the matching private key by providing the decrypted challenge.
+[[}]]
+
+# IVs,nonces,Salt [[{crypt_oneway.salt,101,crypt_symmetric.IV,crypt.nonce,doc_has.comparative]]
+- Randomness of secret keys is not enough in most scenarios due to
+  the attacks by replication or repeated XORs of different messages
+  encoded with the same private shared-by-peers keys.
+  Next elements of randomness complements to keys:
+
+## INIT VECTOR (IV) (SYMMETRIC ENC)
+
+<https://en.wikipedia.org/wiki/Initialization_vector>
+  in symmetric encryption is used to ensure distinct ciphertexts are
+  produced even when the same plaintext is encrypted multiple times
+  with the same key.  IV must not be repeated, and depending on the
+  scheme used must also be cryptographically random.
+
+## SALT (ENCRYPTION, ONEWAY HASHING)
+
+Summary from [Wikipedia](https://en.wikipedia.org/wiki/Salt_(cryptography))
+* Salt: random data used as additional input to a one-way
+  function that "hashes" data (ussually password).
+* primary use are:
+  * Offline encryption protection.
+  * KEY DERIVATION FUNCTIONS:
+  * DEFENSE AGAINST TABLE ATTACKS:
+    If an atacker can compute/store billions of combinations
+    of dictionary hashes, the salt will force to repeat the
+    computation/duplicate the storage for each possible salt.
+* closely related to 'nonce':
+  * Nonce must not be repeated but can be predictable.
+    Salts can be repeated, and also they must be
+    cryptographically random.
+  * Nonce protect 'network/on-fly' data against replays.
+  * Salts protect 'disk/stored'    data against dict. attacks.
+  * Nonce do not need to be secret. Once a "nonce" is consumed
+    it is "useless", even for attackers. Salts must be secret
+    (and separated from secret keys) when using for symmetric
+    encryption, but can be public when used in one-way hash
+    functions.
+
+## NONCE (PROTECTION AGAINST ONLINE MESSAGE REPLAY)
+
+<https://en.wikipedia.org/wiki/Cryptographic_nonce>
+* arbitrary number that  can only be used once.
+* It can be public or predictable
+* issued in network protocols to protect against replay attacks:<br/>
+  An attacker, for example, replays encrypted session
+  message (raw data) impersonating the client hopping to
+  obtain a server session token. Since the nonce has already
+  been used/wasted/consumed by the original client,
+  the session establishment will fail.
+[[crypt_oneway.salt}]]
+
+
+[[101.building_blocks}]]
+
+[[{crypt_asymmetric.101,standards.AES,doc_has.diagram]]
+# Asymmetric Encryption
+
+* When used for encryption between 2 peers, 2x2 keys are needed for
+  bidirectional communication (for N peers 2xN keys):
+  * 1 Public  key (known to all peers and attackers) is used for
+   encryption.
+  * 1 Private key (known to recipient of the message) is used for
+    decryption of the incomming messages.
+  ```
+  |  (and two extra keys for Bob to Alice communication)
+  |
+  | PRESETUP ---------------------------------------
+  | ·  @PEER (A)lice    ·         ·    @PEER (B)ob    ·
+  | ├-------------------┤         ├-------------------┤
+  | ·                   ·         ·                   ·
+  | 1) new PrivKeyA        ·         · new PrivKeyB  ¹·
+  |                        
+  | 2) new PubKeyA ·>·····─┐┌─···<- new PubKeyB   ²
+  |                        └·┐
+  | 3) Save PubKey B <····─┘ └─···> save PubKeyA  ³
+  | ·                   ·         ·                   ·
+  | ·  @PEER (A)lice    ·         ·    @PEER (B)ob    ·
+  | ├-------------------┤         ├-------------------┤
+  | ·                   ·         ·                   ·
+  | ·                   ·         ·                   ·
+  | 4)------  PEER A sending message to PEER B ----------
+  |
+  |          │Encrypt⁴│·> Cypher ·> │Decrypt │ ·> Plain
+  | Plain ··>│with    │   TextA     │with    │    textA
+  | textA    │PubKeyB │             │PrivKeyB│
+  |
+  | 5)------  PEER B sending message to PEER A ----------
+  |
+  |          │Decrypt │<· Cypher <· │Encrypt⁴│ <· Plain
+  | Plain <··│with    │   TextB     │with    │    textB
+  | textB    │PrivKeyA│             │PubKeyA │
+  |  
+  | ¹ Private Keys generated randomnly by both peers
+  |   (and never shared with anyone !!!)
+  | ² Public Keys calculated (easely) from Priv.Keys
+  | ³ Public Keys shared (exchanged)  by mail, ...
+  |   (The is a pending problem with secure sharing).
+  | ⁴ WARN!!!: Do not encrypt with our private key, but
+  |   with the peer's public key. This is in clear
+  |   contrast with symmetric (AES,...) encryption,
+  |   in which the private password is used for both
+  |   encryption and decryption.
+  ```
+* KEY POINT: Based on computational complexity (vs information theory).<br/>
+  Calculating private keys from public keys is considered a
+  computationally intractable mathematical problem (or so we think).
+  * WARN: Can future Quantum computers can do the computation?
+  * WARN: REPEATED USE OF KEYS MAKES IT EASIER TO CRACK IN SOME
+    SCHEMAS.
+
+* PENDING PROBLEM: How does Peer 1/2 knows that received encrypted
+  message and Public-Key2/1 belongs to real PEER 2/1 (vs fake signer)?<br/>
+ "SOLUTION"     : public key infrastructure (PKI).
+[[crypt_asymmetric.101}]]
+
+# Digital Signature [[{crypt_asymmetric.101,use_case.signature,doc_has.diagram]]
+
+- It is the "simplest" example of a "Zero-Knowledge" cryptographic schema:<br/>
+   A signer will probe to verifiers that it holds the secret key
+  associated to the tuple (signed message, public key) without
+  revealing the public key itself.
+  - A private key (known only to owner and never shared) is used for signing.
+  - A Public  key (known to everyone, even hackers) is used for checking
+    document signature.
+
+  ```
+  |PRE-SETUP: (just once)
+  |             PEER 1                                PEER 2
+  |   ┌·····································┐   ┌·····························┐
+  |    1. Create Private Key
+  |    2. Calculates (easely)  Public Key     ┌·> 4. Stores Peer1 Public-Key
+  |       from the Private Key                ·
+  |    3. Share the Public Key with peers   ··┘
+  |
+  | SIGNATURE:
+  |             PEER 1
+  |   ┌·····································┐
+  |    Arbitrarely   ·> Hash-of
+  |    large message    Message
+  |    (mail, pdf, ...)   ·
+  |      ┌···············─┘
+  |      ·
+  |      v
+  |    │Sign using │ ·> Generates Public
+  |    │PrivateKey1│    signature
+  | SIGNATURE VERIFICATION
+  |             PEER 1                                  PEER 2
+  |   ┌·····································┐     ┌···························┐
+  |     1. Share message and Public   ··········>  2. Validates signature
+  |        signature with peer 2                      using Peer1 Public-Key
+  |
+  |NOTE: By using the (cryptographically secure) hash-of-message we obtain
+  |     data-integrity "for free".
+  ```
+
+* PENDING PROBLEM: How does Peer 2 knows that received
+  Public-signature and Public-Key1 belongs to real PEER 1 (vs fake
+  signer)?
+  (i.e, How do we Authenticate the origin of the message)<br/>
+  "SOLUTION": public key infrastructure (PKI)
+  ```
+  | DIGITAL SIGNATURE PROVIDES:  [[{doc_has.keypoint}]]
+  |
+  | · NON─REPUDIABILITY: Private key owner can not neglect having signed.
+  | · NON─TAMPERING    : message can not be moddified by third parties
+  |   ^^^^^^^^^^^^^^^^^                          ┌─────────────────┐
+  |   NON─REPUDIABILITY + NON─TAMPERING PROVIDES │LEGAL VALIDITY!!!│
+  |                                              └─────────────────┘
+  |   SIGNATURE IS AN EVIDENCE OF SIGNER'S WILLINGNESS TO SIGN THE MESSAGE.
+  |   It can be used for example to sign a payment (as in "VISA", 
+  |   "Bitcoin", ...) or contract, ... 
+  ```
+
+**DIGITAL SIGNATURE SCHEMA** REFERS TO THE NEXT TUPLE OF ALGORITHMS:
+  
+1. KEY-PAIR GENERATION ALGORITHM:<br/>
+ HOW PUBLIC (VERIFICATION) KEY IS GENERATED FROM PRIVATE (SIGNING) KEY.
+2. SIGNING ALGORITHM:
+  ```
+  |       INPUT           ¹             OUTPUT
+  |  ┌──────┴──────┐   ┌──┴───┐     ┌──────┴─────┐
+  |   Doc          ··> Doc Hash ─┐
+  |                              ├─> Doc.Signature
+  |   private key  ··············┘   (r, s, v) in ECDSA
+  ```
+3. VERIFYING ALGORITHM
+  ```
+  |      INPUT                         OUTPUT
+  | ┌──────┴─────┐                  ┌────┴──────┐
+  |  Doc          ··> Doc Hash ─┐
+  |  public Key   ··············┼─>  TRUE | FALSE
+  |  Doc.Signature··············┘
+  ```
+4. Public Key Recovery (Optional)
+  ```
+  |      INPUT                         OUTPUT
+  | ┌──────┴──────┐                 ┌────┴──────┐
+  |  Doc Hash -----------------─┐
+  |                             ├─>  signer pub.K
+  |  Doc.Signature ─ ─ ─ ─ ─ ─ ─┘
+  |   (r, s, v )
+  ```
+  Key Recovery allows to verify a signature knowning
+  only the message hash and its signature.
+  This imply that we can store only [message, sign]
+  ( vs [message, sign., pub.key])
+
+WARN: key-generation algorithm is as important as the encryption or signing.
+"How Perfect Offline Wallets Can Still Leak Bitcoin Private Keys"
+<https://arxiv.org/abs/1501.00447>
+
+> """... As standardized, the signature produced by ECDSA for a pair of
+> a message and a key is NOT deterministic. This work shows how this
+> non-deterministic choice can be exploited by an attacker to leak
+> private information through the signature without any side channels,
+> first discovered in 1997, and it affects ECDSA in the Bitcoin protocol. """
+
+[[crypt_asymmetric.101}]]
+
+[[standards.rsa,standards.dsa,]]
+
+
+## DIGITAL SIGNATURE HISTORY [[{standards]]
+
+Very briefly:
+  ```
+  | 2 Approaches                                     YEAR
+  | │
+  | ├> discrete logarithm:
+  | │  ├> RSA                                        1977 
+  | │  │  (family of discrete-log based sign.schemes
+  | │  │   over a )
+  | │  └> NIST DSA Digital Signature Algorithms      1985 
+  | │     │  (family of discrete-log based sign.schemes)
+  | │     ├> (Used for) Dig.Sig. Standard (DSS)      1994
+  | │     │  Considered insecure and deprecated in 
+  | │     │  openssh and others.
+  | │     │
+  | │     └> When replacing Mod N by Elliptic Curve  1978
+  | │        ECDSA (Standard based on EC)            2005
+  | │        Used, amongst many others, by
+  | │        Bitcoin/Ethereum/... to sign TXs
+  | │     (Patents in Schnorr signatures forced NIST to
+  | │      discartd it in favor of weaker alternatives)
+  | │
+  | ├> Schnorr (Patented expired in 2008)            1989
+  | │  It's safer than DSA equivalent, sin it allows
+  | │  to aggregate N signatures into a new one.
+  | │  This allows for better protection and scalability  
+  | │  [[{scalability.algorithm.schnorr}]]
+  | │  ├> EdDSA (Ed25519 is an legacy name)         2011 
+  | │  │  Variant of Schnorr using Twisted Edwards Curves.                          
+  | │  │  (By Daniel J.Bernstein, Niels Duif, 
+  | │  │   Tangja Lange, Peter Schwabe,
+  | │  │   Bo-Ying Yang et all)
+  | │  │ 
+  | │  │ - See Also (Ed)wards-Curve (D)igital (S)ign.(A)lgo.
+  | │  │   Informal RFC:
+  | │  │   <https://www.rfc-editor.org/rfc/rfc8032>2017    
+  ```
+
+* 1976: Whitfield Diffie and Marting Hellman describe the notion of digital Signature
+  (previous work existed but not disclosed in public)
+* 1977: The RSA algorithm is invented (1st version, "primitive algorithm")
+  * (R)onal Rivest, Adi (S)hamir, Len (A)dleman
+  * MIT was granted US patent 4.405.829 from 1983-2000
+* 1978: Jacques Vélu, publish<br/>
+  "Courbes elliptiques munies d'un sous-group Z/nZxmu_n"
+  Société Mathématique de France, 57, 1-152, Paris, 1978.
+  <http://archive.numdam.org/item/MSMF_1978__57__1_0/>
+* 1985: ElGamal signature scheme by Taher Elgamal, later adopted as DSS/DSA standard by
+  US Governamental agencies.<br/>
+  (REF: "Applied Cryptography", Bruce Schneier, ISBN 0-471-11709-9)
+* 1985: Neal Koblitz[7] and Victor S. Miller[8] suggest the use
+  of elliptic curves in cryptography<br/>
+  (We must wait until 2004/2005 to see broad ussage).
+  * 1985 <https://link.springer.com/chapter/10.1007%2F3-540-39799-X_31>
+  * 1987 <https://www.jstor.org/stable/2007884?seq=1> 1987
+* 1988: Shafi Goldwasser, Silvio Micaly and Ronald Rivest rigorously define the
+  security requirements of digital signature schemes.
+* 1989  Schnorr patents its signature method
+  <https://patents.google.com/patent/US4995082>  (expired by 2008).<br/>
+  As of 2013+ software companies tend to replace ECDSA with Schnorr.<br/>
+  2014: C&P from <https://ripple.com/dev-blog/curves-with-a-twist/>
+  ...  After months of analysis and testing, we’ve concluded
+  that a Schnorr-based cryptosystem will greatly enhance the
+  security, flexibility, and performance of the Ripple protocol
+  (when compared to Koblitz curves with secp256k1 parameters and
+  ECDSA signatures as defined in :
+  Standards for Efficient Cryptography
+  <http://www.secg.org/collateral/sec2_final.pdf> )
+* 1991: Phil Zimmermann developes PGP
+* 1994: First DSA schema approved as DSS (US National Institute of Standards and Tech NIST)
+  and specified in Federal Information Processing Standard (FIPS) 186 (FIPS 186-1):<br/>
+  ```
+  DSA can use lot of "tunable switches" like the hash-funcs,
+  (L, N)-param-length,....  DSS defines what those "tunnable switches"
+  will be for the standard:
+  - It should use hash-function: SHA-1 (recently SHA-2).
+  - It should use specific length pairs: (2048,224), (3072,256),...
+  - 2013 FIPS-4: <https://nvlpubs.nist.gov/nistpubs/FIPS/NIST.FIPS.186-4.pdf>
+  <https://en.wikipedia.org/wiki/Digital_Signature_Algorithm>
+  WARN : See problems with DSA/DSS(year 2015)
+  ```
+* 1995: Kocher described a new attack on RSA based on sufficient detail on
+  hardware and time-measures to deduce the decryption key d quickly.
+  Randomization of time output is needed to avoid it.
+* 1995: FIPS 180-1, Secure Hash Standard
+* 1998: ANSI X9.62-1998: Public Key Cryptography for the Financial
+  Services Industry. The Elliptic Curve Digital Signature Algorithm.
+  January 1999.
+* 1999: NIST recommends 15 elliptic curves.
+* 2000: ESIGN Act makes online signatures legally binding
+* 2013: Second DSA schema approved by DSS (FIPS 186-2).
+* 2005: Elliptic Curve DSA <https://www.ietf.org/rfc/rfc4050.txt>
+* 2009: PAdES: PDF Advanced Electronic Signatures <https://en.wikipedia.org/wiki/PAdES>
+* 2009: Benjamin Moody factored an RSA-512 bit key in 73 days using
+  only public software (GGNFS) and a desktop computer with less than
+  five gigabytes of disk storage and ~2.5 Gbytes RAM.
+  * In 1999 it required the equivalent of 8_400MIPS years/seven months.
+  * First exploits where reported in 2011 (minimun 2048 bit is recomended)
+* 2009: secg.org SEC 1: Elliptic Curve Cryptography
+  <http://www.secg.org/sec1-v2.pdf>
+* 2010: secg.org SEC 2: Recommended Elliptic Curve Domain Parameters
+  <http://www.secg.org/sec2-v2.pdf>
+* 2011: Daniel Bernstein publishes Ed25519 Signature (based on Schnorr Schema)
+* 2013: secg.org SEC 3: Elliptic Curve Qu-Vanstone Implicit Certificate
+  Scheme (ECQV)
+* 2013: The New York Times stated that Dual Elliptic Curve Deterministic
+  Random Bit Generation (or Dual_EC_DRBG) had been included as a
+  NIST national standard due to the influence of NSA, which had
+  included a deliberate weakness in the algorithm and the
+  recommended EC. RSA Security in September 2013 issued an advisory
+  recommending that its customers discontinue using any software
+  based on Dual_EC_DRBG.<br/>
+  WARN: Cryptography experts have also expressed concerns over the
+  security of the NIST recommended elliptic curves, suggesting a
+  return to encryption based on non-elliptic-curve groups.
+* 2013: 4th DSA schema approved by DSS (FIPS 186-4).
+* 2015: NSA announces plans to replace some ECDSA Suite B algorithms
+  with a new cipher suite due to concerns about quantum-computing
+  attacs on ECC.<br/>
+  SSH decided to drop DSS/DSA keys in favor of RSA due to "inherit weakness"
+  <https://www.gentoo.org/support/news-items/2015-08-13-openssh-weak-keys.html>
+  * See also critics to DSS @:
+  <http://groups.csail.mit.edu/mac/classes/6.805/articles/froomkin-metaphor/partIAB.html>
+[[}]]
+
+[[{standards.rsa,standards.dsa,crypt_asymmetric,use_case.signature]]
+## RSA SIGNATURE  [[{]]
+* ("Symmetric" to Encryption with Pub.Key)
+  ```
+  | ┌───────┐       ┌──────┐   ┌────────────┐    ┌────┐
+  | │Message│······>│CONCAT│··>│Message     │···>│HASH│······┐
+  | └───────┘       └──────┘   │            │    └────┘   ┌──v────┐
+  |   ·                 ^      ├────────────┤             │Compare│
+  |   · ┌────┐  ┌──────┐·      │C(PrivKey,h)│···>┌──────┐ └───────┘
+  |   └>│HASH│·>│Sign  │┘      ├────────────┤    │Deciph│    ^
+  |     └────┘  └─^────┘       │Pub.Key ¹   │·┐  └──────┘····┘
+  |               │            └────────────┘ ·    ^
+  |             PrivKey                       └····┘
+
+  | └─────────────────┬─────────────────────┘ └──────┬────────────┘
+  |                  Sign                         Verify
+
+  ¹ RSA does not allow for public key recovery from hash.
+  ```
+
+  [[PM.WiP]] RSA Schema (Key-Pair Generation, Signature, Verification) algorithms.
+[[}]]
+
+## (EC)DSA  [[{]]
+Can be used with prime number groups or with Eliptic Curve groups.
+
+  ```
+  DSA SIGNATURE:
+  | ┌───────┐              ┌──────┐  ┌───────┐
+  | │Message│─────────────>│CONCAT│─>│Message│─────┐
+  | └───────┘              └──────┘  │       │  ┌──v─────┐
+  |   │                       ^      ├───────┤  │Verifier│─┐
+  |   │  ┌────┐      ┌──────┐ │      │s(sign)│─>└───^────┘ │
+  |   └─>│HASH│─>h1─>│Sign  │─┘      ├───────┤      │  ┌───v───┐
+  |      └────┘      └─^──^─┘        │r(sign)│─┬────┘  │Compare│
+  |                    │  │          └───────┘ │       └───^───┘
+  |              PrivKey  K(Non secret)        └───────────┘
+  | └──────────────────────┬─────────────────┘└──────┬──────────┘
+  |                       Sign                     Verify
+  ```
+
+  ```
+  |  DSA PRESETUP: PUBLIC (CONSTANT) PARAMETERS DEFINED BY                ┌─ ECDSA PUBLIC PARAMETERS DEFINED BY ─┐
+  |                Standards like DSS protocols                           │  Standards like DSS protocols        │
+  | REF: <http://coders-errand.com/details-of-ecdsa-signatures/>          │ q : large power-of-2 | large-prime  ¹│
+  |                                                                       │ EC: an adequate EC with N points and │
+  | 0     q    2q    3q    4q    Nq==p-1                                  │     coefficients defined over        │
+  | ├───g─┼─────┼─────┼─────┼──···┴┐  PUBLIC (CONSTANT) PARAMS DEFINED BY │     finite field Fq. E.g., for Bicoin│
+  | ·   ^  ^                      ^^  STANDARD OR PROTOCOL (p,q,g):       │     and Ethereum: secp256k1(y²=x³+7) │
+  | ·   │  │                      │└·· p : (Large) Prime number with:     │ n : the order of a large sub-group of│
+  | ·   │  │                      │·       2^L-1 < p < A^L                │     EC such that n is prime         ¹│
+  | ·   │  │                      │·       Used to define 'group G' like: │ G : a generator for this n-order     │
+  | ·   │  │                      │·        elements: 1,2,3, .......,p    │     sub-group.                       │
+  | ·   │  │                      │·       operation: a x b mod p         │ "...It mostly boils down to replacing│
+  | ·   │  │                      │·                                      │     group-of-integers  by            │
+  | ·   │  └·························· q : Prime Number dividing p-1:     │     group-of-EC-points..."           │
+  | ·   │                         └········ p-1 == q x N                  │                                      │
+  | ·   └······························g : generator of order q.          │ ┌─ KEYPOINT: ───────────────────────┐│
+  | ·                             ··       Visually:                      │ │ groups on ECs are harder to attack││
+  | └┼──┼────────┼───────────┼···─┴┐                                      │ │ than integer groups,              ││
+  |  ·  g        g²         g^(q-1)  <···· Subgroup of G formed           │ │ => much smaller value of q needed ││
+  |  ·  g        mod p      mod p          by g⁰,g¹,...g^q                │ │    =>  much shorter signatures    ││
+  |  └ g^q mod p (== 1)      ·                                            │ └───────────────────────────────────┘│
+  |  ·  ·   ·    ·           ·         0     q    2q      Nq==p-1         │                                      │
+  |  ·  ·   ·    ·           ·         └───g─┼─────┼───···─┴┐             │ Note: q is larger thant Fq.          │
+  |  ·  └·····························1+·    ·              p             └──────────────────────────────────────┘
+  |  ·           └····················2+ ·   ·
+  |  ·                       ·         ·  ·  ·
+  |  ·                       ·         ·   · ·
+  |  ·                       └······q-1+    ··
+  |  └································q+·····┘
+  | E.g.: In Bitcoin/Ethereum using secp256k1 we have:
+  | q = 115792089237316195423570985008687907853269984665640564039457584007908834671663
+  | n = 115792089237316195423570985008687907852837564279074904382605163141518161494337
+  ```
+
+  ```
+  |┌─ KEY-PAIR ALGORITHM ──────────────────────────────────────────────────────┐   ┌─ KEY GENERATION ────────────────────┐
+  |│ 0     q    2q    3q          Nq==p-1                                      │   │ d == private1 = random[1, ..., n-1] │
+  |│ └─────┼─────┼─────┼─y───┼──··─┴┐                                          │   │ Q == public1  = d·G                 │
+  |│ └─x──┘              ^          p                                          │   │                  ^                  │
+  |│   ^                 ·                                                     │   │ (vs d^G in integers, since internal │
+  |│   └······················ STEP 1) private1 = random[1, q-1]               │   │  group op in EC is seen as addition │
+  |│                     ·             i.e, private1 ∈ "N mod q" field         │   │  -vs multiplication -)              │
+  |│                     └···· STEP 2) Calculate Public key:                   │   │                                     │
+  |│                                   y = public1 = g^x mod p                 │   │                                     │
+  |│                                   i.e, public1 ∈ "N mod p" field          │   │                                     │
+  |└───────────────────────────────────────────────────────────────────────────┘   └─────────────────────────────────────┘
+  ```
+
+  ```[[{101]]
+  | SIGNATURE GENERATION ALGORITHM                                  ┌─ SIGNATURE GENERATION ─────────────┐
+  | INPUT: private1, m (message)                                    │  INPUT: private1, m (message)      │
+  | 0    q    2q    3q      Nq==p-1                                 │  STEP 1)                           │
+  | └─K─┼────┼────┼────┼──···┴┐<· STEP 1)                           │  k = random[1, ..., n-1]           │
+  |                               K = random[1, q-1]                │                                    │
+  |                                                                 │                                    │
+  | └┼──┼────────┼──···─┼─···   <· STEP 2)                          │  STEP 2)                           │
+  |    g        g²    g^K         Calculate:                        │  Calculate:                        │
+  |             mod p mod p       X = g^K mod p                     │  X = (x1, y1) = k·G                │
+  |                               r = X mod q                       │  r = x1                     mod n  │
+  |                               e = Hash(m)                       │  e = Hash(m)                       │
+  |                               s = K-1 ⋆(e + private1⋆r) mod q   │  s = k-1 * (e + private1·r) mod n  │
+  |                               Retry STEP 1)                     │  Retry STEP 1) if either r|s are 0.│
+  |                               (new K) if r|s are 0              │                                    │
+  |                               STEP 3) Return signature:         │  STEP 3) Return signature:         │
+  |                               (r , s)                           │  (r, s)                            │
+  |                               └──┬──┘                           │  NOTES:                            │
+  |                               MOD Q FIELD => Log₂q ==           │  - y1 is never used for sign.      │
+  |                               "SECURITY LEVEL" OF THE SCHEME.   │  q >> Fq => N EC coord. map same r │
+  |                                                                 └────────────────────────────────────┘
+  ```[[}]]
+
+  ```
+  | SIGNATURE VERIFICATION ALGORITHM            ┌─ SIGNATURE VERIFICATION ────────────┐
+  | INPUTS: (r,s) signature mode-q, m (message) │  INPUTS: m, (r,s) sig               │
+  | Calculate:                                  │  Calculate:                         │
+  | e = Hash(m)                                 │  e = Hash(m)                        │
+  | U1 = e/s mod q                              │  u1 = e / s mod n                   │
+  | U2 = r/s mod q                              │  u2 = r / s mod n                   │
+  | X = g^U1 * public1^U2                       │  (x1, y1) = X = u1G + u2Q           │
+  | return X mod q == r                         │  return X != "point-at-infinity" && │
+  |                                             │         (x1 mod n == r)             │
+  |                                             └─────────────────────────────────────┘
+  ```
+[[}]]
+
+## RSA vs DSA Comparative [[{doc_has.comparative]]
+
+  ```
+  |RSA                                        DSA
+  |─────────────────────────────────────────  ─────────────────────────────────────────
+  |✓ compatible with integer prime number     - variant of the ElGamal adding secondary
+  |  factorization                              160-bit modulus(q) to speed up execution
+  |✕  In-compatible with Ellip.Curves           and reduce the size of final signature.
+  |                                           ✕ Can NOT be used for encryption
+  |✕ computationally more expensive           ✓ (EC)DSA allows to recover public key from
+  |✓ Does not require a source of randomness    a given message and signature.
+  |  Prefered of embedded systems/SDCarts/..  ✕ Requires a high-quality source of randomness
+  |  [[{use_case.IOT}]]                         (except ed25519 and maybe other ECDSA scheme)
+  ```
+[[}]]
+
+[[{doc_has.comparative,crypt_asymmetric,use_case.signature]]
+## ed25519 ("Schnorr") vs ECDSA "secp256k1" Digital Signatures Comparative
+
+NOTE: 25519 comes from: 
+  ```
+  (2^255 - 19).is_prime() == returns True
+  ```
+
+### Sumary from <https://martin.kleppmann.com/papers/curve25519.pdf>
+
+* """ ...we will define a group using the Curve25519 elliptic curve.
+   This group has order
+   ```
+   |h * q ; h = 8
+   |        q = 2252 +27742317777372353535851937790883648493  (prime) or
+   |              ┌────────────────────────── 63 hex chars ──────────────────────┐
+   |            0x1000000000000000000000000000000014def9dea2f79cd65812631a5cf5d3ed
+   |             ┌┴─┐
+   |             0001
+   |             ···└· 2^252 => "only slightly larger than 2^252"
+   |             ··└·· 2^253
+   |             ·└··· 2^254
+   |             └···· 2^255
+   ```
+*  The parameters are chosen such that the order of the group is the
+  product of a small integer h (which is called the cofactor, in this
+  case 8), and a prime q that is slightly greater than a large power of
+  two:
+* Lagrange’s theorem states that if a group E has a subgroup
+  E′, then the order of E is divisible by the order of E′. <br/>
+   Since the set of powers of a group element generates a subgroup, this means
+  the order of any (set of powers) of a group element must be a factor of
+  the order of the group. Therefore, each Curve25519 group element must have order
+  either 1, 2, 4, 8, q, 2q, 4q, or 8q:<br/>
+  those are all of the factors of 8q, and thus all of the possible orders
+  of group elements.
+* The group would be simpler if it had a prime order (i.e. if the
+  cofactor was h = 1), since then all group elements would have order
+  either 1 or q. However, elliptic curve groups using Montgomery curves
+  such as Curve25519 (see Section 4) always have a cofactor that is a
+  multiple of 4. Since Montgomery curves have other advantages, a
+  design decision of Curve25519 was to accept the cofactor of 8, even
+  though it makes the group more complicated to use safely
+* ... Curve25519 uses the Montgomery curve:
+  ```
+  | y² = x³ + Ax² + x  ; A = 486662
+  ```
+"""
+* both Ed25519 and eCDSA "secp265k1" are EdDSA signature schemes.
+  Ed25519 uses SHA-512 (SHA-2) and Curve25519 (vs secp256k1 curve)
+  Extracted from <https://tools.ietf.org/html/rfc6979><br/>
+  """ [[{use_case.IOT}]]
+  ed25519 deterministic signatures retain the cryptographic      
+  security features associated with DSA/ECDSA digital signatures
+  but can be more easily implemented, since THERE IS NO NEED FOR
+  A SOURCE OF HIGH-QUALITY RANDOMNESS (point of failure) for the "k"
+  parameter.<br/>
+    NOTE: It is possible to turn DSA and ECDSA into deterministic
+  schemes by using a deterministic process for generating the
+  "random" value "k" fulfilling some crypto. characteristics.
+  """
+* secp256k1 curve has a linear private-key space:
+  ```
+  |   prv.key1 > public key of (prv.key1)
+  |   prv.key2 > public key of (prv.key2)
+  |
+  |   prv.key1 > public key of (prv.key1 + prv.key2)
+  | + prv.key2   └─────────────┬───────────────────┘
+  |              equal to (due to linearity) sum of
+  |                  public key of (prv.key1)
+  |                + public key of (prv.key2)
+  ```
+* Ed25519 private-key space is NOT linear.
+  It uses a twisted Edwards curve bi-rationally equivalent
+  to the Montgomery curve Curve25519, SINCE PUBLIC-KEY IS
+  GENERATED FROM PRIVATE KEY BY FIRST HASHING THE PRIVATE KEY
+  WITH SHA-512.
+  ```
+  | prv.key1            > pub.key of sha512(prv.key1)
+  | prv.key2            > pub.key of sha512(prv.key2)
+  | prv.key1 + prv.key2 > pub.key of sha512(prv.key1 + prv.key2)
+  | prv.key1 + prv.key2 > pub.key of sha512(prv.key1 + prv.key2)
+  ```
+  Ed25519 on the other side creates some sort of problems,  [[qa.UX]]
+  for example to create HD Wallets as explained in:
+  <https://www.jelurida.com/sites/default/files/kcdsa.pdf>
+
+## Schnorr("ed25519 version of EdDSA")
+* REF: <http://ed25519.cr.yp.to/>,
+  <http://blog.siphos.be/2015/08/switching-openssh-to-ed25519-keys/>,
+  <http://chneukirchen.org/blog/archive/2014/02/the-road-to-openssh-bliss-ed25519-and-the-identitypersist-patch.html>
+* designed by prominent cryptographer Daniel J. Bernstein
+* elliptic curve implementation more optimal and secure than equivalent
+  design schemes based on secp256k1 (Bitcoin/Ethereum/...)
+* Summary of advantages versus secp256k1 curve:
+  * Large absolute value for the CM field discriminant
+    (large |D| )—although there is no evidence of security problems with small |D|
+    <http://safecurves.cr.yp.to/disc.html>
+  * Supports simple, fast, complete(http://safecurves.cr.yp.to/complete.html)
+    constant-time single-scalar multiplication using a Montgomery ladder
+    (http://safecurves.cr.yp.to/ladder.html)
+  * A random curve point can be represented in a way that's indistinguishable
+    (<http://safecurves.cr.yp.to/ind.html>) from random data.
+  * Faster performance.
+  * ...  Our initial tests and analysis suggest ...  Curve25519 halves
+    verification time versus secp256k1 based on efficient implementations
+    of both curves.[[{crypt_asymmetric.performance]]
+    * These results were achieved with lower variance, which point to the
+      constant time properties of Curve25519.
+    * the default signature format for Ed25519 allows batch signature
+      verification, which promises twice the performance of DSA.
+    Benchmarking:
+    * <http://justmoon.github.io/curvebench/benchmark.html> Raw test results
+    * <https://github.com/justmoon/curvebench>              Benchmark source code
+    * the new curve implementation is expected to quadruple
+      performance versus secp256k1 based on our preliminary benchmarking. 
+      [[}]]
+  * Extracted from <https://www.mail-archive.com/cypherpunks@cpunks.org/msg02419.html>
+    sums up the benefits of Schnorr as follows:
+    "simple blinding, compact multi-sig, clearer security proofs, better security margin,
+     less dependence on hash properties."
+* Summary of advantages versus ECDSA signature schemas:
+  * Simpler to securely implement.
+  * Composable threshold signatures without multi-party computation.
+  * Verification happens off-network allowing for sophisticated functionality
+    without increasing network load or complexity.
+  * Conducive to highly distributed systems. [[qa.UX]]
+  * Less constraints allows for more optimal and secure design schemes.
+  * [[{qa]] DSA schemes are difficult to manage because the schemes are easy to    
+    get wrong.  An improper implementations is trivial to break, and what
+    might seem like a minor misstep can precipitate a system-wide
+    vulnerability—as demonstrated by
+    <http://nakedsecurity.sophos.com/2012/10/25/sony-ps3-hacked-for-good-master-keys-revealed/>
+    ...  Hackers were able to access full control of the PS3
+    employing "simple algebra" after Sony set a constant in its custom
+    DSA implementation instead of a randomly generated number.  The
+    sensitivity of DSA signatures to human error allowed this single
+    oversight to fully compromise the console's encryption protections,
+    exposing the platform and Sony's partners to the perpetual threat of
+    piracy.
+  * Alternatively, Schnorr signatures are more forgiving and simpler
+    to implement because its security is inherently more robust based on
+    the scheme’s dynamic hash function
+    <http://ieeexplore.ieee.org/xpl/articleDetails.jsp?reload=true&amp;arnumber=4908440>
+    The ephemeral public value r is tightly bound to the message,
+    which means that the security of the scheme is no longer dependent on
+    the collision resistance of the hash function.
+    <http://www.cs.bris.ac.uk/Publications/pub_master.jsp?id=2001023> [[qa}]]
+  * [[{qa.UX]] Independent verification and combining is another advantage
+    of Schnorr is related to threshold signatures:<br/>
+    ECDSA can create threshold signatures, but requires multi-party computation
+    <http://en.wikipedia.org/wiki/Secure_multi-party_computation>
+    This means that the number of participants required to generate a signature
+    without revealing their secrets is twice the number of shares
+    required to recover the key.
+    In contrast, Schnorr has no such restriction. Shares of a
+    signature can be independently verified and then composed. [[}]]
+* External Resources:
+  * "Safe?" Curves: <http://safecurves.cr.yp.to/>
+  * Browser support <https://security.stackexchange.com/questions/31772/what-elliptic-curves-are-supported-by-browsers>
+  * TLS-RSA cert. with elliptic curve:
+    <https://crypto.stackexchange.com/questions/30503/tls-rsa-certificate-with-elliptic-curve-negotiation>
+  * Comparisions of secp256r1-vs-secp256k1 Elliptic Curves:
+  <https://crypto.stackexchange.com/questions/18965/is-secp256r1-more-secure-than-secp256k1>
+  * Minimal implementation of Ed25519Signature2018 in JavaScript:
+    <https://github.com/transmute-industries/Ed25519Signature2018>
+    """.. This library focuses on verification of signatures, and does not
+    attempt to mix validation with verification logic. You may prefer to
+    use jsonld-signatures..."""
+ ).
+## PAdES(PDF) format (AES for PDF)  [[{PM.TODO]]
+<https://en.wikipedia.org/wiki/Advanced_electronic_signature>
+<https://en.wikipedia.org/wiki/PAdES>
+[[}]]
+
+## CAdES(CMS) format [[{PM.TODO]]
+<https://en.wikipedia.org/wiki/CAdES_(computing)>
+<https://en.wikipedia.org/wiki/Cryptographic_Message_Syntax>
+  Extensions to 'Cryptographic Message Syntax'
+- ASiC format (Associated Signature Containers)
+<https://en.wikipedia.org/wiki/Advanced_electronic_signature>
+  ASiC Baseline Profile.
+  specifies the use of container structures to bind together one
+  or more signed objects with either advanced electronic signatures
+  or time-stamp tokens into one single digital (zip) container.
+[[}]]
+
+## JaDES vs EADES [[{use_case.signature,doc_has.comparative,PM.TODO]]
+Why do we want to support AdES formats using x509 certificates? JAdES
+may be the only one worth considering if it can be used e.g. in a VC
+proof and under certain conditions... I'd even argue that JAdES could
+be just the adoption of a VC with a well defined proof format, but
+I'm not sure this is the plan of ETSI ESI TC.
+
+I put this here as it was in Jesus' proposal. We never discussed in
+detail, what we'd support. + this doc is not very up to date.
+
+However, I would like to check that we are not doing something
+"incompatible" or that makes somewhat difficult that representation
+(I have no idea of what can it be, just it may be woth checking).
+The JAdES standard is ongoing work in ETSI
+(https://portal.etsi.org/webapp/WorkProgram/Report_WorkItem.asp?WKI_ID=52897),
+and they want to publish in March this year.
+[[}]]
+
+[[}]]
+
+
+# Secret Protection
+
+## HKDF
+* HKDF stands for (H)MAC-based (K)ey (D)erivation (F)unction, RFC 5869
+* requires high-entropy initial input key.
+  <http://eprint.iacr.org/2010/264>
+
+## Key derivation Fun. [[{secret_mng,101,PM.TODO]]
+* <https://en.wikipedia.org/wiki/Key_derivation_function>
+* Derive one or more secret keys from a first secret one.
+* Many key derivation fun. admit a salt to avoid returning the same
+  output keys from the same input secret
+* (cite from Crypto101): Useful, for example, when a cryptographic protocol
+  starts with a single secret value, such as a shared password or a secret
+  derived using Diffie-Hellman-Merkle key exchange, but requires multiple
+  secret values to operate, such as encryption and MAC keys.
+* Two main categories, depending on the entropy content of the secret value
+  which determines how many differnet possible values the secret value can
+  take:
+  * input secret is user-supplied (low entropy): Key derivation function will
+    require lot of computing resources to avoid attackers to just compute all
+    possible combinations. (scrypt)
+  * input secret is random (high entropy): A trivial key derivation will
+    suffice (e.g: HKDF)
+
+## Argon2Id key derivation Fun.
+<https://en.wikipedia.org/wiki/Argon2>
+  selected as winner of the Password Hashing Competition in July 2015.
+  * It maximizes resistance to GPU cracking attacks and time-memory-trade-off
+    (TMTO) attacks.
+  * It maximizes resistance to resist side-channel attacks.
+  * It is an hybrid version (Recomended). The Internet draft[4] recommends
+    using Argon2id except when there are reasons to prefer one of the other
+    two modes.
+[[}]]
+
+## Shamir Secret sharing (SSS) [[{101,use_case.secret_mng]]
+<https://en.wikipedia.org/wiki/Shamir%27s_Secret_Sharing>
+* provides a method of secret sharing, where a secret is divided into parts,
+  giving each participant its own unique part, where some of the parts or all
+  of them are needed in order to reconstruct the secret.
+   Counting on all participants to combine the secret might be impractical, and
+  therefore sometimes the threshold scheme is used where any "k" of the parts
+  are sufficient to reconstruct the original secret. For example
+  "any 2 out of 3" shared pieces will reproduce the key.
+   The essential idea of Adi Shamir's threshold scheme is that 2 points are
+  sufficient to define a line, 3 points are sufficient to define a parabola, 4
+  points to define a cubic curve and so forth. That is, it takes k points to
+  define a polynomial of degree k − 1
+* Use Cases: Password/Passphrase protection management
+[[}]]
+
+## VERIFIABLE SECRET SHARING (VSS) [[{secret_mng.VSS,PM.TODO]]
+
+* <https://en.wikipedia.org/wiki/Verifiable_secret_sharing>
+  In cryptography, a secret sharing scheme is verifiable if auxiliary    [[{qa.UX}]]
+  information is included that allows players to verify their shares as
+  consistent.
+  More formally, verifiable secret sharing ensures that even if the
+  dealer is malicious there is a well-defined secret that the players
+  can later reconstruct. (In standard secret sharing, the
+  dealer is assumed to be honest.)
+  The concept was first introduced in 1985 by Benny Chor, Shafi
+  Goldwasser, Silvio Micali and Baruch Awerbuch. (Same authors
+  working of ZKPs)
+  In a VSS protocol a distinguished player who wants to share the
+  secret is referred to as the dealer. The protocol consists of two
+  phases: a sharing phase and a reconstruction phase.
+  Ex implementation: <https://github.com/dfinity-side-projects/vss>
+[[secret_mng.VSS}]]
+
+[[standards.rsa}]]
+
+[[101}]]
+

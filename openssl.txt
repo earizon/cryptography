@@ -310,7 +310,7 @@
     ```
 
 
-[[{monitoring.TLS]]
+[[{monitoring.TLS,tool.troubleshooting.certificates,tool.openssl]]
 ### check TLS cert.expiration 
 <https://www.cyberciti.biz/faq/find-check-tls-ssl-certificate-expiry-date-from-linux-unix/>
   ```

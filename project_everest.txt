@@ -1,4 +1,4 @@
-## Project Everest [[{tech_stack.f*,qa.formal_proofs,01_PM.low_code,01_PM.TODO,qa]]
+## Project Everest [[{tech_stack.f*,qa.formal_proofs,PM.low_code,PM.TODO,qa]]
 * <https://project-everest.github.io/>
 
 Combination of several sub-projects:

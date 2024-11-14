@@ -1,0 +1,73 @@
+# XML Signature Standards
+[[doc_has.comparative}]]
+[[{standards.xml.AdES,use_case.signature,doc_has.comparative]]
+<https://en.wikipedia.org/wiki/XML_Signature>
+* also called XMLDSig, XML-DSig, XML-Sig
+* XML syntax for digital signatures
+* W3C recommendation
+* it has much in common with PKCS#7 but is more extensible
+* used by various XML related technologies like SOAP or SAML
+* typically toto sign XML documents,
+  but anything that is accessible via a URL can be signed
+* An XML signature used to sign a resource outside its containing
+  XML document is called a detached signature;
+* If used to sign some part of its containing document, it is
+  called an enveloped signature;
+* if it contains the signed data within itself it is called an
+  enveloping signature.
+* creation of XML Signatures is substantially more complex
+  than the creation of an ordinary digital signature because
+  a given XML Document may have more than one legal serialized
+  representation<br/>
+  XML canonicalization transform is employed to alleviated some of
+  those problems<br/>
+  (See detailed description in Wikipedia source)
+* Modern alternatives to XML and XML Signature include:
+  * JSON, replacing XML with a familiar and cleaner Javascript notation.
+  * JWT, (JSON Web Token) for an standard method of signing JSON documents.
+    Used "everywhere" in OAuth/OpenID (See related notes on the [Identity](./index.html) 
+* NOTE: "*AdES" formats are the ones widely legally accepted for business transactions,
+  eg. eInvoincing.  
+[[standards.xml.AdES,standards.OASIS}]]
+
+[[{use_case.signature,standards.xml,PM.TODO]]
+## OASIS XAdES (X)ML (Ad)vanced (E)lectronic (S)ignatures
+
+* <https://www.w3.org/TR/XAdES/>
+* <https://en.wikipedia.org/wiki/XAdES>
+  The Cryptographic Message Syntax (CMS) is the IETF's standard
+  for cryptographically protected messages. It can be used to
+  digitally sign, digest, authenticate or encrypt any form of
+  digital data.
+[[}]]
+
+## OASIS XML DSS (D)igital (S)ignature (S)ervices (Europa.eu) [[{]]
+
+* Not to be confused with Digital Signature -deprecated- Standard DSS.
+* <https://www.oasis-open.org/committees/tc_home.php?wg_abbrev=dss>
+* <https://ec.europa.eu/cefdigital/wiki/display/CEFDIGITAL/Start+using+Digital+Signature+Services+-+DSSZ
+* open-source software library for electronic signature creation and
+  validation . DSS supports the creation and verification of interoperable
+  and secure electronic signatures in line with European legislation.
+  In particular, DSS aims to follow the eIDAS Regulation and related standards closely.
+
+* DSS can be re-used in an IT solution for electronic signatures to ensure that
+  signatures are created and verified in line with European legislation and
+  standards. DSS allows re-use in a variety of different ways: in an applet, in
+  a stand-alone application or in a server application. DSS can also be used as
+  a reference implementation for IT solutions which do not directly re-use it.
+  Demos are also available to assist the use of DSS as a reference implementation.
+* The library,  realised in Java , is open-source, available to all Member States,
+  businesses and citizens for re-use in electronic signature solutions. It is
+  continuously updated and maintained to anticipate and follow developments in
+  regulations and standards.
+* Anyone can integrate it and redistribute it under the terms of the Lesser
+  General Public License (LGPL 2.1).
+* In accordance with ETSI standards, DSS supports various document and
+  signature formats including PAdES, XAdES, CAdES and ASiC and is compliant
+  with Implementing Decision 2015/1506/EU. A “cook-book” is also provided with
+  documentation targeting implementers/developers and aiming at facilitating
+  the integration and use of DSS in their applications.
+[[}]]
+
+

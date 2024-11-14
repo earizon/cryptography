@@ -1,6 +1,6 @@
 # OpenGPG Standard [[{standards.pgp]]
 
-[[{secret_mng,tool.gpg,tech_stack.git,secret_mng.keystore,crypt_symmetric,crypt_asymmetric,use_case.signature]]
+[[{secret_mng,tool.opengpg,tech_stack.git,secret_mng.keystore,crypt_symmetric,crypt_asymmetric,use_case.signature]]
 
 ## OpenPGP Summary
 * PGP: Pretty Good Privacy: encryption program (1991 Phil Zimmermann)
@@ -165,8 +165,9 @@
   | $ cat ${LEVEL1} | base64 -d | ${GPG_C} ${PASS_LEVEL3} >  PLAIN_TEXT 
   ```
 [[secret_mng}]]
+[[tool.opengpg}]]
 
-[[{standards.pgp,tool.gpg,use_case.signature,crypt.linked_data_signature,01_PM.TODO]]
+[[{standards.pgp,tool.opengpg,use_case.signature,data_integrity.linked_data_signature,PM.TODO]]
 ## OpenPgpSignature2019
 * <https://github.com/decentralized-identity/OpenPgpSignature2019>
 * OpenPGP is a standard that defines formats for encryption keys and
@@ -211,7 +212,7 @@
 [[}]]
 
 ## Keybase ("GPG++") [[{standards.pgp,tech_stack.keybase,use_case.identity]]
-                     [[use_case.signature,qa.UX,01_PM.TODO]]
+                     [[use_case.signature,qa.UX,PM.TODO,]]
 * <https://julien.ponge.org/blog/simpler-gnupg-with-another-look-at-keybase/>
 * Keybase essentially introduced a modern way to build trust networks, because
   people can check that user123 on Keybase is also user123_coder on GitHub,
@@ -247,7 +248,7 @@
 * Open PGP library focusing on safety and correctness.
 [[}]]
 
-## OpenPGP.js [[{standards.pgp,tech_stack.javascript,01_PM.TODO]]
+## OpenPGP.js [[{standards.pgp,tech_stack.javascript,PM.TODO]]
 <https://github.com/openpgpjs/openpgpjs>
 JavaScript implementation of the OpenPGP protocol defined in RFC 4880.
 * a/symmetric (En/de)crypt Uint8Array with PGP key/password.

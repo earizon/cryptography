@@ -1,0 +1,73 @@
+# Data Integrity & Protection
+
+## Content Addressable file systems.
+* Famous example include Git an IPFS.
+* Core idea: In normal FS, we use the unique FS paths and names
+  as "unique ID" to identify a file.
+  In Content Addressable FS we use the cryptographically secure
+  hash of the file content as "unique ID".
+  Standard paths and names are build on-top as yet another
+  FS entry.
+  * In C.A.FS two files with the same content map to the same
+    storage.
+  * If a file is corrupted (by hardware errors or attackers)
+    the hash will not match anymore the stored content and the
+    error is easy to detech.
+
+## cryfs: Crypto filesystem for Clouds [[{qa.UX,PM.TODO]]
+* REF: <https://www.cryfs.org/>
+* CryFS encrypts files safely anywhere.
+* It works well together with cloud services like Dropbox, iCloud,
+  OneDrive and others.
+  <https://github.com/tldr-pages/tldr/blob/master/pages/common/cryfs.md>
+  ```
+  | $ cryfs $path_to_cipher_dir \        # <·· mount   encrypted FS
+  |   $path_to_mount_point
+  | $ cryfs-unmount $path_to_mount_point # <·· unmount encrypted FS
+  | $ cryfs --unmount-idle 10 \          # <·· unmount after 10 min. of inactivity
+  |   $cipher_dir_path $mount_point_path
+  | $ cryfs --show-ciphers               # <·· Show a list of supported ciphers
+  ```
+[[}]]
+
+## Hash Chain [[{crypt_oneway.hash,use_case.data_integrity]]
+* REF: <https://en.wikipedia.org/wiki/Hash_chain>
+* non-repudiation probe of data chronology
+  ```
+  doc1 > hash > has1 ─┬> hash > has2 ─┬> hash > has3 ─┬> hash
+                 doc2─┘         doc3 ─┘         doc4 ─┘
+  ```
+* Merkle tree:
+  * <https://en.wikipedia.org/wiki/Merkle_tree>
+  * Allows to check if a leaf (data) is part of the tree with just a
+    subset of the tree.
+  * NOTE: In blockchain leafs are transactions and the tree is a block
+  * It is deterministic and cryptographically verifiable:
+    * The only way to generate a state root is by computing it from each
+      individual piece of the state, and two states that are identical can
+      be easily proven so by comparing the root hash and the hashes that led
+      to it (a Merkle proof).
+    * Conversely, there is no way to create two different states with
+      the same root hash, and any attempt to modify state with different
+      values will result in a different state root hash.
+
+* Patricia Tree (Used by Ethereum,...)
+  <https://blog.ethereum.org/2019/12/30/eth1x-files-state-of-stateless-ethereum/>
+  Fun fact: ‘Trie’ is originally taken from the word ‘retrieval’, but most
+  people pronounce it as ‘try’ to distinguish it from ‘tree’ when speaking.
+  "...At one end of the trie, there are all of the particular pieces of
+  data that describe state (value nodes). This could be a particular
+  account’s balance, or a variable stored in a smart contract (such
+  as the total supply of an ERC-20 token). In the middle are branch
+  nodes, which link all of the values together through hashing. A
+  branch node is an array containing the hashes of its child nodes, and
+  each branch node is subsequently hashed and put into the array of its
+  parent node. This successive hashing eventually arrives at a single
+  state root node on the other end of the trie..."
+[[}]]
+
+## BitLocker Full Disk Encryption [[{PM.TODO]]
+* REF: <https://en.wikipedia.org/wiki/BitLocker">BitLocker full disk encryptio
+[[}]]
+
+

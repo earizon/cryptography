@@ -1,5 +1,13 @@
-- The Bouncy Castle FIPS Java API in 100 Examples:
-<https://www.bouncycastle.org/fips-java/BCFipsIn100.pdf>
+# Java Criptography API (JCA)
+
+
+* WARN : Prefer a high level cryptographic API like Google Tink when possible.
+
+* Java Criptography API Status: WiP
+
+## External References:
+  * The Bouncy Castle FIPS Java API in 100 Examples:
+    <https://www.bouncycastle.org/fips-java/BCFipsIn100.pdf>
 
 # Java key store [[{security.secret_mng]]
 
@@ -234,7 +242,7 @@
     • -sigalg $sign_algorithm_name
     • -dname $distinguished_name ("subject") of generated certificate. Def: to that of Cert.request.
     • -startdate $start_date_and_time_validity
-    • -ext $some_X509_extention_value
+    • -ext $some_X5extention_value
     • -validity $Number_of_days
     Eg: Create chain-of-signed-certificates:
          $ keytool -alias CA1 -certreq                  |       <···  self              self               self
@@ -270,7 +278,7 @@
       Possible formats:
       • ([+-]nnn[ymdHMS])+     : shifted time from current time. ex: +1m-5d+5h
       • [yyyy/mm/dd] [HH:MM:SS]
-    • -ext $X_509_extension
+    • -ext $X_5extension
     • -validity $number_days
     ex: $ keytool -alias ca  -dname CN=CA -genkeypair -keyalg rsa
   • -genseckey [options] [-keypass $six_or_more_chars_pass]
@@ -321,7 +329,7 @@
     • -file $output_filename        <·· Or STDOUT.
     • -dname $distinguished_name    <·· Subject of CSR. If not provided, the X.500 
                                         Distinguished Name associated with alias is used.
-    • -ext $X_509_extension
+    • -ext $X_5extension
   ```
 
 ## exporting certs.
@@ -531,7 +539,7 @@ CAUTION: SOME COMBINATIONS OF EXTENSIONS (AND OTHER CERTIFICATE FIELDS) MAY NOT
     -keystore $JAVA_HOME/jre/lib/security/cacerts
   ```
 
-## "Mixing" openssl and keytool:
+## "Mixing" openssl and keytool
   ```
   $ openssl s_client \                                <··  1) fetch 1st-in-chain web cert.
      -connect www.mywebsite.com:443 \                         adn dump to pem file
@@ -543,7 +551,7 @@ CAUTION: SOME COMBINATIONS OF EXTENSIONS (AND OTHER CERTIFICATE FIELDS) MAY NOT
       -alias www.mywebsite.com -f infura-morden.pem
   ```
 
-## keytool and java.security:
+## keytool and `java.security`
   ```
   $JAVA_HOME/
    conf/
@@ -564,18 +572,20 @@ CAUTION: SOME COMBINATIONS OF EXTENSIONS (AND OTHER CERTIFICATE FIELDS) MAY NOT
   ACCESS PERMISSION OF THAT FILE UPON INSTALLING THE SDK.
 
 ### Example flow
-  (STEP 1): create  .jks file containing only the private key.
-  (STEP 2): Generate a CSR
-  (STEP 3): Generate(self-signed) or obtain Signed Certificate.
-  (STEP 4): Import it (including any parents -up to root- certificates)
 
+1. create  .jks file containing only the private key.
+1. Generate a CSR
+1. Generate(self-signed) or obtain Signed Certificate.
+1. Import it (including any parents -up to root- certificates)
+  
+ 
   ```
 [[security.cryptography.keytool,protocol.tls}]]
 
 # JOSE4J  [[{security.cryptography,PM.WiP]]
 
 * JOSE stands for **JSON** Object Signing and (optional) encryption
-* https://bitbucket.org/b_c/jose4j/wiki/JWT%20Examples
+* <https://bitbucket.org/b_c/jose4j/wiki/JWT%20Examples>
 * JSON Web Token (JWT) Code Examples with jose4j:
 * PRESETUP:
   ```
@@ -689,21 +699,24 @@ CAUTION: SOME COMBINATIONS OF EXTENSIONS (AND OTHER CERTIFICATE FIELDS) MAY NOT
   Ed25519 EdDSA and X25519 ECDH
 [[security.cryptography}]]
 
-[[{PM.low_code]]
-# Jipher for Federal Information Processing Standards ("FIPS") Environements 
-By Denis Gauthier, Director of OCI Cryptography at Oracle
-<https://blogs.oracle.com/developers/post/open-sourcing-jipher>
+[[{scalability.native_code,PM.low_code]]
 
-For several years we (Oracle) have been making significant 
-contributions to OpenSSL. We've chosen to base our products on 
-OpenSSL because it is the most open and most widely used 
-cryptographic toolkit on the planet. At Oracle, we make extensive use 
-of the OpenSSL 3.0 FIPS 140 provider to operate in regulated markets. 
-We like the OpenSSL FIPS provider so much we decided to build a Java 
-cryptography toolkit on top of it called Jipher. By converging on a 
-single toolkit (OpenSSL) we reduce our attack surface, simplify 
-security patching, achieve assembly-optimized performance, and help 
-our customers meet regulatory compliance requirements.
+# Jipher: high performance native (OpenSSL) JCA implementation
+
+* Jipher for Federal Information Processing Standards ("FIPS") Environements 
+  By Denis Gauthier, Director of OCI Cryptography at Oracle
+  <https://blogs.oracle.com/developers/post/open-sourcing-jipher>
+
+> For several years we (Oracle) have been making significant 
+> contributions to OpenSSL. We've chosen to base our products on 
+> OpenSSL because it is the most open and most widely used 
+> cryptographic toolkit on the planet. At Oracle, we make extensive use 
+> of the OpenSSL 3.0 FIPS 140 provider to operate in regulated markets. 
+> We like the OpenSSL FIPS provider so much we decided to build a Java 
+> cryptography toolkit on top of it called Jipher. By converging on a 
+> single toolkit (OpenSSL) we reduce our attack surface, simplify 
+> security patching, achieve assembly-optimized performance, and help 
+> our customers meet regulatory compliance requirements.
 
 ## Jipher Benefits
 * Security: OpenSSL is ubiquitous... and   it gets tested in many 
@@ -916,7 +929,7 @@ our customers meet regulatory compliance requirements.
   information (certificate and private key) from the keystore. 
 [[}]]
 
-[[{qa.UX,01_PM.low_code,tech_stack.android,tech_stack.java,secret_mng.keystore]]
+[[{qa.UX,PM.low_code,tech_stack.android,tech_stack.java,secret_mng.keystore]]
 ## Think lib: crypto for non-experts
 <https://www.infoq.com/news/2018/09/google-tink-cryto-ios-android>
 * Crypto.libr for *non cryptographic experts

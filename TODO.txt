@@ -1,18 +1,219 @@
-## ./WhyAndHow_zkSNARK_Works_1906.07221.pdf  @ma
+[[{PM.TODO]]
+# Un-ordered/TODO
 
-## "Elliptic Curves and Modular Forms | The Proof of Fermat’s Last Theorem" en YouTube [[{]]
-https://youtu.be/grzFM5XciAY
-Ver comentarios!!!
+## "Merge" RSA Crypto notes from:
+* <https://github.com/TheAlgorithms/Algorithms-Explanation/blob/master/en/Ciphers/rsa_cipher.md>
+
+##  Avoiding Uniqueness of IV
+
+... To avoid initialization vector (IV) uniqueness, instead of using
+the Master Key to encrypt all token objects, the MK is used to wrap a 
+per-object key using the _AES Key Wrap_ algorithm. The wrapped 
+per-object key is stored together with the IV and other meta-data as 
+additional authenticated data (AAD) in the authenticated object 
+header. The 16 byte GMAC tag is appended to the authenticated and 
+encrypted object body which holds the private token object’s
+
+[[{]]
+## Cleaning/Reordering
+* "Compact"/group PKCS#11 notes
+* Remove subtopic use_case.secret_mng (it's a main topic on itself)
+[[}]]
+
+[[{secret_mng.101.passwords,secret_mng.bcrypt,secret_mng.scrypt,secret_mng.argon]]
+## sha256 vs modem adaptive one-way pass encoders 
+* <https://docs.spring.io/spring-security/site/docs/5.3.2.RELEASE/reference/html5/>
+  Because adaptive one-way functions are intentionally resource 
+intensive, validating a username and password for every request will 
+degrade performance of an application significantly. There is nothing 
+Spring Security (or any other library) can do to speed up the 
+validation of the password since security is gained by making the 
+validation resource intensive. Users are encouraged to exchange the 
+long term credentials (i.e. username and password) for a short term 
+credential (i.e. session, OAuth Token, etc). The short term 
+credential can be validated quickly without any loss in security.
+[[secret_mng.101.passwords}]]
+
+[[{tech_stack.crossplatform,101.acra,PM.low_code,use_case.data_protection,
+  security.honeypot,]]
+## Acra Database proxy and Security Suite (by Cossack)
+
+* field-level encryption for SQL, NoSQL. 
+* Application-level encryption on client or Acra (proxy, "transparent
+  encryption") side.<br/>
+  each data field is encrypted using unique encryption keys.
+* Selective encryption:<br/>
+  you select which columns to encrypt to balance good security and performance.
+* Fast and reliable crypto:
+  * AcraBlocks are fast symmetric containers (**use them by default**).
+  * AcraStructs are asymmetric containers, use them for client-side encryption.
+* **Searchable encryption through encrypted data without decryption**.
+  Designed for exact queries, based on AES-GCM and blind index.
+* Masking / anonymization: use full or partial masking to remove or mask
+  sensitive data.
+* Tokenization: substitute sensitive data with a token and match it to 
+  original only when needed.
+* Basic key management tools (key generation/export/backup/rotation, etc.)
+* Blocking suspicious SQL queries through a built-in SQL firewall.
+* Intrusion detection: using poison records (honey tokens) to warn about
+  suspicious behaviour.
+* Key rotation without data re-encryption (available for Acra Enterprise users).
+* KMS support: Cryptographically protected audit log.* 
+
+
+[[{tool.themis,use_case.message_exchange,use_case.authentication]]
+### Themis: "One crypto. lib that fits them all"
+
+* <https://github.com/cossacklabs/themis>
+
+* Cross-platform (100% compatible API) library for secure data
+  storage, message exchange, socket connections, and authentication.
+  - React Native(iOS, Android), Swift/Objective-C (iOS, macOS),
+    Java (Desktop/Android), Kotlin (Android), Ruby, Python, PHP,
+    C++, Node.js, WebAssembly, Go, Rust, С++ PNaCl (Google Chrome)- 
+
+- Example use: <https://github.com/cossacklabs/pg_themis>
+  PostgreSQL (9.1+) extension for data encryption.
+
+- Out of the box cryptographic services:
+  * Secure Cell: multi-mode cryptographic container ... store anything
+    (encrypted files, database records, format-preserved strings,...)
+    ... built around AES-256-GCM, AES-256-CTR.
+  * Secure Message: Simple encrypted messaging solution ...
+    exchange keys between parties and you're good to go.
+    Two pairs of underlying cryptosystems: 
+    * ECC + ECDSA
+    * RSA + PSS + PKCS#7
+  * Secure Session: session-oriented encrypted data exchange with forward
+    secrecy. 
+  * Secure Comparator: ZKP-based cryptographic protocol for authentication
+    and comparing secrets.
+[[tool.themis}]]
+[[tool.acra}]]
+
+## Ciphey/Ciphey [[{qa.UX,hacking]]
+* Automatically decrypt encryptions without
+  knowing the key or cipher, decode encodings,
+  and crack hashes
+* <https://github.com/Ciphey/Ciphey>
+
+  ```
+  | $ ciphey -vvv -t 360w0x11450x114504421611100x0y0545000x06171y1511070145150x110z45081709110y45071y1100423w2z3045120z0x060z450x1145080w170042060z0u1509071w45160w040x45160y0y020v0045001x1107453w2w374y422x0y1111000301450w03450w0y091y4510110x0y05450442160x0x02090745071y110042030z104504420v001y45120z0x060z450x11450003161x42110z42071717110042030z10060042041642110w071700420x16420z0y0v1x4550505342150z11160x000x090y11001149450u1009160x45001x1107450v071x1642060z170901420w04140045160w0z170416030y0111450z0445150w16160y070x0v0x110716450u040v0y0y02420x11420w04100145160z450017101600030w1706074y453z2z37160z0z0v450x1145041500160w08004207000104101100450y114501040y42061703060v42070z160w45110x0y05090042071x160045030y014208100v110x42071x1600453z2z3742000y01171x121100064511071w114x452z0x060042260x120w001y450w0316453z2z37160z0z0v450x0x1100051704160001420x0y160z450y1149420x1142120x0v0945000045111015071745030804180x0y0545040x0145150x090v451012021703010042260x120w001y45110w450707450400090042110z42061703060v42060z0u1509071w453z2z3742000y01171x121100064511071w114x45320z1x450y1645160w0x114511071w1142160z42090z0x025z4227000104101100453z2z37160z0z0v45060w1009060y4216450610040609450x1645120z000y422x450u040107450x1645160z0z171600174x455u4z
+  | 
+  | I think the plaintext is a Discover Card Number
+  |   Possible plaintext: '360w0x11450x114504421611100x0y0545000x06171y1511070145150x1
+  |   10z45081709110y45071y1100423w2z3045120z0x060z450x1145080w170042060z0u1509071w451
+  |   60w040x45160y0y020v0045001x1107453w2w374y422x0y1111000301450w03450w0y091y4510110
+  |   x0y05450442...'
+  ```
+
+[[}]]
+
+[[{use_case.signature,tech_stack.javascript]]
+## Noble ed25519: Fastest JS library 
+
+* <https://github.com/paulmillr/noble-ed25519>
+* Fastest JS implementation of ed25519.
+* used for EDDSA signature scheme and X25519 ECDH key agreement.
+* Conforms to RFC7748, RFC8032 and ZIP215.
+* Includes support for ristretto255: a technique for constructing
+  prime order elliptic curve groups with non-malleable encodings.
+  [[{qa.ristretto255}]]
+* Audited by an independent security firms. No vulnerabilities
+  have been found.
+[[}]]
+
+## Homomorphic Encryption [[{crypt.zk,use_case.privacy,PM.BACKLOG]]
+* <https://en.wikipedia.org/wiki/Homomorphic_encryption>
+* <http://enigma.media.mit.edu/>
+* Fully homomorphic Encrypt.:
+  <https://www.infoq.com/news/2020/06/ibm-fully-homomorphic-encryption/>
+* WARN: young field which attracts with lot of research.
+* Broadly classifiable within secure multi-party computation,
+  Homomorphic Encryption is an approach to secure
+  computation that does not require decrypting your data in order to
+  process them. It enables processing ciphertexts with the guarantee
+  that encrypted results match those that would be produced by
+  first decrypting input data, processing them, and re-encrypting.
+* List of SDKs:
+  * IBM Fully Homomorphic Encryption Toolkit, based on open source HELi.
+    providing a number of low-level routines such set, add, multiply, shift,
+    ... along with higher-level features for automatic noise management,
+    multi-threading, and so on.  <https://github.com/homenc/HElib>
+  * Microsoft SEAL (Simple Encrypted Arithmetic Library)
+    <https://www.microsoft.com/en-us/research/project/microsoft-seal/>
+  * Google "Private Join and Compute" tool:
+    <https://github.com/google/private-join-and-compute>
+[[}]]
+
+[[{protocol.ssh,protocol.tls,qa.automatization,use_case.secret_mng,use_case.identity]]
+## OKKA ASA: SSH + PKI 
+* OpenSSH introduced in 2011 the capability to authenticate using a
+  Client Certificate (vs SSH Key). Client Certs metadata carry
+  cryptographically verifiable metadata to store usernames, roles, ...
+  and an expiration date .
+* <https://dzone.com/articles/ssh-is-dead-long-live-ssh-one-million-ssh-logins-w>
+  ...server access is an identity problem first and foremost....
+* Okta Advanced Server Access (Okta ASA) milestone:
+  !!!over 1 million SSH logins/month and growing!!!" ...
+  ssh with Single Sign-On experience.
+  SSH transport protocol is inherently secure but the backing
+  credential mechanism is prone to human error requiring:
+  * security policy to rotate personal SSH Keys (easiest, least secure).
+  * missing secure vault service for storing SSH Keys
+  * lack of bastions
+[[}]]
+
+## TresorSGX: deletegates Linux Crypto API to SGX enclave [[{secret_mng.wallets,hardware.sgx,secret_mng.hardware,PM.TODO]]
+* Cryptographic key material is guarded from unauthorised access of
+  unprivileged and privileged components at any time protecting the
+  disk-encryption system from cold-boot and DMA attacks on the key
+  material.  [[}]]
+
+<!-- @ma -->
+## encryption algorithms and operation modes leaking  [[{101}]]
+    plaintext Leaks:  length of plaintext, exacerbated when 
+    the plaintext is initially compressed, because the length
+    of the compressed plaintext and, thus, the ciphertext
+    depends not only on the length of the original plaintext
+    but also on its content.
+    **COMPRESSION ATTACKS ARE PARTICULARLY POWERFUL WHEN 
+      THERE IS ATTACKER-CONTROLLED DATA IN THE SAME COMPRESSION
+      SPACE AS SECRET DATA**
+  * See [Kelsey] for general background on compression and
+    encryption and [Alawatugoda] for a specific example of 
+    attacks on HTTP cookies.
+
+
+## Insecure Use of Elliptic Curve Encryption  [[{101}]]
+  C&P from <https://www.ietf.org/rfc/rfc8725.html>
+  Per [Sanso], several Javascript Object Signing and 
+  Encryption (JOSE) libraries fail to validate their inputs
+  correctly when performing elliptic curve key agreement
+  (the "ECDH-ES" algorithm). An attacker that is able to
+  send JWEs of its choosing that use invalid curve points
+  and observe the cleartext outputs resulting from decryption
+  with the invalid curve points can use this vulnerability
+  to recover the recipient's private key.
+
+
+## Elliptic Curve Digital Signature Algorithm (ECDSA) signatures [[{101}]]
+  require a unique random value for every message that is signed.
+  If even just a few bits of the random value are predictable
+  across multiple messages, then the security of the signature
+  scheme may be compromised. In the worst case, the private key
+  may be recoverable by an attacker.
+
+## ./WhyAndHow_zkSNARK_Works_1906.07221.pdf
+
+## "EC and Modular Forms"  [[{]]
+
+* <https://youtu.be/grzFM5XciAY> (Ver comentarios!!!)
+* Used to proof Fermat’s Last Theorem!!!
 [[}]]
 
 
-## GPG summary [[{]]
-https://github.com/tldr-pages/tldr/blob/master/pages/common/gpg.md
-https://github.com/tldr-pages/tldr/blob/master/pages/common/gpg2.md
-- https://github.com/tldr-pages/tldr/blob/master/pages/common/gpgv.md
-  Verify OpenPGP signatures.
-  More information: https://www.gnupg.org/documentation/manuals/gnupg/gpgv.html.
-[[}]]
+
 
 ## Starred projects at github,  Includes many related to cryptography [[{]]
 https://github.com/mayakacz?after=Y3Vyc29yOnYyOpK5MjAxNi0wNS0wNlQwNzowNToyMSswMjowMM4DeoYC&tab=stars
@@ -23,9 +224,1561 @@ https://github.com/mayakacz?after=Y3Vyc29yOnYyOpK5MjAxNi0wNS0wNlQwNzowNToyMSswMj
 [[}]]
 
 
+## Zenroom
+* https://github.com/dyne/Zenroom
+  Embedded no-code VM executing human-like language to manipulate data and process cryptographic operations. 
 
-#######################
-https://crypto.stackexchange.com/tags  @ma Crypto Taxonomy!!!!
+Zenroom is a secure language interpreter of the domain-specific Zencode, making it easy to execute fast cryptographic operations on any data structure.
+
+The Zenroom VM is very small, has no external dependency, is fully deterministic and is ready to run end-to-end encryption on any platform: desktop, embedded mobile, cloud micro-services, and web browsers. Zenroom works inside applications written in Javascript, Python3, Rust or Golang.
+
+Zencode has a no-code approach. It is a domain-specific language (DSL) similar to human language. One can process large data structures through complex cryptographic and logical transformations.
+
+Zencode helps developers to empower people who know what to do with data: one can write and review business logic and data-sensitive operations without learning to code.
+
+Timeline
+
+    2017 - Proof of Concept
+    2018 - Prototype and Alpha release series
+    2019 - Stable release series v1 (now EOL)
+    2022 - Stable release series v2 until LTS v2.22.1
+    2023 - Stable release series v3 until LTS v3.23.4
+    2024 - Current stable v4 (latest HEAD)
+
+Use-Cases:
+* https://github.com/eu-digital-identity-wallet/eudi-doc-architecture-and-reference-framework/issues/105#issuecomment-1895579371
+
+    We are working on our EUDI-ARF compatible open source identity 
+  solution (https://forkbomb.solutions/solution/didroom), the core 
+  component is our crypto virtual machine Zenroom which already 
+  supports some of the NIST PQC competition winners (Dilithium, Kyber, 
+  NTRU, we're also looking at Sphincs+), see 
+  https://dev.zenroom.org/#/pages/zencode-scenarios-qp
+
+
+[[{doc_has.taxonomy]]
+## "tags" (Taxonomy) from stackexchange
+* <https://crypto.stackexchange.com/tags>
+* rsa: An asymmetric (e.g. public-key) cryptosystem, based on modular 
+  exponentiation with big exponents and modulus.  RSA can be used both 
+  for signature and encryption with proper paddings.  2809 questions
+* aes: AES (Advanced Encryption Standard): symmetrical block-cipher 
+  algorithm with a 128-bit block size, and key sizes of 128, 192 or 256 
+  bits.  2652 questions
+* public-key: Asymmetric cipher, encryption scheme using a pair of 
+  keys, one to encrypt and a second to decrypt a message.  This way the 
+  encrypting key need not be kept secret to ensure a private 
+  communicati… 2340 questions
+* elliptic-curves: Algebraic-geometric structures with applications 
+  in cryptography. They consists of the set of solutions to a cubic 
+  equation over a finite field equipped with a group operation 2237 
+  questions
+* cryptanalysis: Analysis of individual security aspects of a cipher 
+  or algorithm, not the security of a cipher or algorithm in general 
+  (which would lean towards “algorithm-design”).  1580 questions
+* signature: Algorithms and protocols for creating signatures to 
+  documents, and verifying such signatures.  These are normally 
+  asymmetric, for symmetric signatures see [mac].  1478 questions
+* block-cipher: Encryption algorithm which encrypts fixed-size blocks 
+  of plaintext to same-sized blocks of ciphertext.  For good ciphers 
+  every bit of the ciphertext block depends on every bit of t...  1130 
+  questions
+* diffie-hellman: key agreement is an anonymous, non-authenticated 
+  key-agreement protocol.  1090 questions
+* zero-knowledge-proofs: Interactive method for one party to prove to 
+  another that a statement is true, without revealing anything other 
+  than the veracity of the statement.  1084 questions
+* homomorphic-encryption: Cryptosystems which support computation on 
+  encrypted data. They might be partially homomorphic 
+* (support for one operation such as + or *) or they might be fully 
+  homomorphic (any sequence of + and *).  930 questions
+* algorithm-design: Design of cryptographic primitives (algorithms), 
+  like block ciphers, stream ciphers, random-number generators, hash 
+  functions, MACs, key exchanges, public-key encryption or signature 
+  schemes.  891 questions
+* keys: Private and secret keys consists of secret information used 
+  as input to various kinds of cryptographic algorithms such as 
+  encryption, signature and MAC to select the concrete transformation 
+  done by th… 890 questions 
+* symmetric: Symmetric cryptosystems assume two communicating 
+  entities share a pre-established secret key.  860 questions
+* random-number-generator: software|hardware solution which functions 
+  as a generator of (real or pseudo) random numbers (or bits).  842 
+  questions
+* post-quantum-cryptography: refers to public-key algorithms based on 
+  problems that quantum computers can't solve efficiently. Existing 
+  algorithms such as RSA, Diffie-Hellman, and ECDSA are known to be 
+  breakable using Sh… 755 questions
+* collision-resistance: Difficulty of finding two different inputs 
+  that hash to the same value 745 questions
+* authentication: Authentication is successfully validating that an 
+  entity you are communicating with is actually who they claim to be. 
+  The entity typically demonstrates who they are by showing they 
+  possess a secret th… 726 questions
+* protocol-design: Design of cryptographic protocols, i.e. ways of 
+  using algorithms (primitives) to achieve one or more security goals 
+  like integrity, confidentiality, authenticity (maybe together with 
+  non-security-rela… 708 questions
+* provable-security: A primitive or protocol with provable security 
+  is accompanied by a mathematical proof that shows how to reduce the 
+  security claims about the protocol to a set of assumptions.  690 
+  questions 
+* key-exchange: Key exchange protocols allow two parties to produce a 
+  secret session key over a public channel.  675 questions
+* discrete-logarithm: In cryptography, a discrete logarithm is the 
+  number of times a generator of a group must be multiplied by itself 
+  to produce a known number.  By choosing certain groups, the task of 
+  finding a discrete l… 660 questions
+* tls: SSL (Secure Sockets Layer) and its successor TLS (Transport 
+  Layer Security) are protocols which provide communication security 
+  (privacy and integrity) for a bidirectional data channel.  659 
+  questions
+* key-derivation: In cryptography, a key derivation function (or KDF) 
+  derives one or more secret keys from a secret value such as a master 
+  key or other known information such as a password or passphrase using 
+  a pseudo-… 639 questions
+* hmac: HMAC is a method for constructing a message authentication 
+  code based on a cryptographic hash function.  633 questions
+* lattice-crypto: Lattice-cryptography is the study and use of 
+  lattice problems applied to cryptography.  602 questions
+* sha-256: SHA-256 is part of the SHA-2 family of hash functions with 
+  a 256-bit output and a 128-bit security level.  601 questions
+* mac: (or message authentication code), a short piece of information 
+  used to authenticate a message, and the algorithm to create and check 
+  such information, using a secret key.  590 questions
+* secret-sharing: Secret sharing refers to splitting a secret among 
+  multiple parties so that together they can reconstruct it. All 
+  parties, or just a threshold number of them, can be required for 
+  reconstruction. If few… 571 questions
+* pseudo-random-generator: In cryptography, a pseudo-random generator 
+  (PRG) is a deterministic procedure that maps a random seed to a 
+  longer pseudo-random string such that no statistical test can 
+  distinguish between the output … 564 questions
+* implementation: Implementing a cipher or protocol is the process of 
+  taking it from its mathematical or algorithmic description and 
+  producing a working version, often in computer software or hardware. 
+  This tag should … 559 questions
+* authenticated-encryption: Combination of encryption and 
+  authentication in a way that ensures confidentiality, integrity and 
+  authentication 558 questions
+* randomness: Usage of randomness (i.e. non-predictable data, usually 
+  in the form of bits or numbers) for cryptographic purposes.  552 
+  questions
+* stream-cipher: A stream cipher is an encryption algorithm which 
+  encrypts arbitrary length plaintext, using a key. Some stream ciphers 
+  generate a keystream from only the key, which is then XOR-combined 
+  with the plain… 547 questions
+* dsa: Digital Signature Algorithm (DSA) is a United States Federal 
+  Government standard or FIPS for digital signatures. It was proposed 
+  by the National Institute of Standards and Technology (NIST) in Aug… 
+  539 questions
+* multiparty-computation: (MPC) allows a set of parties, each with a 
+  private input, to securely and jointly perform any computation over 
+  their inputs.  526 questions
+* passwords: Passwords are secret keys which human beings can 
+  memorize.  522 questions
+* cbc: Cipher block chaining (CBC) is a method for encrypting large 
+  amounts of data with a block cipher that can only encrypt fixed 
+  length plaintexts. When used with an unpredictable initialization 
+  vector (I… 498 questions
+* modular-arithmetic: Modular arithmetic is a system of arithmetic 
+  for integers, where numbers "wrap around" upon reaching a certain 
+  value… the modulus.  487 questions
+* attack: A cryptographic attack tries to theoretically and/or 
+  practically attack the security properties of a cipher and/or 
+  algorithm.  464 questions
+* pseudo-random-function: A pseudo-random function (PRF) is a family 
+  of deterministic functions indexed by a parameter, such that a 
+  randomly selected instance is computationally indistinguishable from 
+  a uniformly random functi… 436 questions
+* reference-request: A reference request is a request to be provided 
+  with a source from documentation, official papers, and specs related 
+  to one or more specific algorithms or cryptographic procedures. Open 
+  ended literatu… 423 questions
+* des: (or Data Encryption Standard), a (symmetric) block cipher 
+  using a 64 bit block size, with keys of size 56 bit, the standard US 
+  block cipher from 1976 to 2001.  422 questions
+* one-time-pad: A cipher which uses a different encryption key every 
+  time, as long as the message. The key is XOR'ed with the message to 
+  render the cipher text which can then be XOR'ed with the same key to 
+  get the p… 412 questions
+* finite-field: A finite field is a mathematical construct based on a 
+  set of axioms which are held to be true. A number of interesting and 
+  useful properties arise from finite fields that makes them 
+  particularly suita… 408 questions
+* entropy: Entropy is a measure of how predictable the outcome of a 
+  random process is, or how much uncertainty one has about an unknown 
+  quantity in one's state of knowledge, defined in terms of the 
+  probability d… 397 questions
+* initialization-vector: Unique data used by block cipher modes of 
+  operation to randomize the output in order to achieve semantic 
+  security. Also for other similar constructs in other iterative 
+  algorithms.  393 questions
+* prime-numbers: A prime number is an integer greater than 1 with no 
+  divisors other than itself and 1. Primes and prime products play an 
+  important role in public key cryptography.  390 questions
+* openssl: OpenSSL is an open source implementation of the SSL and 
+  TLS protocols. Questions about how to use the OpenSSL tools and 
+  libraries are usually better asked at Stack Overflow or Super User.  
+  375 questions
+* elgamal-encryption: ElGamal is a public key encryption scheme with 
+  security based on the discrete logarithm problem.  362 questions
+* terminology: Questions about the meaning and proper use of specific 
+  technical terms or notation within cryptography.  354 questions
+* group-theory: Groups are an abstract algebraic concept based on a 
+  set and a group law (a binary function which closes the set).  352 
+  questions
+* brute-force-attack: A brute-force attack is attempting to find a 
+  secret value by trying all possible values until the correct one is 
+  found.  347 questions
+* modes-of-operation: ways of applying a block cipher to multi-block 
+  messages and enabling repeated use without changing the key.  333 
+  questions
+* factoring: The decomposition of an integer number to the product of 
+  other integers. Algorithms such as RSA are based on the premise that 
+  no practical way has been found was to factorize large integers when 
+  they … 333 questions
+* key-size: Key size is the size measured in bits of the key used in 
+  a cryptographic algorithm.  324 questions
+* padding: Padding has two primary uses in cryptography, ensuring 
+  messages are the proper length necessary for certain ciphers (e.g., 
+  block ciphers) or to provide assurances not built into the core 
+  cipher (e.g.,… 322 questions
+* xor: XOR, often written ⊕, is one of the basic operations on bits 
+  and bit-sequences. It is a building block of many cryptographic 
+  primitives (and some higher-level algorithms, like modes of 
+  operations).  318 questions
+* gcm: The Galois Counter Mode, an authenticated encryption mode of 
+  operation for a block cipher.  310 questions
+* security-definition: Questions about formal definitions of 
+  "security" for various cryptographic schemes (e.g. perfect secrecy, 
+  semantic security, ciphertext indistinguishability, etc.) 306 
+  questions
+* chosen-plaintext-attack.  The attacker can specify his own plain 
+  text and encrypt or sign it.  299 questions
+* password-hashing: Irreversibly converting user-selected passwords 
+  into authentication tokens that can be safely stored e.g. in a user 
+  database. Typically done with a salted password-based key derivation 
+  function (PBKDF… 289 questions
+* sha-1: SHA-1 is a hash function that is two generations old, no 
+  longer considered secure for all uses and should only be used for 
+  backward compatibility.  287 questions
+* cryptocurrency: A cryptocurrency is a digital currency powered by 
+  cryptography. This tag is applicable only to Q&As about the 
+  CRYPTOGRAPHIC MECHANISMS used by a currency, not for questions about 
+  economy, usage, or ac… 286 questions
+* one-way-function: A function which is easy to compute but hard to 
+  invert (i.e. find preimages for). The existence of one-way functions 
+  implies the possibility of many useful cryptographic schemes. No 
+  one-way functions … 285 questions
+* certificates: A certificate consists of a public key and 
+  information about the owner (e. g. the name of a person or server).  
+  280 questions
+* pairings: Pairing-based cryptography uses bilinear maps to create a 
+  gap group that allows efficient constructions of certain primitives.  
+  274 questions
+* s-boxes: (or substitution boxes), components in many block ciphers 
+  used to substitute parts of the data in a non-linear way. While often 
+  fixed by the algorithm (like in DES and AES), sometimes they are 
+  key-dep… 273 questions
+* decryption: In cryptography, encryption is the process of encoding 
+  information. This process converts the original representation of the 
+  information, known as plaintext, into an alternative form known as 
+  cipherte… 273 questions
+* number-theory: Number theory is the study of the properties and 
+  construction of numbers, particularly integers. Prime numbers are of 
+  particular interest to number theorists and consequently 
+  cryptographers as they ar… 272 questions
+* complexity: Complexity describes - in simple words - how hard 
+  (complex) it is to reach a specific goal; and under which conditions. 
+  In cryptography, this mostly ends up in using the complexity theory 
+  to analyze t… 271 questions
+* md5: MD5 is a hash function that is no longer considered secure 
+  from a cryptographic point of view. Therefore, it should only be used 
+  for backward compatibility.  265 questions
+* ctr: Counter Mode (CTR) is an encryption mode, that builds a 
+  random-access stream-cipher from a block-cipher.  264 questions
+* commitments: A commitment scheme is a protocol where one party 
+  commits themselves to a secret value without revealing it. At a later 
+  point, the value can be revealed.  262 questions
+* pbkdf-2: The Password-Based Key Derivation Function 2 (PBKDF2) is a 
+  method of securely deriving encryption keys from a passphrase entered 
+  by a user. It features an iteration count that can be deliberately 
+  adju… 257 questions
+* pgp: The OpenPGP encrypted data format (RFC 4880), and its 
+  implementations PGP and GnuPG.  254 questions
+* classical-cipher: Ciphers invented before the era of computers and 
+  modern cryptographic theory. Classical ciphers typically operate on 
+  letters instead of bits and are usually designed to be implemented by 
+  hand or using… 241 questions
+* lwe: Learning with Errors is a form of lattice problem used in the 
+  design of cryptographic primitives. LWE is based on the Closest 
+  Vector Problem (CVP).  232 questions
+* salt: Salt is unique (usually random) data passed into a hash 
+  function for password storage to avoid the possible usage of rainbow 
+  tables or similar attacks. Salt will not help against dictionary or 
+  brute f… 227 questions
+* side-channel-attack: attacks using information leaked by 
+  implementations of cryptographic algorithms to obtain information 
+  about keys or (plaintext) data, instead of (or additional to) using 
+  cryptographic weaknesses.  227 questions
+* nist: The National Institute of Standards and Technology (NIST) is 
+  a U.S. federal agency that works with industry to develop and apply 
+  technology, measurements, and standards.  218 questions
+* chosen-ciphertext-attack: A chosen-ciphertext attack (CCA) is an 
+  attack model for cryptanalysis in which the cryptanalyst gathers 
+  information, at least in part, by choosing a ciphertext and obtaining 
+  its decryption under an un… 216 questions
+* aes-gcm: Deprecated tag, see tag info. Advanced Encryption Standard 
+  Galois/Counter Mode, better known as AES-GCM is a mode of operation 
+  for symmetric key cryptographic block ciphers that has been widely 
+  ado… 214 questions
+* ed25519: Ed25519 is an algorithm for producing digital signatures. 
+  The algorithm is based on Edwards curves introduced by Bernstein et 
+  al. (2007) and named after mathematician Harold M. Edwards.  207 
+  questions
+* nonce: A "nonce" is an arbitrary number or string used only once 
+  within the context of a specific cryptographic scheme. Nonces are 
+  used e.g. in authentication protocols to prevent replay attacks, as 
+  well as … 205 questions
+* known-plaintext-attack: The attacker knows at least one sample of 
+  both the plain text and the cipher text.  203 questions
+* protocol-analysis: Protocol analysis is the detailed analysis of 
+  the security of an abstract or concrete cryptographic protocol.  196 
+  questions
+* perfect-secrecy: Confidentiality in a very strong sense. Ciphers 
+  reaching perfect-secrecy can't be broken to disclose informations 
+  over the plaintext from the ciphertext, even with unlimited computing 
+  power. The most … 188 questions
+* key-generation: Key generation is the process of generating keys 
+  for cryptographic purposes.  187 questions
+* permutation: A way, esp. one of several possible variations, in 
+  which a set or number of things can be ordered or arranged.  186 
+  questions: 
+* pseudo-random-permutation: A Pseudo-Random Permutation (PRP) is a 
+  function that cannot be distinguished (with practical effort) from a 
+  permutation selected at random with uniform probability from the 
+  family of all permutations … 183 questions
+* hash-signature: Signature schemes built out of and based on 
+  properties of hash functions. **DO NOT USE THIS TAG** if the 
+  signature is based on other hard problems and just happen to employ a 
+  hash function.  182 questions
+* chacha: ChaCha is a family of stream ciphers proposed by Daniel J. 
+  Bernstein, as an evolution of Salsa20 with (conjecturally) improved 
+  resistance to cryptanalysis.  180 questions
+* sha-3: SHA-3, also known as Keccak, is a cryptographic hash 
+  function standardized by NIST as a new alternative to the SHA-2 hash 
+  function family.  178 questions
+* file-encryption: The process of encrypting individual files on a 
+  storage medium and permitting access to the encrypted data only after 
+  proper authentication is provided.  177 questions
+* password-based-encryption: Encryption using a key derived from a 
+  password or passphrase entered by the user.  174 questions
+* preimage-resistance: Difficulty of finding an input string that 
+  hashes to a given value 172 questions
+* paillier: A public-key cryptosystem invented by Pascal Paillier in 
+  1999.  171 questions
+* hardness-assumptions: Mathematical problems that are thought to be 
+  difficult to solve for all cases in polynomial time 171 questions
+* ring-lwe: Ring learning with errors (RLWE) is a computational 
+  problem which serves as the foundation of new cryptographic 
+  algorithms, such as NewHope, designed to protect against 
+  cryptanalysis by quantum comput… 167 questions
+* substitution-cipher: A substitution cipher is an encryption 
+  algorithm which works by replacing plaintext units with corresponding 
+  ciphertext units, following some rule depending on the key.  163 
+  questions
+* lfsr: Linear Feedback Shift Register, a pseudorandom bit generator 
+  which can be efficiently implemented in hardware.  163 questions
+* random-oracle-model: A model used in cryptographic security proofs, 
+  in which concrete primitives such as hash functions are replaced with 
+  a "random oracle": a hypothetical black box that maps its inputs to 
+  truly random ou… 158 questions
+* ecb: Electronic Code Book (ECB) is a mode of operation for a block 
+  cipher, with the characteristic that each possible block of plaintext 
+  has a defined corresponding ciphertext value and vice versa.  152 
+  questions
+* integrity: In a cryptographic sense, integrity means unimpaired and 
+  complete.  152 questions
+* data-privacy: Data privacy refers to (cryptographic) methods to 
+  prevent the disclosure of sensitive (identifying) information of 
+  persons.  151 questions
+* differential-analysis: Differential cryptanalysis is a form of 
+  cryptanalysis which studies cryptographic algorithms by observing how 
+  differences in input affect differences in output.  146 questions
+* cryptographic-hardware: Cryptographic hardware enables the handling 
+  of cryptographic tasks and/or problems using hardware instead of 
+  software solutions.  145 questions
+* encoding: Encoding is the act of transforming information from one 
+  form to another. In cryptography, encoding is typically used to refer 
+  to an unkeyed process that does not provide any security in itself, 
+  but j… 141 questions
+* quantum-cryptography: Quantum cryptography describes the use of 
+  quantum mechanical effects to perform cryptographic tasks. This is 
+  not to be confused with quantum computing or cryptanalysis techniques 
+  such as Shor's algori… 137 questions
+* sha-2: SHA-2 is a family of cryptographic hash functions designed 
+  by the NSA and published by NIST in 2001. The family includes various 
+  output lengths (224, 256, 384, and 512 bits).  137 questions
+* feistel-network: A feistel-network or feistel cipher is a structure 
+  that has been used to create a number of different block ciphers 
+  (e.g., DES, Blowfish, Twofish, RC6).  134 questions
+* oblivious-transfer: Oblivious transfer refers to a cryptographic 
+  protocol in which a sender possesses a set of data and a receiver 
+  queries the sender for a particular member of that set in such a way 
+  that the sender does… 134 questions
+* schnorr-signature: A digital signature algorithm based on the 
+  discrete logarithm problem, provably secure in the random oracle 
+  model.  133 questions
+* vigenere: The Vigenère cipher is a classical cipher that shifts 
+  each plaintext character by the value of the key at the same position 
+  modulo the key-length.  132 questions
+* sha-512: SHA-512 is part of the SHA-2 family of hash functions with 
+  a 512-bit output and a 256-bit security level.  132 questions
+* standards: Questions about official cryptographic standards and 
+  their implementation.  128 questions
+* man-in-the-middle: A man-in-the-middle (MITM) attack is an active 
+  attack where the attacker is able to interpose himself between the 
+  sender and receiver. The attacker may monitor and/or modify some or 
+  all of the messag… 127 questions
+* 3des: A block cypher encryption algorithm built from applying three 
+  iterations of the original DES algorithm.  125 questions
+* elliptic-curve-generation: ECC is an approach to public-key 
+  cryptography based on the algebraic structure of elliptic curves over 
+  finite fields. ECC allows smaller keys compared to non-EC 
+  cryptography (based on plain Galois fie… 125 questions
+* history: History of cryptography and cryptanalysis. Questions that 
+  wish to ask about the history of cryptography should use this tag; if 
+  you're asking about historical ciphers you may also wish to use the 
+  clas… 124 questions
+* pki: PKI is short for Public Key Infrastructure. The foundation of 
+  a PKI is the certificate authority (CA), which issues digital 
+  certificates that authenticate the identity of organizations and 
+  individuals… 124 questions
+* performance: Performance defines the abilities of a cipher in terms 
+  of processing throughput on various platforms, including its memory 
+  requirements.  124 questions
+* hkdf: HKDF is a key derivation function specified in RFC5869.  122 
+  questions
+* snarks: SNARKS (short non-interactive arguments of knowledge) are 
+  space efficient zero-knowledge proof that do not require input from a 
+  verifier.  115 questions
+* cbc-mac: Cipher Block Chaining MAC (CBC-MAC) is a method of 
+  building a message authentication code from a block-cipher.  114 
+  questions
+* semantic-security: produces ciphertext that, by itself, does not 
+  reveal information about the original message besides its length 114 
+  questions
+* timing-attack: The side channel attack is based on the fact that 
+  the time difference between certain operations executed by the 
+  implementation of a cryptographic scheme allow an adversary to get 
+  information that he … 113 questions
+* ntru: NTRU is an encryption algorithm which is based on the 
+  shortest vector problem in a lattice.  113 questions
+* linear-cryptanalysis: Linear cryptanalysis is a known plaintext 
+  attack and uses a linear approximation to describe the behavior of 
+  the block cipher. Given sufficient pairs of plaintext and 
+  corresponding ciphertext, bits of… 113 questions
+* argon2: Argon2 is a password hash or password-based key derivation 
+  function, which won the password-hashing competition in 2015.  112 
+  questions
+* key-reuse: Using the same key for more than one purpose, e.g. to 
+  encrypt two messages or to encrypt and authenticate a message. Some 
+  cryptosystems may be vulnerable to attacks if keys are 
+  inappropriately reused.  111 questions
+* rijndael: Rijndael is a family of symmetric block-ciphers with 
+  block and keys sizes of 128, 160, 192, 224, or 256 bits.  111 
+  questions
+* identity-based-encryption: In identity-based encryption (IBE) the 
+  public key of a user A is some identity string IDA , e.g., an email 
+  address. To encrypt a message for this user there is no need to 
+  retrieve an authentic cop… 111 questions
+* multiple-encryption: Multiple encryption means encrypting a message 
+  two or more times using either the same, or a different algorithm.  
+  110 questions
+* rc4: RC4 is a fast and simple stream cipher used correctly in SSL 
+  and incorrectly in WEP.  110 questions
+* keccak: SHA-3, originally known as Keccak, is a cryptographic hash 
+  function designed by Guido Bertoni, Joan Daemen, Michaël Peeters, and 
+  Gilles Van Assche.  108 questions
+* threshold-cryptography: Threshold cryptography is the art of 
+  chopping a secret into little bits, so that the secret can only be 
+  learned by possessing more than a threshold number of those bits.  
+  106 questions
+* notation: Questions on the meaning, history, and usage of symbols 
+  and notation in cryptography. Please remember to mention where (book, 
+  paper, webpage, etc.) you encountered any notation you are asking 
+  about.  105 questions
+* abe: Attribute-Based Encryption is a type of public-key encryption 
+  in which the key used for encryption is based on selected attributes 
+  of the readers. Decryption of the ciphertext is possible only if the 
+  … 103 questions
+* hash-tree: A hash tree (or Merkle tree) is a method of 
+  hierarchically hashing data. They allow efficient parallel hashing 
+  and updates and the possibility of verifying partial data.  99 
+  questions
+* compression: Compression is the reduction in size of data without 
+  losing information.  97 questions
+* format-preserving: Format-preserving encryption (FPE) refers to 
+  encrypting in such a way that the output has the same length as the 
+  input, or otherwise has the same format or structure as the input.  
+  97 questions
+* steganography: Steganography is the art and science of writing 
+  hidden messages in such a way that no one, apart from the sender and 
+  intended recipient, suspects the existence of the message. While 
+  cryptography prot… 97 questions
+* merkle-damgaard: The Merkle–Damgård construction — used in the 
+  design of many popular hash algorithms such as MD5, SHA1 and SHA2 — 
+  is a method of building collision-resistant cryptographic hash 
+  functions from collisio… 96 questions
+* secp256k1: should be used for anything related to the secp256k1 
+  algorithm used for Bitcoin's public key cryptography.  96 questions
+* proof-of-work: should be used for questions regarding the function 
+  and use of proof-of-work systems and proof-of-work algorithms. Proof 
+  of work describes a decentralized consensus system based on an 
+  arbitra… 94 questions
+* birthday-attack: A birthday attack is a cryptanalytic technique. 
+  Birthday attacks can be used to find collisions in a cryptographic 
+  hash function. For instance, suppose we have a hash function which, 
+  when supplied wit… 94 questions
+* differential-privacy: Differential privacy aims to provide means to 
+  maximize the accuracy of queries from statistical databases while 
+  minimizing the chances of identifying its records.  94 questions
+* bcrypt: bcrypt is an intentionally slow hash algorithm specially 
+  designed for passwords.  93 questions
+* statistical-test: Statistical testing is used to estimate the 
+  likelihood of a hypothesis given a set of data. In cryptanalysis, 
+  statistical testing is commonly used to detect non-randomness in the 
+  data, e.g. distinguis… 93 questions
+* database: A structured set of data held in a computer, esp. one 
+  that is accessible in various ways.  92 questions
+* libsodium: "The sodium crypto library". A cryptographic 
+  multi-language-library with support for many modern cryptographic 
+  primitives, that is a fork of the NaCl library. The library focuses 
+  on providing easy-to-… 92 questions
+* blocksize: A block is a sequence of bytes or bits, having a fixed 
+  length (the block-size).  91 questions
+* elgamal-signature: A digital signature scheme based on the discrete 
+  logarithm problem, published by Taher ElGamal in 1984. Not to be 
+  confused with the ElGamal encryption system.  90 questions
+* forgery: Forgery is the process of making, adapting, or imitating 
+  objects, statistics, or documents with the intent to deceive. Use 
+  this tag on questions revolving around creating a forgery for a 
+  specific encr… 89 questions
+* salsa20: Salsa20 by Daniel J. Bernstein is a family of stream 
+  ciphers built on a pseudo-random function.  89 questions
+* verifiability: Verifiable encryption is an encryption scheme where 
+  one can prove some property of a message m, while the message is 
+  given in an encrypted form. When an encryption scheme is secure, the 
+  encryption E(m… 89 questions
+* anonymity: Anonymity describes the state of being unknown or 
+  unacknowledged.  88 questions
+* garbled-circuits: Garbled Circuits are used in Secure Multiparty 
+  Computation 86 questions
+* probability: Questions about the branch of mathematics concerned 
+  with modeling and analyzing random phenomena.  86 questions
+* scrypt: A slow and memory-intensive hash function designed for 
+  passwords 84 questions
+* enigma: The Enigma Machine was a piece of cryptographic hardware 
+  used by the German military during World War II; successful 
+  cryptanalysis was routinely applied against it and the scheme was 
+  considered broken… 84 questions
+* distinguisher: A distinguisher describes an adversary's advantage. 
+  In cryptography, an adversary's advantage is a measure of how 
+  successfully it can attack a cryptographic algorithm, by 
+  distinguishing it from an ide… 84 questions
+* ssh: The Secure Socket Shell (SSH) protocol is an authentication 
+  protocol (described in RFC 4252) for securely getting access to a 
+  remote computer.  82 questions
+* meet-in-the-middle-attack: The meet-in-the-middle attack is an 
+  optimized brute-force attack that significantly reduces the number of 
+  keys the attacker needs to try by utilizing a time-space trade-off. 
+  Work is done from the begi… 80 questions
+* secure-storage: Secure storage describes storing resources in a 
+  secure way, so that they are only available to authorized users and 
+  trusted networks.  79 questions
+* sponge: The cryptographic sponge is a construction scheme for hash 
+  functions (and other symmetric primitives) based on an unkeyed 
+  permutation. The most famous example is Keccak, which won the SHA-3 
+  competitio… 78 questions
+* forward-secrecy: A security property wherein past messages are 
+  protected against future compromise of the master keys.  77 questions
+* poly1305: Poly1305-AES is a cryptographic message authentication 
+  code (MAC) written by Daniel J. Bernstein. It can be used to verify 
+  the data integrity and the authenticity of a message.  76 questions
+* padding-oracle: A side-channel attack on implementations of 
+  encryption modes that use padding (e.g. ECB, CBC) that uses 
+  information leaked during decryption of tampered ciphertext values to 
+  derive information about t… 75 questions
+* trapdoor: A trapdoor function is a function that is easy to perform 
+  one way, but has a secret that is required to perform the inverse 
+  calculation efficiently.  74 questions
+* deterministic-encryption: A deterministic encryption scheme is a 
+  cryptosystem which always produces the same ciphertext for a given 
+  plaintext and key, even over separate executions of the encryption 
+  algorithm.  73 questions
+* adversarial-model: An adversary model formally defines the power of 
+  the adversary. It includes specifics whether the adversary is 
+  deterministic/randomized, uniform/non-uniform, 
+  interactive/non-interactive and how he int… 73 questions
+* fiat-shamir: The Fiat–Shamir heuristic takes an interactive proof 
+  of knowledge and uses this as base to create a digital signature.  73 
+  questions
+* blind-signature: In a blind signature scheme, the signer does not 
+  know what he is signing. This is an important building block of 
+  anonymous voting or digital cash schemes, because it allows an 
+  authority to control the… 72 questions
+* information-theory: Information theory is concerned with sending 
+  messages via electronic signals in the most efficient and error-free 
+  way.  71 questions
+* 2nd-preimage-resistance: Difficulty of finding another input string 
+  that hashes to the same value as a given string 71 questions
+* voting: Voting is a method for a group such as a meeting or an 
+  electorate to make a decision or express an opinion.  70 questions
+* key-schedule: A key schedule is an algorithm that expands a 
+  relatively short master key to a relatively large expanded key for 
+  later use in an encryption and decryption algorithm.  68 questions
+* oaep: Optimal Asymmetric Encryption Padding is a padding scheme for 
+  RSA, codifying how short plaintext is enciphered and deciphered. It 
+  has a security reduction to the RSA problem.  68 questions
+* test-vectors: A test vector is a set of inputs used to test new 
+  and/or established cryptographic designs and/or implementations.  67 
+  questions
+* blowfish: Blowfish is an encryption algorithm that can be used as a 
+  replacement for the DES or IDEA algorithms. Blowfish was designed in 
+  1993 by Bruce Schneier as an alternative to existing encryption 
+  algorithm… 65 questions
+* quantum-cryptanalysis: on questions about attacks that break 
+  cryptographic guarantees / security properties of primitives and 
+  protocols and utilize quantum computers as an essential part.  65 
+  questions
+* transport-security: Transport security about establishing a real 
+  time secure channel from a sender to a receiver. Transport security 
+  generally requires more protection and a more intricate protocol than 
+  securing data at … 63 questions
+* accumulators: A cryptographic accumulator is a one way membership 
+  function. It answers a query as to whether a potential candidate is a 
+  member of a set without revealing the individual members of the set.
+* 63 questions: computational-complexity-theory A subfield of 
+  theoretical computer science one of whose primary goals is to 
+  classify and compare the practical difficulty of solving problems 
+  about finite combinatorial objects 63 questions
+* kyber: Kyber is a Key Encapsulation Mechanism (KEM) based on the 
+  Module Learning with Errors (MLWE) problem. It is an example of 
+  lattice-based cryptography and is part of the Crystals family 
+  together with th… 62 questions
+* length-extension: A length extension attack on a hash or message 
+  authentication code function, which allows extra information to be 
+  added to the input message without changing the output value.  62 
+  questions
+* one-time-password: A one-time password is a password that is valid 
+  for only one session or transaction.  61 questions
+* lightweight: Small and/or fast ciphers and other cryptographic 
+  primitives designed for use in constrained environments, such as 
+  embedded MCUs and smart cards.  61 questions
+* ecies: Elliptic Curve Integrated Encryption Scheme (ECIES) is a 
+  public key encryption system proposed by Victor Shoup in 2001. It 
+  uses hybrid cryptography using ephemeral-static Diffie-Hellman 
+  together with … 61 questions
+* private-set-intersection: In a private set intersection (PSI) 
+  protocol two parties jointly compute the intersection of their 
+  private input sets.  59 questions
+* universal-hash: In mathematics and computing, universal hashing (in 
+  a randomized algorithm or data structure) refers to selecting a hash 
+  function at random from a family of hash functions with a certain 
+  mathematical … 58 questions
+* disk-encryption: Disk encryption protects information by encrypting 
+  every byte that is written to a HD or virtual disk volume.  58 
+  questions
+* indistinguishability: Ciphertext indistinguishability is property 
+  of randomised encryption schemes where it is computationally 
+  infeasible to tell if two ciphertexts are encryptions of the same 
+  plaintext.  58 questions
+* coding-theory: Coding theory studies the properties of codes and 
+  their fitness for specific applications, and typically involves the 
+  removal of redundancy and the detection and/or correction of errors 
+  in transmitted… 57 questions
+* cmac: CMAC is a block cipher-based message authentication code 
+  algorithm.  57 questions
+* matrix-multiplication: Matrix multiplication indicates a 
+  row-by-column multiplication, where the entries in the Xth row of A 
+  are multiplied by the corresponding entries in the Yth column of B 
+  and then adding the results.  57 questions
+* x25519: Curve25519 is an elliptic curve offering 128 bits of 
+  security (256 bits key size) and designed for use with the elliptic 
+  curve Diffie–Hellman (ECDH) key agreement scheme.  57 questions
+* cfb: Cipher Feedback Mode (CFB) is an encryption mode, that builds 
+  a self-synchronizing stream-cipher from a block-cipher.  56 questions
+* quadratic-residuosity: A residue of order 2. A number a for which 
+  the congruence x2≡a(modm) has a solution is called a quadratic 
+  residue modulo m .  55 questions
+* universal-composability: The framework of universal composability 
+  (UC) is a general-purpose model for the analysis of cryptographic 
+  protocols.  55 questions
+* bls-signature: The Boneh-Lynn-Shacham Signature scheme is a scheme 
+  where multiple signatures can be combined into one and verified given 
+  a public key, the data to be verified and a single combined 
+  signature.  55 questions
+* srp: The “secure remote password protocol” is a modern 
+  cryptographic protocol for password authenticated key exchange 
+  (PAKE). It provides some desireable properties, like a passive 
+  eavesdropper being unabl… 53 questions
+* pen-and-paper: The term "pen and paper" can practically be 
+  interpreted as "using no tools like electronic devices", since it 
+  targets cryptographic functions, schemes, and procedures which can be 
+  handled by humans wh… 52 questions
+* functional-encryption: Functional encryption is a type of 
+  public-key encryption, where the party that has access to a secret 
+  key can learn a function from that key, which is used to encrypt and 
+  decrypt messages.  52 questions
+* key-recovery: A means of recovering cryptographic keys when the 
+  usual means for obtaining them is unavailable.; the ability to 
+  uncover the secret key to a cryptographic message.  52 questions
+* pkcs1: PKCS#1 is the first standard published by RSA Security, 
+  which was setup by the inventors of RSA, Rivest, Shamir and Adleman. 
+  It describes how the RSA problem can be used to perform secure 
+  signature ge… 52 questions
+* hybrid-encryption: Hybrid encryption combines secret-key and 
+  public-key cryptography into an encryption scheme.  52 questions
+* signal-protocol: The Signal (formerly known as TextSecure) Protocol 
+  is an end-to-end encryption protocol developed for the instant 
+  messaging software Signal and also used by other software such as 
+  WhatsApp.  52 questions
+* frequency-analysis: Frequency analysis is the study of letters or 
+  groups of letters contained in a ciphertext in an attempt to 
+  partially reveal the message.  51 questions
+* kem: For questions about Key Encapsulation Mechanisms (KEMs). KEMs 
+  are frequentely used in Cryptography to create public key encryption 
+  schemes and are a way to formalize a specific subset of hybrid 
+  encryp… 51 questions
+* rabin-cryptosystem: A public-key cryptosystem based on squaring 
+  modulo the product of two primes, introduced in 1979 by Michael O. 
+  Rabin and proven to have security reducible to the hardness of 
+  integer factorization. It … 50 questions
+* safe-prime: A safe prime is a prime number of the form 2q + 1, 
+  where q is also a prime.  50 questions
+* mceliece: McEliece cryptosystem is an asymmetric encryption 
+  algorithm and is a candidate for "post-quantum cryptography", as it 
+  is immune to attacks using Shor's algorithm and — more generally — 
+  measuring coset… 50 questions
+* replay-attack: Attacks that are based on recording an encrypted 
+  and/or signed communication and replaying it at a later time.  49 
+  questions
+* challenge-response: Challenge-response authentication is a family 
+  of protocols in which one party presents a question ("challenge") and 
+  another party must provide a valid answer ("response") to be 
+  authenticated.  49 questions
+* ccm: The Counter with CBC Mac mode, an authenticated encryption 
+  mode of operation for a block cipher based on the CTR mode and the 
+  CBC-MAC algorithm. 49 questions
+* trng: A TRNG (True Random Number Generator) is hardware that uses 
+  nondeterministic physical processes to randomly generate numbers.  49 
+  questions
+* zero-knowledge: A zero-knowledge proof is a cryptographic 
+  demonstration of the truth of a statement such as "I know a number x 
+  such that gxmodp=y ", that can be verified by a sceptical party but 
+  provides no in… 49 questions
+* schnorr-identification: The Schnorr Identification Protocol relies 
+  upon the security of the Discrete Logarithm Problem. Schnorr's 
+  protocol was introduced after, and is comparable to, the 
+  identification protocol of Fiat and S… 48 questions
+* isogeny: Elliptic curve isogenies are structure-preserving maps 
+  between elliptic curves which have been proposed as a foundation of 
+  post-quantum cryptosystems.  47 questions
+* xts: XTS is a block cipher mode of operation, which is most 
+  commonly used when random accessible data (like a hard disk or RAM) 
+  is to be encoded.  47 questions
+* fips-140: FIPS 140-2 is a U.S. government computer security 
+  standard used to accredit cryptographic modules.  47 questions
+* affine-cipher: A type of monoalphabetic substitution cipher, 
+  wherein each letter in an alphabet is mapped to its numeric 
+  equivalent, encrypted using a simple function `(ax + b) mod m`.  46 
+  questions
+* montgomery-multiplication: A modular multiplication algorithm 
+  invented by Peter Montgomery that allows modular arithmetic to be 
+  performed efficiently when the modulus is large (typically several 
+  hundred bits).  46 questions
+* blake2: BLAKE2 is a cryptographic hash function based on the SHA-3 
+  finalist BLAKE 45 questions
+* timestamping: Generally, a timestamp is the current time of an 
+  event that is recorded by a computer. You can use digital timestamps 
+  via a trusted authority to certify and protect your intellectual 
+  property or your … 45 questions
+* ofb: Output Feedback Mode (OFB) is an encryption mode, that builds 
+  a synchronous stream-cipher from a block-cipher.  45 questions
+* ipsec: For questions about the cryptographic protocols which form 
+  the basis of IPsec, which is one of the common security schemes used 
+  on the throughout. For general questions about IPsec, consider if 
+  your q… 45 questions
+* crc: The Cyclic Redundancy Check is a non-cryptographic 
+  error-detecting code. While CRCs occasionally appear as parts of a 
+  cryptosystem, questions purely about CRCs and other non-cryptographic 
+  checksums ar… 45 questions
+* hill-cipher: The Hill cipher is a historic polygraphic substitution 
+  cipher invented by Lester S. Hill in 1929.  45 questions
+* algebraic-attack: An algebraic attack is a method of cryptanalysis 
+  against a cipher 1)expressing the cipher operations as a system of 
+  equations. 2)substituting in known data for some of the variables. 
+  3)sol… 45 questions
+* quantum-computing: A computation model which relies on 
+  quantum-mechanic phenomena, such as entanglement and superposition. 
+  This generalizes the probabilistic model of computation.  45 questions
+* malleability: A cipher or mode of operation is said to be malleable 
+  if it is feasible to modify ciphertext to produce meaningful changes 
+  in the corresponding plaintext without knowing the encryption key.  
+  44 questions
+* key-wrap: Key Wrap constructions are a class of symmetric 
+  encryption algorithms designed to encapsulate (encrypt) cryptographic 
+  key material.  44 questions
+* ciphertext-only-attack: A cyphertext-only attack is a form of 
+  cryptographic attack in which the attacker possesses only the 
+  encrypted message, with no corresponding plain text or segment of the 
+  key to work with.  44 questions
+* key-distribution: In symmetric-key cryptography, both parties must 
+  possess a secret key that they must exchange prior to using any 
+  encryption. Distribution of secret keys is problematic: it involves 
+  face-to-face meetin… 44 questions
+* diffusion: Diffusion refers to the property of an encryption 
+  primitive that small changes in the plaintext result in big changes 
+  in the ciphertext and vice-versa.  44 questions
+* embedded: An embedded system is a computer system with a dedicated 
+  function within a larger mechanical or electrical system, often with 
+  real-time computing constraints.  42 questions
+* homomorphic-signatures: A homomorphic signature scheme (also 
+  malleable signature scheme) is a digital signature scheme that allows 
+  computations on signed data (without access to the secret signing 
+  key) while preserving the… 41 questions
+* blinding: Technique mainly employed for factorization based 
+  cryptosystems to hide information. Usually blinding involves using a 
+  multiplicative homomorphic property of the cipher, it may be used to 
+  realize blin… 41 questions
+* sis: For questions involving/related to the Short Integer 
+  Solutions(SIS) problem.  41 questions
+* pake: Password-Authenticated Key Exchanges (PAKE) are authenticated 
+  key exchange protocols where the long term secret is a (low entropy) 
+  password. I.e., it's a 2-party protocol with at least one party 
+  using… 41 questions
+* commutative-encryption: A commutative encryption system allows a 
+  message encrypted with two different keys to be decrypted using the 
+  keys in either order.  41 questions
+* twofish: A symmetric block-cipher algorithm with a 128-bit block 
+  size, and key sizes up to 256 bits.  40 questions
+* circuit: In computational complexity theory, arithmetic circuits 
+  are the standard model for computing polynomials. Informally, an 
+  arithmetic circuit takes as inputs either variables or numbers and is 
+  allowed t… 40 questions
+* mds: An MDS matrix (Maximum Distance Separable) is a matrix 
+  representing a function with certain diffusion properties that have 
+  useful applications in cryptography.  40 questions
+* rsa-pss: RSA-PSS (officially: RSASSA-PSS) is an RSA signature 
+  scheme that is provably reduced to the RSA problem.  39 questions
+* pbkdf: A PBKDF is a Password Based Key Derivation Function, which 
+  can be used to derive key data or derive a "password hash" from a 
+  salt and password.  39 questions
+* rainbow-table: A rainbow table allows inverting a cryptographic 
+  function (typically, a hash) at low cost, after a precomputation.  39 
+  questions
+* serpent: A symmetric block cipher algorithm with a 128 bit block 
+  size, and key sizes up to 256 bits.  39 questions
+* backdoors: A backdoor in a cryptosystem or algorithm allows someone 
+  to obtain access to the decrypted data, without the need for the 
+  key/password that was used to encrypt the data.  39 questions
+* arithmetic: Arithmetic is a branch of mathematics usually concerned 
+  with the four operations (adding, subtracting, multiplication and 
+  division) of positive numbers.  39 questions
+* pkcs11: PKCS #11 (Public-Key Cryptography Standard 11) defines a 
+  platform-independent API to cryptographic tokens, such as hardware 
+  security modules (HSM) and smart cards called *Cryptoki*.  39 
+  questions
+* transposition-cipher: A classical cipher in which the ciphertext is 
+  obtained by scrambling the letters of the plaintext.  38 questions
+* pohlig-hellman: In group theory, the Pohlig–Hellman algorithm 
+  sometimes is a special-purpose algorithm for computing discrete 
+  logarithms in a multiplicative group whose order is a smooth integer. 
+   37 questions
+* avalanche: The avalanche effect is evident if, when an input is 
+  changed slightly (for example, flipping a single bit) the output 
+  changes significantly (e.g., half the output bits flip).  37 questions
+* nsa: The National Security Agency (NSA) is the central producer and 
+  manager of signals intelligence for the United States Government.  37 
+  questions
+* proxy-re-encryption: a type of public-key encryption scheme that 
+  allows to transform ciphertexts encrypted under Alice's public key 
+  into ciphertexts decryptable by Bob 37 questions
+* jwt: JWT specifies JSON web tokens. It is defined in RFC 7519: JSON 
+  Web Token (JWT) 37 questions
+* asn.1: Abstract Syntax Notation One (ASN.1) is a language that 
+  defines the way data is sent across dissimilar communication systems. 
+   36 questions
+* tweakable-cipher: A block cipher is a family of permutations where 
+  the key selects a particular permutation from that family. With a 
+  tweakable blockcipher both key and tweak are used to select a 
+  permutation. So tweak a… 36 questions
+* hotp: The HMAC-based one-time password algorithm defined in RFC 
+  4226.  36 questions
+* memory-hard: Memory-hardness is a property that, if proven to be 
+  possesed, makes an algorithm "immune" to time-memory tradeoffs, by 
+  "punishing" memory reductions. Usually algorithms possesing this 
+  property can't e… 36 questions
+* quantum-key-distribution: Quantum Key Distribution aims at 
+  establishing a secret shared by two parties, using quantum physics 
+  phenomena, in a way that ensures that an adversary can't know that 
+  shared secret.  35 questions
+* sigma-protocol: Sigma protocols are a special form of 
+  zero-knowledge proof. They can be turned into non-interactive proofs 
+  using the Fiat-Shamir heuristic.  34 questions
+* probabilistic-encryption: Probabilistic encryption is the use of 
+  randomness in an encryption algorithm, so that when encrypting the 
+  same message several times it will, in general, yield different 
+  ciphertexts.  34 questions
+* spn: A Substitution-Permutation-Network is a structure that has 
+  been used to create a number of different block ciphers (e.g., AES, 
+  Picollo, Present...) 34 questions
+* checksum: A checksum is a value created from a binary file that can 
+  be used to detect errors especially occurred in the transmission.  34 
+  questions
+* negligible: Negligible means that something is so unimportant, that 
+  it isn't worth considering. For example, if a flaw in a cryptographic 
+  algorithm is considered to be negligible, it is insignificant to both 
+  the … 34 questions
+* decryption-oracle: The decryption oracle doesn't care, it simply 
+  runs the decryption algorithm with the secret key produced earlier in 
+  the security game and the input provided by the attacker. Whether 
+  this results in va… 34 questions
+* software-obfuscation: Software obfuscation is the deliberate act of 
+  creating obfuscated code by making source or machine code difficult 
+  to understand from a human point of view. This may be by either 
+  ad-hoc heuristic techn… 34 questions
+* white-box: In cryptography, white box analysis means extracting a 
+  secret value from an implementation of a function that uses the 
+  value.  33 questions
+* machine-learning: Machine learning is an application of artificial 
+  intelligence (AI) that provides systems the ability to automatically 
+  learn and improve from experience without being explicitly 
+  programmed. Machine lea… 32 questions
+* shors-algorithm: Shor’s algorithm is famous for factoring integers 
+  in polynomial time. Since the best-known classical algorithm requires 
+  superpolynomial time to factor the product of two primes, the widely 
+  used crypto… 32 questions
+* eddsa: In public-key cryptography, Edwards-curve Digital Signature 
+  Algorithm (EdDSA) is a digital signature scheme using a variant of 
+  Schnorr signature based on twisted Edwards curves. It is designed to 
+  be f… 32 questions
+* deniable-encryption: Deniable encryption is a type of cryptography 
+  that allows an encrypted text to be decrypted in two or more ways, 
+  depending on which decryption key is used.  31 questions
+* timed-release: Time-lock puzzles and other cryptographic schemes 
+  intended to ensure that a message cannot be read until a certain time 
+  has passed.  31 questions
+* bijection: A bijection (or a bijective function) is a function f 
+  from a set X to a set Y with the property that, for every y in Y, 
+  there is exactly one x in X such that f(x)=y . It follows from … 30 
+  questions
+* siv: SIV (Synthetic Initialization Vector) is a two-pass AEAD block 
+  cipher mode of operation described in RFC 5297. It can be used either 
+  for key-wrap (nonce-less deterministic authenticated encryption) or… 
+  30 questions
+* non-repudiation: Non-repudiation is the assurance that someone 
+  cannot deny something.  30 questions
+* arx: Design philosophy for ciphers. ARX solely relies on additions, 
+  rotations and XORs to build ciphers and similar algorithms. This 
+  usually constructs ciphers that are highly resistant against 
+  side-channe… 30 questions
+* reduction: Reduction is a technique for proving the security of a 
+  cryptosystem.  30 questions
+* interactive-proofs: 29 questions
+* searchable-encryption: Searchable encryption is a subfield of 
+  cryptography which constructs and analyzes cryptosystems that 
+  preserve the ability to 'search' over encrypted data, for some 
+  definition of 'search'.  29 questions
+* compression-function: A compression function takes two fixed-size 
+  inputs: a chaining value and a message and returns a fixed-size 
+  value.  29 questions
+* broadcast-encryption: Broadcast encryption is the cryptographic 
+  problem of delivering encrypted content (e.g. TV programs or data on 
+  DVDs) over a broadcast channel in such a way that only qualified 
+  users (e.g. subscribers … 28 questions
+* order-preserving: Order-preserving encryption (OPE) is a method of 
+  encrypting data so that it's possible to make efficient inequality 
+  comparisons on the encrypted items without using the key (including, 
+  but not limited… 28 questions
+* access-control: Access-control is a possible goal of cryptography, 
+  where the idea is to restrict access to documents, equipment, 
+  locations, or keys to individuals who are authorized such access.  28 
+  questions
+* playfair: The Playfair cipher is a digraph substitution cipher. It 
+  employs a table where one letter of the alphabet is omitted, and the 
+  letters are arranged in a 5x5 grid.  28 questions
+* cms: CMS is an acronym for the Cryptographic Message Syntax, as 
+  defined in RFC5652 27 questions
+* collision-attack: For attacks on hash functions that achieve hash 
+  collisions with less work than the birthday bound.  27 questions
+* dilithium: Dilithium is a digital signature algorithm based which 
+  uses the FIat-Shamir with aborts technique based on the Decisional 
+  Compact Knapsack (DCK) and Short Integer Solution (SIS) problems in 
+  module lat… 26 questions
+* pollard-rho: Algorithms for integer factorization and discrete 
+  logarithm invented by John Pollard (1975). It is often used in 
+  cryptanalysis because it only requires a small amount of space and 
+  remains polynomial i… 26 questions
+* file-format: A file format is a particular way that information is 
+  encoded for storage in a computer file.  25 questions
+* wpa2-psk: Wi-Fi Protected Access 2 - Pre-Shared Key (also called 
+  WPA or WPA2 Personal) is a method of securing your network using WPA2 
+  with the use of the optional Pre-Shared Key (PSK) authentication, 
+  which was… 25 questions
+* dictionary-attack: A dictionary attack is a technique for defeating 
+  a cipher or authentication mechanism by trying to determine its 
+  decryption key or pass-phrase by trying hundreds or sometimes 
+  millions of likely possib… 25 questions
+* simulation: 25 questions
+* related-keys: Keys with an exploitable mathematical relationship, 
+  and the attacks they enable 24 questions
+* function-evaluation: Calculating the value of a function for given 
+  inputs, especially, in the context of secure multi-party computation 
+  and/or homomorphic encryption, without disclosing the inputs to some 
+  or all parties c… 24 questions
+* mental-poker: Mental poker is the common description for a set of 
+  cryptographic problems related to playing a fair game over a distance 
+  without the need for any trusted third party.  24 questions
+* ephemeral: Ephemeral defines things that are short-lived, like (for 
+  example) an ephemeral key, which is a key that only exists within the 
+  lifetime of a communication session.  24 questions
+* message-recovery: Message recovery is a feature of some digital 
+  signature schemes, whereas some or all of the message signed is 
+  embedded in the signature, recovered as part of signature 
+  verification, and thus needs not… 24 questions
+* xof: An extendable-output function (XOF) is similar to a hash 
+  function, but uses the internal state to output a stream of bits 
+  instead of a fixed-length octet string.  24 questions
+* ciphersuite: A cipher suite is a set of algorithms that help secure 
+  a network connection that uses Transport Layer Security (TLS) or its 
+  now-deprecated predecessor Secure Socket Layer (SSL).  24 questions
+* one-time-signature: a digital signature scheme that can be used to 
+  sign one message per key pair 23 questions
+* prime-field: A prime field is a field not containing proper 
+  subfields.  23 questions
+* constants: Fixed, more or less arbitrary parameter values that 
+  appear in the definitions of cryptographic schemes, such as fixed 
+  initialization vectors for hash functions or S-box tables for block 
+  ciphers.  23 questions
+* verifiable-random-function: A verifiable random function is a 
+  public-key cryptosystem serving like a pseudorandom function under a 
+  secret key, with the additional characteristic that outputs are 
+  verifiable under the correspondin… 22 questions
+* obfuscation: Obfuscation is the process by which the code is 
+  altered so that a developer finds it much harder to understand 
+  clearly what the intended program does or how it operates. The larger 
+  the program the gre… 22 questions
+* multivariate-cryptography: A generic term for asymmetric 
+  cryptographic primitives based on multivariate polynomials over a 
+  finite field 22 questions
+* grovers-algorithm: Grover's algorithm is an algorithm for quantum 
+  based computing that can halve the strength of security of a 
+  symmetric cipher, given a quantum computer with enough stable 
+  interconnected qubits to imple… 21 questions
+* multi-prime-rsa: A variant of RSA where the modulus is the product 
+  of more than two primes.  21 questions
+* visual-cryptography: Encrypting images so that they can be 
+  decrypted without using a computer, e.g. by superimposing two 
+  random-looking images.  21 questions
+* camellia: Camellia is a 128-bit, symmetrical block cipher jointly 
+  developed by Mitsubishi and NTT of Japan.  21 questions
+* mixnets: Mix networks are routing protocols that create 
+  hard-to-trace communications by using a chain of proxy servers known 
+  as mixes which take in messages from multiple senders, shuffle them, 
+  and send them b… 21 questions
+* blum-blum-shub: The Blum Blum Shub generator is a deterministic 
+  Pseudo-Random Bit Generator with security demonstrably reducible to 
+  that of integer factorization.  21 questions
+* distributed-decryption: 20 questions
+* key-rotation: Key rotation refers to a schedule or process for 
+  changing the key material.  20 questions
+* congruence: If two numbers b and c have the property that their 
+  difference b−c is integrally divisible by a number m (i.e., (b−c)/m 
+  is an integer), then b and c are said to be "congruent modulo m .… 20 
+  questions
+* hard-core-predicate: A hard-core predicate of a one-way function f 
+  is a predicate b (i.e., a function whose output is a single bit) 
+  which is easy to compute (as a function of x) but is hard to compute 
+  given f(x).  20 questions
+* bilinear-pairing: A bilinear pairing is a function e that takes two 
+  arguments and returns a single value. Arguments and return values 
+  belong to (possibly distinct) groups with inputs written additively 
+  and outputs wr… 20 questions
+* certificateless-crypto: Certificateless cryptography is a variant 
+  of ID-based cryptography intended to prevent the key escrow problem. 
+  Only a partial private key is generated by the key generation center 
+  (KGC) and the other … 19 questions
+* hamming: Hamming distance is the number of symbols that differ 
+  between two strings. Hamming weight is the distance between a string 
+  and the zero string of the same length; i.e. the number of 1 bits for 
+  binary … 19 questions
+* ripemd: The RACE Integrity Primitives Evaluation Message Digest 
+  (RIPEMD) is a family of cryptographic hash functions.  19 questions
+* resources: Resources are material that can be referenced for 
+  further information on cryptography. 18 questions
+* eax: An authenticated encryption mode of operation for a block 
+  cipher, based on the CTR mode and the OMAC/CMAC MAC algorithm.  18 
+  questions
+* copy-protection: Copy protection or content protection covers 
+  various mechanism, such as DRM and software license keys, used to 
+  restrict the unauthorized copying or use of software or digital 
+  media.  18 questions
+* pir: A PIR (Private Information Retrieval) protocol allows a user 
+  to retrieve an item from a server in possession of a database without 
+  revealing which item is retrieved.  18 questions
+* three-pass-protocol: The three-pass protocol uses commutative 
+  encryption to let two people communicate privately without having to 
+  exchange keys in advance.  18 questions
+* idea: The International Data Encryption Algorithm (IDEA) is a block 
+  cipher developed in 1991 by James Massey and Xuejia Lai.  18 questions
+* ocb: The Offset CodeBook Mode, an authenticated encryption mode of 
+  operation for a block cipher.  18 questions
+* knapsack: Knapsack is the problem of determining which numbers from 
+  a given collection of numbers have been added together to yield a 
+  specific sum: used in cryptography to encipher (and sometimes 
+  decipher) mess… 18 questions
+* error-propagation: How an error in ciphertext transmission affects 
+  the deciphered plaintext. It is often studied a 1-bit change ("bit 
+  flip") of the ciphertext. That could induce a bit flip in the 
+  plaintext, a larger pla… 18 questions
+* carter-wegman: Carter-Wegman MACs build a provably secure MAC from 
+  a universal hash 18 questions
+* present: PRESENT is a lightweight block cipher with a 64-bit block 
+  size and an 80 or 128 bit key.  18 questions
+* lenstra-lenstra-lovasz: The Lenstra–Lenstra–Lovász (LLL) lattice 
+  basis reduction algorithm efficiently finds a short, nearly 
+  orthogonal lattice basis form an arbitrary one 18 questions
+* soundness: Soundness is a property of proof systems that requires 
+  no prover can make the verifier accept a wrong statement except with 
+  some small probability. The upper bound of this probability is 
+  referred to a… 18 questions
+* optimization: Questions about problems that entail selecting the 
+  best element from some set of available alternatives, and methods to 
+  solve them.  17 questions
+* code-based-cryptography: For questions about cryptosystems based on 
+  error-correcting codes. e.g. the Classic McEliece.  17 questions
+* puf: A PUF (Physical Uncloneable Function) is a method for 
+  designing a circuit which it is infeasible to reproduce or simulate 
+  exactly, and from which a unique secret key can be extracted.  17 
+  questions
+* plausible-deniability: Plausible deniability may refer 1) to 
+  deniable encryption schemes allowing the decryption of a ciphertext 
+  for a message m to some distinct message m′ or 2) to a feature 
+  provided by deniable fi… 17 questions
+* index-of-coincidence: The index of coincidence (IC) is a measure of 
+  the relative frequency of letters in a cipher text sample, which 
+  facilitates cryptanalysis of poly-alphabetic ciphers by allowing 
+  determination of the per… 17 questions
+* fortuna: Fortuna is a family of cryptographically secure PRNGs; 
+  devised by Bruce Schneier and Niels Ferguson, who published it in 
+  2003.  16 questions
+* kerberos: Kerberos is a computer network authentication protocol 
+  which allows nodes communicating over a non-secure network to prove 
+  their identity to one another in a secure manner.  16 questions
+* ransomware: Ransomware is a lethal kind of Malware that Encrypts 
+  your harddrive(s) and holds them hostage, providing the decryption 
+  key if you pay the hostage-taker(s) money (well-known variants are 
+  the FBI Virus… 16 questions
+* dual-ec-drbg: Dual-ec-drbg is short for Dual Elliptic Curve 
+  Deterministic Random Bit Generator; a pseudorandom number generator 
+  based on the elliptic curve discrete logarithm problem.  15 questions
+* dpa: A DPA (or differential power analysis) is a cryptanalysis 
+  method based on analysis of the correlation between the power 
+  consumption of a chip (in a smart card for example) and the secret 
+  key it contai… 15 questions
+* oblivious-ram: Oblivious RAM (O-RAM) is a useful primitive that 
+  allows a client to hide its data access patterns from an untrusted 
+  server in storage outsourcing applications.  15 questions
+* two-factor-authentication: Two-factor authentication (2FA) is a 
+  security system that requires two distinct forms of identification in 
+  order to access something. Two-factor authentication can be used to 
+  strengthen the security o… 15 questions
+* pkcs8: Public-Key Cryptography Standard, number 8, describes the 
+  Private-Key Information Syntax Standard which is used to carry 
+  (encrypted or unencrypted) private certificate keypairs.  15 questions
+* threefish: A family of tweakable symmetric block-cipher algorithms 
+  with 256, 512 and 1024 bit block and key sizes.  15 questions
+* literature: Literature describes everything that has been written 
+  and/or visualized (here: in relation cryptography), which ranges from 
+  papers to books, and from publications to presentations.  15 questions
+* gaussian-noise: 15 questions
+* starks: 15 questions
+* seed: 15 questions
+* jwe: JWE specifies how to encrypt content and encode associated 
+  metadata. It is defined in RFC 7516: JSON Web Encryption (JWE).  14 
+  questions
+* pohlig-hellman-cipher: In group theory, the Pohlig–Hellman 
+  algorithm, sometimes credited as the Silver–Pohlig–Hellman algorithm, 
+  is a special-purpose algorithm for computing discrete logarithms in a 
+  finite abelian group who… 14 questions
+* md4: RFC 1320 — the MD4 message-digest algorithm — is a 
+  cryptographic hash function with a digest length is 128 bits, 
+  developed by Ronald Rivest in 1990.  14 questions
+* host-proof: "host-proof" means that no unencrypted or insecure data 
+  is stored on the server or passed over the network.  14 questions
+* xsalsa20: XSalsa20 is a variant of the Salsa20 cipher with a longer 
+  nonce.  14 questions
+* truecrypt: A famous program that was the de-facto standard for 
+  open-source disk encryption for many years. It was discontinued on 28 
+  may 2014. TrueCrypt has undergone some security audits which haven't 
+  found sev… 14 questions
+* tea: Tiny Encryption Algorithm (TEA) is a block cipher by David 
+  Wheeler and Roger Needham of the Cambridge Computer Laboratory; 
+  notable for its simplicity of description and implementation.  14 
+  questions
+* smartcard: A smart card, chip card, or integrated circuit card is a 
+  physical electronic authorization device, used to control access to a 
+  resource. It is typically a plastic credit card-sized card with an 
+  embedd… 14 questions
+* needham-schroeder: Needham–Schroeder refers to both, a symmetric 
+  key or a public key authentication protocol.  13 questions
+* io: "IO" is an acronym for "Indistinguishability obfuscation". 
+  Informally, obfuscating a program is the process of concealing what 
+  the program is doing while at the same time preserving its 
+  functionality.… 13 questions
+* convergent-encryption: Convergent encryption, also known as content 
+  hash keying, is simply encrypting a file using a symmetric encryption 
+  key which is the secure hash of the plaintext of the file.  13 
+  questions
+* key-check-value: 13 questions
+* x.509: X.509 is a standard for a public key infrastructure used for 
+  authentication and access control. X.509 specifies standard formats 
+  for certificates, revocation lists, attribute certificates, and path 
+  va… 13 questions
+* output-size: Output size refers to the output size of specific 
+  cryptographic functions. It is especially relevant when the output 
+  must fit into a resource constrained system or protocol. For 
+  signatures it is the … 13 questions
+* aont: AONT is an acronym for an all-or-nothing transform. An AONT 
+  is used in combination with encryption and it indicates that all of 
+  the ciphertext needs to be known to be able to decrypt.  13 questions
+* montgomery-ladder: The Montgomery ladder is a technique for scalar 
+  multiplication in an elliptic curve group, characterized by 
+  performing double-and-add at each step according to the 
+  multiplicand/exponent, rather double… 13 questions
+* shift-register: Shift registers are at the heart of cryptography 
+  and error-correction. In cryptography they are the main tool for 
+  generating long pseudorandom binary sequences which can be used as 
+  keys for two commun… 12 questions
+* multi-signature: A multi-signature is a signature made by multiple 
+  parties.  12 questions
+* isaac: Questions about ISAAC stream cipher.  12 questions
+* gimli: Question related to Gimli : usage, security, cryptanalysis.  
+  12 questions
+* bitslicing: For questions about bitsliced (SIMD-within-a-register / 
+  SWAR) implementation of ciphers and other cryptographic primitives.  
+  12 questions
+* number-field-sieve: The number field sieve is an index calculus 
+  algorithm suitable both for factoring large numbers and computing 
+  discrete logarithms in prime fields. It is currently the most 
+  effective, general, classica… 12 questions
+* remote-data-checking: Remote data checking protocols allow a client 
+  that has stored data at an untrusted server to efficiently verify 
+  that the server possesses the original data without retrieving it.  
+  12 questions
+* education: Questions related to the teaching and learning of 
+  cryptography.  12 questions
+* trusted-platform-module: A Trusted Platform Module (TPM) is a 
+  secure coprocessor found in some systems that provides cryptographic 
+  operations and system integrity measurements.  12 questions
+* siphash: A fast 64-bit PRF that can be used as a MAC 12 questions
+* tokenization: Tokenization is the process of breaking a stream of 
+  text up into words, phrases, symbols, or other meaningful elements 
+  called tokens.  11 questions
+* cramer-shoup: Cramer-Shoup asymmetric encryption (an extension of 
+  ElGamal) 11 questions
+* sat: For questions involving/related to the Boolean satisfiability 
+  problem (SAT).  11 questions
+* newhope: NewHope is a KEM based on the presumed hardness of the 
+  RLWE problem. New Hope did not select for the 3rd round of NIST PQC.  
+  11 questions
+* domain-parameters: Domain parameters are a set of parameters, 
+  usually large integers, that define the characteristics and bounds of 
+  a domain. They are for instance used for Diffie-Hellman calculations 
+  and Elliptic Curve… 11 questions
+* skein: Skein is a cryptographic hash function. It was designed for 
+  the SHA-3 competition where it became a finalist, but wasn't chosen 
+  as SHA-3.  11 questions
+* cryptoapi: The Cryptographic Application Programming Interface is 
+  an application programming interface included with Microsoft Windows 
+  operating systems that provides services to enable developers to 
+  secure Wind… 11 questions
+* speck: A family of lightweight symmetric block-ciphers designed for 
+  good performance in constrained software devices with block sizes 
+  ranging from 32 to 128 bits and key sizes ranging from 64 to 256 
+  bits.  11 questions
+* crl: Certificate Revocation List (CRL) is one of two common methods 
+  when using a public key infrastructure for maintaining access to 
+  servers in a network.  11 questions
+* niederreiter: The Niederreiter cryptosystem is a variation of the 
+  McEliece Cryptosystem and is equivalent to McEliece from a security 
+  point of view, but encryption using Niederreiter is about ten times 
+  faster than … 11 questions
+* noise-protocol: 11 questions
+* ed448: In cryptography, Curve448 or Curve448-Goldilocks is an 
+  elliptic curve potentially offering 224 bits of security and designed 
+  for use with the elliptic-curve Diffie–Hellman (ECDH) key agreement 
+  scheme.  11 questions
+* shuffle: 11 questions
+* blake3: BLAKE3 is an evolution of the BLAKE2 cryptographic hash 
+  that is both faster and also more consistently fast across different 
+  platforms and input sizes.  11 questions
+* proof: 11 questions
+* arithmetic-circuit: 11 questions
+* statistical-distance: 10 questions
+* rfc6979: RFC6979 "Deterministic Usage of the Digital Signature 
+  Algorithm (DSA) and Elliptic Curve Digital Signature Algorithm 
+  (ECDSA)"
+* fips: 
+* advantage: 
+* rc6: RC6 is a 128-bit block cipher, formerly an AES candidate, that 
+  makes heavy use of data-dependent rotations.
+* monotone-access-structure: Let Ω be a set of entities. An *access 
+  structure* A is a collection of nonempty subsets of the power set 
+  P(A). This structure is called *monotone*, if A∈A
+* simon: A family of lightweight symmetric block-ciphers designed for 
+  good performance in hardware with block sizes ranging from 32 to 128 
+  bits and key sizes ranging from 64 to 256 bits.
+* s-mime: Secure/Multipurpose Internet Mail Extensions, or short 
+  S-MIME, is a standard for public key encryption and signing of MIME 
+  data.
+* predicate-encryption: Predicate encryption is an encryption 
+  paradigm which gives a master secret key owner fine-grained control 
+  over access to encrypted data.
+* otr: For questions about Off-The-Record Messaging, which is a 
+  technique which allows you to have private conversations over instant 
+  messaging.
+* logjam: An attack on TLS and related protocols as of may 2015. This 
+  attack uses pre-computations to attack short prime diffie hellmann 
+  key exchange, primes with up to 1024 bits length are considered 
+  broken. I…
+* desx: DESX is an extension of DES that attempts to foil brute force 
+  attacks
+* kbkdf: A “Key Based Key Derivation Function” is a key derivation 
+  function that uses input key material with enough entropy, possibly 
+  augmented with additional info to compute output key material.
+* sieve: 
+* norx: NORX is an authenticated encryption algorithm based on the 
+  ChaCha round function, and a second round candidate in the CAESAR 
+  competition.
+* ggm: The Generic Group Model is one where the adversary can only 
+  perform group operations thru an oracle, which is hypothetized to 
+  respect the group axioms. Attacks that apply in the Generic Group 
+  Model th…
+* rc5: RC5 is a symmetric key block cipher designed by Ronald Rivest.
+* fault-attack: Attacks using errors injected at runtime into an 
+  implementation of cryptographic algorithms to cause misbehavior that 
+  leak information about keys or (plaintext) data, instead of (or 
+  additional to) usi…
+* bip32: BIP32, or Hierarchical Deterministic Wallets. HD wallets are 
+  wallets that can be shared amongst different wallet implementation 
+  with or without the ability to spend coins.
+* shake: SHAKE is an extensible output function based on the SHA3 
+  hash function. It is specified in the NIST FIPS 202 document. It has 
+  two parameterisations: SHAKE-128 and SHAKE-256.
+* polynomial: 
+* blockchain: 
+* military-encryption: 
+* unlinkability: Unlinkability of two items means that an adversary 
+  cannot determine if the items are related. It is often a goal in 
+  systems dealing with anonymity and other forms of privacy.
+* kmac: KMAC or Keccak Message Authentication Code is a proposed MAC 
+  based on the SHA-3 hash.
+* unicity-distance: The unicity distance is the average amount of 
+  ciphertext a computationally unlimited attacker needs to obtain in 
+  order to uniquely determine the correct decryption.
+* traffic-analysis: Traffic analysis is the process of intercepting 
+  and examining messages in order to deduce information from patterns 
+  in communication. Within cryptography this definition is restricted 
+  to deduce inform…
+* onion-routing: A method for anonymous communications over a wide 
+  area network such as the Internet.
+* mixing-function: The purpose of the mixing function is to 
+  "scramble" or mix the internal state of a hash (or cipher) function. 
+  The input to the function is the current internal state and the 
+  output of the function bec…
+* xml-encryption: Encryption of data represented in XML according to 
+  the W3C Specification.
+* luby-rackoff: A Luby-Rackoff cipher is a Feistel cipher where in 
+  each round the nonlinear function used is assumed to be chosen 
+  uniformly at random from the set of all such functions. These ciphers 
+  are mainly of th…
+* cryptdb: CryptDB is an SQL-Aware encrypted database system from MIT
+* traitor-tracing: Traitor tracing describes an ability of specific 
+  cryptographic schemes that helps trace the source of leaks.
+* feal: block cipher designed by NTT. It is known to be insecure.
+* snake-oil-cryptography: Snake oil cryptography is a term coined by 
+  Bruce Schneier to describe products that make fantastic claims about 
+  security through cryptography.
+* ghash: The hash function used for implementing the Authentication 
+  Mechanism in GCM
+* roca: ROCA is an acronym for "Return of the Coppersmith Attack" — a 
+  vulnerability in the RSALib cryptographic software library thought to 
+  be used in millions of smart cards and other devices.  [[{rsa.101}]]
+* tpm: A Trusted Platform Module (TPM) is a secure co-processor found 
+  in some systems that provides cryptographic operations and system 
+  integrity measurements.
+* jose: JSON Object Signing and Encryption (JOSE) is a generic name 
+  for applications that use the JSON Web Signature and JSON Web 
+  Encryption (JWS and JWE) standards and derived technology such as 
+  JSON Web Tok…
+* proverif: automatic cryptographic protocol verifier, in the 
+  symbolic model (so called Dolev-Yao model).
+* dual-lattice: 
+* kalyna: symmetric block cipher. It supports block sizes of 128, 256 
+  or 512 bits; the key length is either equal to or double the block 
+  size.
+* 6 questions
+* misuse-resistant: For questions about design decisions of schemes 
+  and implementations of cryptographic primitives to make them 
+  resistant to misuse.
+* wireguard: Next generation VPN protocol, which lives in the Linux 
+  kernel, and uses state of the art cryptography.
+* digital-rights-management: 
+* u-prove: Crypto SDK developed by Microsoft to support 
+  experimentation with the foundational features of the U-Prove 
+  technology. It is made available under the Apache 2.0 open-source 
+  license, ... 
+* key-escrow: 
+* alternating-step: An alternating step generator is a cryptographic 
+  pseudorandom number generator intended to be used in a stream cipher.
+* secure-index: 
+* keyak: Keyak is an Authenticated Encryption algorithm design by the 
+  Keccak team. It has been submitted to the CAESAR competition. It uses 
+  the same principle as Keccak (SHA-3) : sponge construction and the Ke…
+* umac: UMAC is a family of message authentication codes defined in 
+  RFC 4418. UMAC supports 32-, 64-, 96-, and 128-bit tags. UMAC uses a 
+  PRF, typically instantiated with AES-128, to expand a short key into …
+* sha-3-competition: SHA-3 Competition (2007-2012) was a competition 
+  initiated by NIST as a call for a new cryptographic hash algorithm 
+  for standardization purposes.
+* miyaguchi-preneel: The Miyaguchi-Preneel scheme, based on a one-way 
+  compression function, was proposed around 1989 by Preneel, and 
+  independently by Miyaguchi.Ohta, and Iwata.
+* s-des: Simplified DES is a toy variant of the DES cipher introduced 
+  by Edward F. Schaefer in 1996 for educational purposes. It has an 
+  8-bit block size and a 10-bit key, and uses two rounds, with two 4x2 
+  bit …
+* pedersen-commitment: 
+* sphincs+: 
+* proof-of-possession: 
+* multi-target: A multi-target attack is one in which it is attacked 
+  many keys simultaneously, and the adversary is content with success 
+  for any of the keys. That might allow increased chance of success at 
+  a given ef…
+* inherently-sequential: Inherently sequential is In opposition to 
+  embarrassingly parallel tasks, the execution of some tasks depends 
+  heavily on the results of others. In other words, those tasks are not 
+  independent, and thus…
+* non-commutative-cryptography: 
+* e0: E0 is a stream cipher used in the Bluetooth protocol.
+* random-noise: 5 questions
+* jws: JSON Web Signatures specify how to encode binary data along 
+  with signatures and metadata in RFC 7515.
+* shs: for posts that specifically refer to the Secure Hash Standard 
+  (SHS), which is published by the NIST (FIPS PUB 180 to FIPS PUB 
+  180.4).  4 questions
+* crypto-agility: Crypto-agility is the ability for cryptographic 
+  protocols and applications to be configured or upgraded to different 
+  algorithms with a minimal of fuss.  4 questions
+* hash-based: 4 questions
+* verifiable-encryption: 4 questions
+* p1363: P1363 is a set of public key cryptography standards provided 
+  by the IEEE.  4 questions
+* algebraic-eraser: Algebraic Eraser is a relatively new asymmetric 
+  key agreement protocol (also designated the Colored Burau Key 
+  Agreement Protocol), based on a simultaneous conjugacy search problem 
+  in a braid group.  4 questions
+* rc2: RC2 is a symmetric-key block cipher designed by Ron Rivest in 
+  1987.  4 questions
+* universal-re-encryption: 4 questions
+* scrambling: Scramblers use a secret spreading sequence or secret 
+  hop sequence, or some other information that must be kept secret from 
+  a potential jammer and/or listener. This mostly assumes sender and 
+  receiver t… 4 questions
+* miller: 4 questions
+* skipjack: 64-bit block cipher developed by the U.S. National 
+  Security Agency (NSA).  4 questions
+* mars: MARS is a 128-bit block cipher with variable key size of 
+  between 128 and 448 bits. It has a heterogeneous structure: several 
+  rounds of a cryptographic core are “jacketed” by un-keyed mixing 
+  rounds, to… 4 questions
+* biclique-attack: variant of the meet-in-the-middle (MITM) method of 
+  cryptanalysis.  3 questions
+* shacal-2: Blockcipher based on the compression function of SHA-256. 
+  This cipher interprets the internal compression function of SHA-256 
+  as blockcipher. The key is provided as "input data" and the input is 
+  fed i… 3 questions
+* lucas: Material related to cryptography and primality tests using 
+  Lucas groups.  3 questions
+* pseudo-random-correlation: 3 questions
+* classical-cryptography: 3 questions
+* indifferentiability: 3 questions
+* rfc7748: should be used for questions that specifically ask about 
+  the contents of RFC 7748, Elliptic Curves for Security (January 
+  2016).  3 questions: 
+* pss: In a Probabilistic Signature Scheme, the signature depends on 
+  a random input, in addition to the private key and message.  3 
+  questions
+* cades: CAdES is a new standard for advanced digital signature by 
+  European Directive on a community framework for Electronic 
+  Signatures.  3 questions
+* cca1: 3 questions
+* sgcm: Sophie-Germain Counter Mode, an alternative to Galois Counter 
+  Mode (GCM) for systems lacking acceleration for polynomial 
+  multiplication.  2 questions
+* hqc: Hamming Quasi-Cyclic ( HQC) is an efficient encryption scheme 
+  based on coding theory, 2 questions
+* picnic: 2 questions
+* hidden-field-equation: 2 questions
+* pcg: 2 questions
+* completeness: 2 questions
+* context-string: For questions involving some sort of context string 
+  or domain separation.  2 questions (¿topic?)
+* balloon-hashing: Balloon Hashing is a password-based (equivalently: 
+  entropy stretching) Key Derivation Function proposed in 2016.  2 
+  questions
+* future-secrecy: A protocol is said to have future-secrecy (or 
+  post-compromise security) if compromising the master keys does not 
+  allow compromising future sessions. This is a counterpart to 
+  forward-secrecy, which is … 2 questions
+* davis-meyer: Davis-Meyer is a method to construct a one-way 
+  compression function from a block cipher.  2 questions
+* sha-224: SHA-224 is part of the SHA-2 family of hash functions with 
+  a 224-bit output .  2 questions
+* balloon: Balloon is a password hashing/password based key 
+  derivation function published in 2016.  2 questions
+* pades: PAdES is short for “PDF Advanced Electronic Signatures”.  2 
+  questions
+* hermitian-curves: 2 questions
+* sstp: Secure Sockets Tunneling Protocol is a VPN tunneling protocol 
+  that allows the tunneling of PPP or L2TP traffic over an SSL 
+  connection.  1 question
+* rsap: RSA for Paranoids (RSAP) is a variant of RSA, meant to 
+  increase the RSA public modulus size while keeping computation cost 
+  moderate.  1 question
+* universal-circuit: 1 question
+* lattice-estimator: 1 question
+* spake2: 1 question
+* x448: 1 question
+* lms: 1 question
+* inner-product-functional-encryption: 1 question
+* reject-sampling: 1 question
+* fido: A set of public-key authentication technology intended for 
+  replacing passwords for mass end users.  1 question
+* 0rtt: 0-RTT Handshakes ("Zero-RTT ") is a TLS 1.3 TLS Handshake 
+  proposal when clients and servers share a PSK (either obtained 
+  externally or via a previous handshake), TLS 1.3 allows clients to 
+  send data on… 1 question
+* ecmqv: The Elliptic Curve Menezes-Qu-Vanstone scheme (ECMQV) is a 
+  key agreement scheme based on ECC. It's not nearly as common as ECDH, 
+  perhaps because some of it was patented by Certicom.  1 question
+* chia: Chia is a cryptocurrency that performs mining based on a 
+  proof of space (and therefore I/O operations) rather than proof of 
+  work.  1 question
+[[doc_has.taxonomy}]]
 https://en.wikipedia.org/wiki/Commitment_scheme#Partial_reveal
 
 #############################
@@ -59,18 +1812,18 @@ https://chrome.google.com/webstore/detail/1password-%E2%80%93-password-mana/aebl
 Developed in Rust. Compiled to wasm.
 [[}]]
 
-## Convert keys GPG|OpenSsh|OpenSSL [[{standards.pgp,tool.gpg,tool.openssl]]
+## Convert keys GPG|OpenSsh|OpenSSL [[{standards.pgp,tool.opengpg,tool.openssl]]
 [[{protocol.ssh,protocol.tls.ca,PM.TODO]]
 http://sysmic.org/dotclear/index.php?post/2010/03/24/Convert-keys-betweens-GnuPG%2C-OpenSsh-and-OpenSSL
 [[}]]
 
 
-@[http://www.xataka.com/privacidad/enigma-renace-el-cifrado-homomorfico-y-el-blockchain-como-base-de-una-internet-mas-privada]
+<http://www.xataka.com/privacidad/enigma-renace-el-cifrado-homomorfico-y-el-blockchain-como-base-de-una-internet-mas-privada>
 
 ## Quadratic Arithmetic 101 [[{]]
-  @[https://medium.com/@VitalikButerin/quadratic-arithmetic-programs-from-zero-to-hero-f6d558cea649]
-  @[https://blog.plan99.net/vntinyram-7b9d5b299097]
-  @[https://medium.com/@VitalikButerin/quadratic-arithmetic-programs-from-zero-to-hero-f6d558cea649]
+  <https://medium.com/@VitalikButerin/quadratic-arithmetic-programs-from-zero-to-hero-f6d558cea649>
+  <https://blog.plan99.net/vntinyram-7b9d5b299097>
+  <https://medium.com/@VitalikButerin/quadratic-arithmetic-programs-from-zero-to-hero-f6d558cea649>
   • zero-knowledge proof: cryptographic method where one party
     (the prover) can prove to another party (the verifier) that the prover
     knows a value x, without conveying any information apart from the fact
@@ -124,14 +1877,14 @@ https://www.linuxadictos.com/linux-5-19-ya-fue-liberado-y-estas-son-sus-novedade
 
 
 ## Arch.considerations for cryptanalytic hardware:
-@[https://people.eecs.berkeley.edu/~daw/papers/hwkeysearch96-www/chap-10_local.html]
+<https://people.eecs.berkeley.edu/~daw/papers/hwkeysearch96-www/chap-10_local.html>
 
 ## Extract Key from Java Keystore [[{tech_stack.java,secret_mng.wallet,use_case.secret_mng}]]
 https://dzone.com/articles/extracting-a-private-key-from-java-keystore-jks
 https://medium.com/java-user-group-malta/importing-existing-certificates-into-a-keystore-using-openssl-905d9e0b7175
 
-## Toplip: Strong File encrypt [[{use_case.secret_mng,01_PM.low_code,tool}]]
-@[https://www.ostechnix.com/toplip-strong-file-encryption-decryption-cli-utility/]
+## Toplip: Strong File encrypt [[{use_case.secret_mng,PM.low_code,tool}]]
+<https://www.ostechnix.com/toplip-strong-file-encryption-decryption-cli-utility/>
 
 ## Titan: Cli pass.manager:
 https://www.ostechnix.com/titan-command-line-password-manager-linux/
@@ -144,8 +1897,8 @@ https://www.techpowerup.com/review/amd-epyc-server-architecture/3.html
 ## Post Quantum Guide:
 https://hackernoon.com/a-guide-to-post-quantum-cryptography-d785a70ea04b
 
-## BLS Signature Scheme:[[{use_case.signature,crypt_asymmetric,01_PM.TODO]]
-@[https://medium.com/@srikarv/the-bls-signature-scheme-a-short-intro-801c723afffa]
+## BLS Signature Scheme:[[{use_case.signature,crypt_asymmetric,PM.TODO]]
+<https://medium.com/@srikarv/the-bls-signature-scheme-a-short-intro-801c723afffa>
 ... Some prominent encryption schemes in literature and the fundamental
 reasoning behind their formulation include:
 - Boneh — Lynn — Shacham (BLS): Based on the existence of random
@@ -158,8 +1911,8 @@ reasoning behind their formulation include:
 - Schnorr Signature: Based on the hardness of the discrete logarithm problem.
 [[}]]
 
-## Pairing primitives  [[{use_case.signature.aggregated,01_PM.TODO]]
-@[https://www.math.uwaterloo.ca/~ajmeneze/publications/pairings.pdf]
+## Pairing primitives  [[{use_case.signature.aggregated,PM.TODO]]
+<https://www.math.uwaterloo.ca/~ajmeneze/publications/pairings.pdf>
   Bilinear pairings have been used to design ingenious
   protocols for such tasks as one-round three-party key agreement,
   identity-based encryption,and aggregate signatures. Suitable bilinear
@@ -171,8 +1924,8 @@ reasoning behind their formulation include:
 ## Trusted Signature Pad: use_case.signature,hardware
 https://www.google.com/search?q=trusted+signature+pad
 
-## Aggregated Signatures[[{use_case.signature.aggregated,02_doc_has.comparative,01_PM.WiP]]
-REF: @[https://arxiv.org/pdf/1911.04698.pdf]
+## Aggregated Signatures[[{use_case.signature.aggregated,doc_has.comparative,PM.WiP]]
+REF: <https://arxiv.org/pdf/1911.04698.pdf>
 Aggregate Signature protocols:
 .... CoSi protocol is based on SCHNORR SIGNATURE AGGREGATION,
      which is an INTERACTIVE protocol:
@@ -197,10 +1950,10 @@ Aggregate Signature protocols:
 
 ## Fully Homomorphic Encryption (FHE) SDK:
 IBM Launches Fully Homomorphic Encryption (FHE) Toolkit for Linux - 9to5Linux
-@[https://9to5linux.com/ibm-launches-fully-homomorphic-encryption-fhe-toolkit-for-linux]
+<https://9to5linux.com/ibm-launches-fully-homomorphic-encryption-fhe-toolkit-for-linux>
 
 ## Trusted Data Format (TDF):[[{standards.web]]
-@[https://github.com/virtru/tdf-spec]
+<https://github.com/virtru/tdf-spec>
 
 - Trusted Data Format (TDF) is an Open, Interoperable, JSON encoded
    data format for implementing Data Centric Security for objects (such
@@ -223,7 +1976,7 @@ IBM Launches Fully Homomorphic Encryption (FHE) Toolkit for Linux - 9to5Linux
 - quantum-proof cryptographic signatureS
 - Quantum Safe Ethereum proxy with
   Winternitz One-Time signatures
-  @[https://github.com/tjade273/QEth]
+  <https://github.com/tjade273/QEth>
 [[}]]
 
 ## https://academy.bit2me.com/en/que-es-wallet-mpc/  MPC: Multi Party Computing
@@ -444,15 +2197,15 @@ Cairo is the first Turing-complete language for creating provable programs for g
 https://blake12.org/
 -------------------------------
 # DNSSEC
-# Validate DNSSEC from cli [[{protocol.dnssec,use_case.data_integrity,use_case.identity,use_case.IoT,01_PM.TODO]]
-@[https://www.cyberciti.biz/faq/unix-linux-test-and-validate-dnssec-using-dig-command-line/]
+# Validate DNSSEC from cli [[{protocol.dnssec,use_case.data_integrity,use_case.identity,use_case.IoT,PM.TODO]]
+<https://www.cyberciti.biz/faq/unix-linux-test-and-validate-dnssec-using-dig-command-line/>
 [[}]]
 -----------------------
 [[{use_case.AAA.activeDirectory]]
 # kerberos+ldap "=" Active Directory.
 ## Kerberos protocol: [[{protocol.kerberos,crypt_symmetric,crypt_asymmetric]]
-@[https://en.wikipedia.org/wiki/Kerberos_(protocol)]
-@[https://web.mit.edu/Kerberos/]
+<https://en.wikipedia.org/wiki/Kerberos_(protocol)>
+<https://web.mit.edu/Kerberos/>
 - computer-network protocol designed to
   provide strong client/server mutual authentication
 
@@ -586,7 +2339,7 @@ STEP 2: Communicating with other nodes ("principal")
 [[}]]
 
 ## LDAP [[{use_case.AAA.activeDirectory,protocol.LDAP]]
-@[https://en.wikipedia.org/wiki/Lightweight_Directory_Access_Protocol]
+<https://en.wikipedia.org/wiki/Lightweight_Directory_Access_Protocol>
 
 - application protocol for accessing and maintaining distributed
   directory information services over an Internet Protocol (IP) network.
@@ -762,13 +2515,13 @@ ldap://host:port/"Distinguished Name"?csv_list_attributes?search_scope?filter?ex
 
 - See also:
 - ldapsearch:  CLI utility for querying an LDAP directory.
-@[https://github.com/tldr-pages/tldr/blob/master/pages/common/ldapsearch.md]
+<https://github.com/tldr-pages/tldr/blob/master/pages/common/ldapsearch.md>
 [[}]]
 
 ## Active Directory: [[{use_case.AAA.activeDirectory,protocol.kerberos,protocol.ldap]]
 Active Directory LDAP requires that names of directory objects be
 formed according to RFC 1779 and RFC 2247:
-- @[https://www.ietf.org/rfc/rfc2247.txt]
+- <https://www.ietf.org/rfc/rfc2247.txt>
     This document defines an algorithm by which a name registered with
     the Internet DNS can be represented as an LDAP distinguished name.
 
@@ -787,7 +2540,7 @@ formed according to RFC 1779 and RFC 2247:
     -   domain: structural object class used for entries in which no
                 other information is being stored
 
-- @[https://www.ietf.org/rfc/rfc1779.txt]
+- <https://www.ietf.org/rfc/rfc1779.txt>
     X.500/LDAP distinguished names (primary keys) are encoded in ASN.1.
     there is a need to have a user-oriented string representation of DNs.
     ("human to human")
@@ -807,39 +2560,46 @@ formed according to RFC 1779 and RFC 2247:
                                           |CN=L. Eagle, O=Sue\, Grabbit and Runn, C=GB
 [[}]]
 [[}]]
-# ─────────────────────────────────────────────────────────────────────────
-# Amazon Cognito User Pools [[{]]
+
+## Amazon Cognito User Pools [[{use_case.aaa.aws_cognito]]
 https://docs.aws.amazon.com/cognito/latest/developerguide/amazon-cognito-user-pools-using-tokens-verifying-a-jwt.html
 [[}]]
 
-## Who is who[[{]]
-https://www.researchgate.net/scientific-contributions/Ben-Fisch-2124481134
-[[}]]
+[[{use_case.data_protection,use_case.data_integrity,use_case.encryption,tech_stack.go,tech_stack.linux,tech_stack.macOS,tech_stack.Windows,tech_stack.Android,tool.gocryptfs]]
+## gocryptfs encrypted Overlay File System
 
-## Encrypted fs: tldr/gocryptfs.md at main · tldr-pages/tldr · GitHub [[{]]
-https://github.com/tldr-pages/tldr/blob/main/pages/common/gocryptfs.md
+* <https://github.com/rfjakob/gocryptfs>
+* <https://github.com/tldr-pages/tldr/blob/main/pages/common/gocryptfs.md>
+* Built on top of go-fuse.
+* 2016-07-16, version 1.0 ready for general consumption, after
+  "hours and hours of stress" (fsstress, extractloop.bash) and
+  correctness testing (xfstests).
+* Comparative with similar projects:
+  <https://nuetzlich.net/gocryptfs/comparison/> [[{doc_has.comparative}]]
+* File Content Data Integrity through GCM.
 [[}]]
 
 ##  hashicorp-cloud-vault-beta [[{]]
-https://www.infoq.com/news/2021/01/hashicorp-cloud-vault-beta/
-[[}]]
-
-## Themis Crytpo library [[{]]
-
-https://github.com/cossacklabs/themis
-Cross-platform library for secure data storage, message exchange,
-socket connections, and authentication
-One cryptographic library that fits them all: Themis is the best fit
-for multi-platform apps (e.g., iOS+Android+Electron app with Node.js
-backend) because it provides 100% compatible API and works in the
-same way across all supported platforms.
-- used for example by https://github.com/cossacklabs/pg_themis
-  PostgreSQL (9.1+) extension for data encryption.
+* <https://www.infoq.com/news/2021/01/hashicorp-cloud-vault-beta/
 [[}]]
 
 
-## Rekor: Immutable Ledger for Soft. Artifacts [[{blockchain,software,qa.blockchain,01_PM.backlog]]
-@[https://github.com/sigstore/rekor]
+
+[[{crypt_asymmetric.PSS]]
+## Probabilistic Signature Scheme (PSS) 
+
+* REF: <https://en.wikipedia.org/wiki/Probabilistic_signature_scheme>
+
+* Cryptographic signature scheme designed by Mihir Bellare and Phillip Rogaway.[1]
+
+* RSA-PSS: adaptation standardized as part of PKCS#1 v2.1.
+  In general, RSA-PSS should be used as a replacement for RSA-PKCS#1 v1.5. 
+[[{standards.rsa,qa.best_patterns}]]
+[[}]]
+
+
+## Rekor: Immutable Ledger for Soft. Artifacts [[{data_integrity.inmutable_log,software,qa.blockchain,PM.backlog]]
+<https://github.com/sigstore/rekor>
 - Allow soft.maintainers record signed metadata to tamper resistant immutable record.
 - CLI application + RESTFul API for validation and a transparency log for storage.
 [[}]]
@@ -853,7 +2613,122 @@ https://www.larecherche.fr/cryptographie-photonique-optique/%C2%AB-il-suffit-dun
 
 Une collaboration internationale impliquant la chaire photonique au sein du laboratoire LMOPS de CentraleSupélec et de l’université de Lorraine (Metz), l’université de Yale (États-Unis), Trinity College Dublin (Irlande), Imperial College London (Royaume-Uni), et Nanyang Technological University (Singapour), a mis au point un laser générant plus de 250 trillions (250 milliards de milliards) de nombres aléatoires par seconde. Un résultat majeur, alors que le précédent record était de 560 milliards de nombres aléatoires en 2014, déjà détenu par la chaire photonique. Marc Sciamanna, enseignant chercheur à CentraleSupélec, nous explique les enjeux d'un tel record.
 
-2017 @[https://patents.google.com/patent/US9634836]
+2017 <https://patents.google.com/patent/US9634836>
 TODO: Classify all related to use_case.signature.aggregated
 
+## What every Software Engineer should know about AES[[{PM.TODO]]
+  <https://proandroiddev.com/security-best-practices-symmetric-encryption-with-aes-in-java-7616beaaade9>
+  <https://proandroiddev.com/security-best-practices-symmetric-encryption-with-aes-in-java-and-android-part-2-b3b80e99ad36>
+    ...In this article I will bring you up to speed on the Advanced
+    Encryption Standard (AES), common block modes, why you need padding
+    and initialization vectors and how to protect your data against
+    modification. Finally I will show you how to easily implement this
+    with Java avoiding most security issues.  [[}]]
+[[}]]
 
+## crypto First 100 Elliptic Curve Points
+https://asecuritysite.com/ecc/ecc_pointsv 
+
+## inside MLS, new Protocol for Secure Enterprise Messaging
+* IETF standard
+https://www.darkreading.com/perimeter/inside-mls-the-new-protocol-for-secure-enterprise-messaging 
+
+## Provable Secure Signatures with RSA 
+* by Prof Bill Buchanan OBE 2023-06
+* <https://billatnapier.medium.com/provable-secure-signatures-with-rsa-8c1ca7d68433>
+
+## OpenSSL 3.2 Adds Support for TCP Fast Open, Argon2 KDF,...
+* ... support for Argon2 KDF, and More
+https://9to5linux.com/openssl-3-2-adds-support-for-tcp-fast-open-on-linux-argon2-kdf-and-more 
+
+## Nitrokey NetHSM: fully OOSS HSM [[{hardware.HSM,PM.OOSS]]
+* https://www.helpnetsecurity.com/2023/11/30/nitrokey-nethsm-open-source-hardware-security-module/ 
+[[}]]
+
+## Crypto I2PA: An Efficient ABC for IoT
+* <https://hal.science/hal-02264662v1>
+* In this paper, we propose an efficient attribute-based credential 
+  scheme for IoT devices. We use elliptic curve cryptography without 
+  pairing, blind signing, and zero-knowledge proof. Our scheme supports 
+  block signing, selective disclosure, and randomization. It provides 
+  data minimization and transaction unlinkability.
+*  Our construction is efficient since smaller key size can be used, 
+  and computing time can be reduced. As a result, it is a suitable 
+  solution for IoT devices characterized by three major constraints, 
+  namely low-energy power, small storage capacity, and low computing 
+  power. 
+
+
+
+## Cryptography 101 with golang
+https://asecuritysite.com/golang 
+
+## Cryptography 101
+“If you want to keep a secret, you must also hide it from yourself.”
+― George Orwell, 1984
+
+## Crypto 101
+https://stackoverflow.com/questions/991758/how-to-get-pem-file-from-key-and-crt-files
+
+Q: How can I create a PEM file from an SSL certificate?
+
+  These are the files that I have available:
+  
+  ```
+  .crt
+  server.csr
+  server.key
+  ```
+  
+  Answer: Your keys may already be in PEM format, but just named with .crt or .key.
+  
+  If the file's content begins with `-----BEGIN` and you can read it in a text editor:
+    The file uses base64, which is readable in ASCII, not binary 
+  format. The certificate is already in PEM format. Just change the 
+  extension to .pem.
+  If the file is in binary:
+  
+  For the server.crt, you would use
+  ```
+  | $ openssl x509 -inform DER -outform PEM -in server.crt -out server.crt.pem
+  ```
+  For server.key, use openssl rsa in place of openssl x509.
+  
+  The server.key is likely your private key, and the .crt file is the returned, signed, x509 certificate.
+  
+  If this is for a Web server and you cannot specify loading a separate private and public key:
+  
+  You may need to concatenate the two files. For this use:
+  
+  ```
+  | $ cat server.crt server.key > server.includesprivatekey.pem
+  ```
+  
+  I would recommend naming files with "includesprivatekey" to help you manage the permissions you keep with this file.
+
+
+
+## ES256,  ES384, ES512, EdDSA
+
+* C&P from ISO-18013-5: 
+  """ The alg element (RFC 8152) shall be included as an element in the 
+  protected header. Other elements should not be present in the 
+  protected header. An mdoc shall use one of the following signature 
+  algorithms: “ES256” (ECDSA with SHA-256), “ES384” (ECDSA with 
+  SHA-384), “ES512” (ECDSA with SHA-512) or “EdDSA” (EdDSA). ”ES256” 
+  shall be used with curves P-256 and brainpoolP256r1. “ES384” shall be 
+  used with curves P-384, brainpoolP320r1 and brainpoolP384r1. “ES512” 
+  shall be used with curves P-521 and brainpoolP512r1. “EdDSA” shall be 
+  used with curves Ed25519 and Ed448. """
+* Elliptic Curve Cryptography (ECC) Brainpool Standard
+  Curves and Curve Generation <https://www.rfc-editor.org/rfc/rfc5639> 
+  ```
+  | Curve-ID: brainpoolP...?1
+  |                     · ·└─ r | t
+  |                     └─┴─ 160,192,224,
+  |                          256,320,384,
+  |                          512
+  ```
+
+
+[[PM.TODO}]]

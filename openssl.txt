@@ -1,9 +1,35 @@
-## openSSL How-To Summary [[{protocol.tls.openssl]]
-* Ext. Refs:
+# OpenSSL How-To Summary [[{protocol.tls.openssl]]
+
+## OpenSSL Engines vs Providers
+
+* Engines  : Deprecated as of OpenSSL v3, did not allow for "moving" requirements (Maintainable 
+  FIPS-140-3 certified modules,...). It required dangerous and numerous runtime checks and 
+  was hardly sustainable, neither it allowed to separate FIPS/non-FIPS algorithms and implementations
+  in a robust manner, with data crossing back and forht the FIPS boundary.
+* Providers: Replaces engines with "plugable" providers. 
+  * It can be seen as a "**unit of code**" providing 1+ implementations of cryptographic 
+    operations (hashing, signature, ..) making new algorithms available. 
+  * Dynamically loaded plugin as set in OpenSSL config. file.
+  * Current providers include (based on RHEL 10+):
+    * FIPS   :
+    * PKCS#11:
+    * TPM2   :
+    * OQS    : for post-quantum algorithms (experimental).
+
+OpenSSL  provider options:
+  ```
+  | $ openssl list -providers 
+  | -provider-path ...  Provider load path (must be before 'provider' argument if required)
+  | -provider val  ···  Provider to load (can be specified multiple times)
+  | -propquery val ···  Property query used when fetching algorithms
+  ```
+
+## OpenSSL Ext. Refs:
   * <https://ciphersuite.info/cs/>:  DDBB about different chipher-suites strenghts
   * <https://en.wikipedia.org/wiki/X.509>
   * <https://www.openssl.org/docs/manmaster/man1/>
   * <https://www.ietf.org/rfc/rfc5280.txt> X.509 PKI
+
 * Common openssl opts:
   * -in   : path for input certificate being examined. Many times
             STDIN from previous 'openssl s_client ...' is preferred.
@@ -11,6 +37,102 @@
   * -noout: prevents encoded version output (of request/response)
   * -text : Show OUTPUT in human readable text (vs hex formated binary)
   * -nodes: flag:  DO NOT  pass-phrase-encrypt Pub.Key
+
+* openssl summary:
+  ```
+  | [[{101}]]
+  | $ openssl list -help  (Output from openssl OpenSSL 3.0.9 30 May 2023)
+  | 
+  |  -1                        List in one column
+  |  -verbose                  Verbose listing
+  |  -select val               Select a single algorithm
+  |  -commands                 List of standard commands
+  |  -standard-commands 
+  |   | asn1parse         ca                ciphers           cmp               
+  |   | cms               crl               crl2pkcs7         dgst              
+  |   | dhparam           dsa               dsaparam          ec                
+  |   | ecparam           enc               engine            errstr            
+  |   | fipsinstall       gendsa            genpkey           genrsa            
+  |   | help              info              kdf               list              
+  |   | mac               nseq              ocsp              passwd            
+  |   | pkcs12            pkcs7             pkcs8             pkey              
+  |   | pkeyparam         pkeyutl           prime             rand              
+  |   | rehash            req               rsa               rsautl            
+  |   | s_client          s_server          s_time            sess_id           
+  |   | smime             speed             spkac             srp               
+  |   | storeutl          ts                verify            version           
+  |   | x509              
+  |  -digest-commands          List of message digest commands (deprecated)
+  |   | blake2b512        blake2s256        md5               rmd160            
+  |   | sha1              sha224            sha256            sha3-224          
+  |   | sha3-256          sha3-384          sha3-512          sha384            
+  |   | sha512            sha512-224        sha512-256        shake128          
+  |   | shake256          sm3               
+  |  -digest-algorithms        List of message digest algorithms
+  |   | MD4/5, SHA1, SHA3-*, SM3 (BLAKE...), RIPEMD160, ...
+  |  -kdf-algorithms           List of key derivation and pseudo random function algorithms
+  |   | HKDF, TLS13-KDF, SSKDF, PKCS12KDF, SSHKDF, 
+  |   | TLS1-PRF, KBKDF X942KDF(-ASN1), KRB5KDF
+  |  -random-instances         List the primary, public and private random number generator details
+  |   | CTR-DRBG (cipher: 'AES-256-CTR')
+  |  -random-generators        List of random number generators
+  |  -mac-algorithms           List of message authentication code algorithms
+  |   | BLAKE2BMAC, CMAC, HMAC, KMAC-128/256, SIPHASH, POLY1305 
+  |  -cipher-commands          List of cipher commands (deprecated)
+  |   | openssl list -cipher-commands
+  |   |      aes-XXX-(ecb|cbc)
+  |   |     aria-XXX-(cfb1|cbf8|ctr|ecb)
+  |   | camellia-XXX-(ecb|cbc)
+  |   |      des-ede(|3)-(ofb|cbc|cfb)
+  |  -cipher-algorithms        List of symmetric cipher algorithms
+  |   | AES-XXX-(CBC|CBC-HMAC-SHA1|CBC-HMAC-SHA256|CFB|CFB1|CFB8|CTR|ECB|OCB|OFB|XTS)
+  |   | ARIA-XXX-(CBC|CCM|CFB|CFB1|CFB8|CTR|ECB|GCM|OFB)
+  |   | BF-(CBC|CFB|ECB|OFB)
+  |   | CAMELLIA-128-(CBC|CFB|CFB1|CFB8|CTR|ECB|OFB|CBC|CFB|CFB1|CFB8|CTR|ECB|OFB|CBC|CFB|CFB1|CFB8|CTR|ECB|OFB)
+  |   | CAST5-(CBC|CFB|ECB|OFB)
+  |   | ChaCha20(|-Poly1305)
+  |   | DES-(CBC|CFB|CFB1|CFB8|ECB|EDE|EDE-CBC|EDE-CFB), DES-EDE-OFB, DES-(EDE3|CBC|CFB|CFB1|CFB8|OFB), DESX-CBC
+  |   | IDEA-(CBC|CFB|ECB|OFB)
+  |   | RC2*, RC4*, RC5*
+  |   | SEED-(CBC|CFB|ECB|OFB)
+  |  -encoders                 List of encoding methods
+  |   | blob, der, msblob, pem, pvk, text
+  |  -decoders                 List of decoding methods
+  |   | blob, der, msblob, pem, pvk, text
+  |  -key-managers             List of key managers
+  |   | RSA , PKCS#3, DSA , EC , RSA-PSS, X9.42 DH , X25519, 
+  |   | X448, ED25519, ED448, TLS1_PRF via EVP_PKEY, HKDF via EVP_PKEY, 
+  |   | SCRYPT via EVP_PKEY, HMAC via EVP_PKEY, SIPHASH via EVP_PKEY, 
+  |   | POLY1305 via EVP_PKEY, CMAC via EVP_PKEY
+  |  -key-exchange-algorithms  List of key exchange algorithms
+  |   | DH | ECDH | TLS1-PRF | HKDF | SCRYPT
+  |  -kem-algorithms           List of key encapsulation mechanism algorithms
+  |   | RSA, rsaEncryption
+  |  -signature-algorithms     List of signature algorithms
+  |   | RSA, DSA*, ED25519, ED448, ECDSA
+  |  -asymcipher-algorithms    List of asymmetric cipher algorithms
+  |   | RSA
+  |  -public-key-algorithms    List of public key algorithms
+  |   | Name: OpenSSL (PKCS#3 DH|RSA|DSA|EC|RSA-PSS|X9.42 DH |X25519|X448|ED25519|ED448) method
+  |  -public-key-methods       List of public key methods
+  |   | Encryption:
+  |   |  { 1.2.840.113549.1.1.1, 2.5.8.1.1, RSA, rsaEncryption } @ default
+  |   | Key Exchange: DH, X25519, X448, ECDH, TLS1-PRF, HKDF, SCRYPT
+  |   | Signatures  : RSA, DSA*, ED25519, ED448, ECDSA, HMAC, SIPHASH, POLY1305, CMAC
+  |   | Key Encapsu.: RSA
+  |  -store-loaders            List of store loaders
+  |   | file
+  |  -engines                  List of loaded engines (deprecated in favor of providers)
+  |   | rdrand | dynamic
+  |  -disabled                 List of disabled features
+  |   | EC2M| MDC2| SM2| SM4| SSL3
+  |  -options val              List options for specified command
+  |  -objects                  List built in objects (OID<->name mappings)
+  |   (list 1200+ objects)
+  | 
+  ```
+  
+
 
 * Commonly used script/batch ENV.VARs:
   ```

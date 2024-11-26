@@ -1,9 +1,9 @@
 101.txt
 advanced_primitives.txt
-rm secret_protection_primitives.txt
 data_integrity_and_protection.txt
 openssl.txt
-PCKS_standard.txt
+PKCS_standard.txt
+PKCS_11.txt
 protocol_TLS.txt 
 opengpg.txt
 XML_Signatures.txt

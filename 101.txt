@@ -109,13 +109,43 @@
 
 # Cryptography 101 [[{101]]
 
-  ☞ Doing encryption right is tough, MANAGING SECRETS IS EVEN HARDER!!! ☜[[{doc_has.keypoint}]]
+* ☞ Doing encryption right is tough, MANAGING SECRETS IS EVEN HARDER!!! ☜[[{doc_has.keypoint}]]
 
-  ☞ Do not reinvent cryptographic schemas. Reuse what has been
+* ☞ Do not reinvent cryptographic schemas. Reuse what has been
 audited by experts for years. Delegate on well audited and supported
 libraries. For network communication try to reuse proyects like Envoy
 for TLS and mutual TLS, Linux Kernel WireGuard or SSH client/servers
 for VPNs, .. !!! ☜[[{doc_has.keypoint}]]
+
+## How do I get into Cryptography
+
+C&P from <https://billatnapier.medium.com/how-do-i-get-into-cryptography-34fe1c001668>
+
+- Try and lay out the topic areas for your learning. 
+- OpenSSL is your friend and the Swiss Army Knife of Cryptography.
+- Cover both the theory and the practice. 
+- Pick a topic that you like, such as hashing, symmetric key or 
+  public key encryption, and dive in and try to learn as much as you 
+  can on each topic. 
+- Pick a library that covers most of the topic areas and dive into 
+  learning the implementation for the main methods. 
+  - LibSodium (NaCl): <https://asecuritysite.com/nacl/>
+  - Python Cryptography: <https://asecuritysite.com/hazmat/>
+  - Bouncy Castle: <https://asecuritysite.com/bouncy/>
+  - Google Tink: <https://asecuritysite.com/tink/>
+  - NSec.cryptography: <https://asecuritysite.com/nsec/>
+  - Cloudflare CIRCL: <https://asecuritysite.com/circl/>
+  - COSE/COBR: <https://asecuritysite.com/cose/>
+- Learn about the history of cryptography. 
+- Read the great patents. Ussualy they content less maths than papers
+  <https://medium.com/asecuritysite-when-bob-met-alice/its-all-greek-to-me-the-six-patents-that-laid-the-foundations-of-cybersecurity-74e0c6930eb3>
+- Know those vulnerabilities. Cryptography is never perfect, and 
+  there is often a wide range of vulnerabilities. 
+- Do Capture The Flags (CTFs). 
+- The maths is not that difficult once you get into it. 
+- Register for an MSc/PhD programme. 
+- Have Fun! Cryptography is such an interesting area and will give 
+  you an almost endless amount of learning.
 
 ### PERFECT SECRECY:
 
@@ -1034,6 +1064,11 @@ Can be used with prime number groups or with Eliptic Curve groups.
 
 [[{doc_has.comparative,crypt_asymmetric,use_case.signature]]
 ## ed25519 ("Schnorr") vs ECDSA "secp256k1" Digital Signatures Comparative
+
+* The Schnorr patent (2008) expired in 2011 and become "renamed" as ed25519, then EdDSA
+  (From Edward's curve used).
+* Relatively newcomer. Example: Java did not adopt it until JDK 15 with JDK 17 being 
+  the first Long Term Support version with EdDSA support.
 
 NOTE: 25519 comes from: 
   ```

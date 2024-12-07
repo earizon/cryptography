@@ -1,53 +1,67 @@
 # OpenSSL How-To Summary [[{protocol.tls.openssl]]
 
-## OpenSSL Engines vs Providers
+* OpenSSL is the "swiff army knife" of the cryptography.
+  It works as a command line tool with full support for "anything" related to
+  cryptography:
+  - Full support for cryptographic schemas:
+    - symmetric/assymetric chipers.
+    - hashing.
+    - key derivation.
+    - Certificates / Cert. Revocation Lists (CRL)
+  - binary/text input/output formats:
+    ```
+    ( Input format autodetected starting with OpenSSL 3.0 )
+    - man openssl-format-options
+    - ENGINE: (cryptographic material is in an OpenSSL engine, deprecated).<br/>
+              A password PIN may be supplied with -passin.
+    - DER   : binary ASN.1 Distinguished Encoding Rules key/certificate.
+    - P12   : binary ANS.1 DER-encoded file with a PKCS#12 object with a set of
+              private keys and public certificates.
+    - SMIME : text S/MIME object as described in IETF RFC 8551.  
+    - PEM   : base-64 text blocks Plugable Electronic Mail (IETF RFC 1421, IETF RFC 7468)
+              with start/end marks.
+              ----- BEGIN <object-type> -----
+              OT43gQKBgQC/2OHZoko6iRlNOAQ/tMVFNq7fL81GivoQ9F1U0Qr+DH3ZfaH8eIkX
+              xT0ToMPJUzWAn8pZv0snA0um6SIgvkCuxO84OkANCVbttzXImIsL7pFzfcwV/ERK
+              UM6j0ZuSMFOCr/lGPAoOQU0fskidGEHi1/kW+suSr28TqsyYZpwBDQ==
+              ----- END <object-type> -----
+              ┌─────────┴───────────┘ 
+              One of:
+              · ANY PRIVATE KEY
+              · CERTIFICATE REQUEST   · CERTIFICATE
+              · CMS
+              · PARAMETERS            · DH PARAMETERS        · SSL SESSION PARAMETERS
+                                      · X9.42 DH PARAMETERS
+              · DSA PARAMETERS
+              · EC PARAMETERS         · EC PRIVATE KEY
+              · PRIVATE KEY           · RSA PRIVATE KEY       · ENCRYPTED PRIVATE KEY
+              · PUBLIC KEY            · DSA PUBLIC KEY        · ECDSA PUBLIC KEY
+              · PKCS7                 · PKCS #7 SIGNED DATA
+              · TRUSTED CERTIFICATE
+              · X509 CRL
+    
+               legacy object-type's (for compatibility with earlier releases):
+              · DSA PRIVATE KEY
+              · NEW CERTIFICATE REQUEST
+              · RSA PUBLIC KEY
+              · X509 CERTIFICATE
+    ```
+    
+  - standards and standards protocols built on top of cryptographic schemas:
+    - SSL/TLS protocol.
+    - X.509 certificates.
+    - PKCS
 
-* Engines  : Deprecated as of OpenSSL v3, did not allow for "moving" requirements (Maintainable 
-  FIPS-140-3 certified modules,...). It required dangerous and numerous runtime checks and 
-  was hardly sustainable, neither it allowed to separate FIPS/non-FIPS algorithms and implementations
-  in a robust manner, with data crossing back and forht the FIPS boundary.
-* Providers: Replaces engines with "plugable" providers. 
-  * It can be seen as a "**unit of code**" providing 1+ implementations of cryptographic 
-    operations (hashing, signature, ..) making new algorithms available. 
-  * Dynamically loaded plugin as set in OpenSSL config. file.
-  * Current providers include (based on RHEL 10+):
-    * FIPS   :
-    * PKCS#11:
-    * TPM2   :
-    * OQS    : for post-quantum algorithms (experimental).
-
-OpenSSL  provider options:
-  ```
-  | $ openssl list -providers 
-  | -provider-path ...  Provider load path (must be before 'provider' argument if required)
-  | -provider val  ···  Provider to load (can be specified multiple times)
-  | -propquery val ···  Property query used when fetching algorithms
-  ```
-
-## OpenSSL Ext. Refs:
-  * <https://ciphersuite.info/cs/>:  DDBB about different chipher-suites strenghts
-  * <https://en.wikipedia.org/wiki/X.509>
-  * <https://www.openssl.org/docs/manmaster/man1/>
-  * <https://www.ietf.org/rfc/rfc5280.txt> X.509 PKI
-
-* Common openssl opts:
-  * -in   : path for input certificate being examined. Many times
-            STDIN from previous 'openssl s_client ...' is preferred.
-            $ openssl s_client ... | openssl ...
-  * -noout: prevents encoded version output (of request/response)
-  * -text : Show OUTPUT in human readable text (vs hex formated binary)
-  * -nodes: flag:  DO NOT  pass-phrase-encrypt Pub.Key
-
-* openssl summary:
   ```
   | [[{101}]]
+  | $ openssl <command> [ options ... ] [ parameters ... ]
   | $ openssl list -help  (Output from openssl OpenSSL 3.0.9 30 May 2023)
   | 
   |  -1                        List in one column
   |  -verbose                  Verbose listing
   |  -select val               Select a single algorithm
   |  -commands                 List of standard commands
-  |  -standard-commands 
+  |  -standard-commands        "    "  "        "
   |   | asn1parse         ca                ciphers           cmp               
   |   | cms               crl               crl2pkcs7         dgst              
   |   | dhparam           dsa               dsaparam          ec                
@@ -131,7 +145,47 @@ OpenSSL  provider options:
   |   (list 1200+ objects)
   | 
   ```
-  
+
+## OpenSSL Engines vs Providers
+
+* Engines  : Deprecated as of OpenSSL v3, did not allow for "moving" requirements (Maintainable 
+  FIPS-140-3 certified modules,...). It required dangerous and numerous runtime checks and 
+  was hardly sustainable, neither it allowed to separate FIPS/non-FIPS algorithms and implementations
+  in a robust manner, with data crossing back and forht the FIPS boundary.
+* Providers: Replaces engines with "plugable" providers. 
+  * It can be seen as a "**unit of code**" providing 1+ implementations of cryptographic 
+    operations (hashing, signature, ..) making new algorithms available. 
+  * Dynamically loaded plugin as set in OpenSSL config. file.
+  * Current providers include (based on RHEL 10+):
+    * FIPS   :
+    * PKCS#11:
+    * TPM2   :
+    * OQS    : for post-quantum algorithms (experimental).
+
+OpenSSL  provider options:
+  ```
+  | $ openssl list -providers 
+  | -provider-path ...  Provider load path (must be before 'provider' argument if required)
+  | -provider val  ···  Provider to load (can be specified multiple times)
+  | -propquery val ···  Property query used when fetching algorithms
+  ```
+
+## OpenSSL Ext. Refs:
+  * <https://ciphersuite.info/cs/>:  DDBB about different chipher-suites strenghts
+  * <https://en.wikipedia.org/wiki/X.509>
+  * <https://www.openssl.org/docs/manmaster/man1/>
+  * <https://www.ietf.org/rfc/rfc5280.txt> X.509 PKI
+
+* Common openssl opts:
+  * -in   : path for input certificate being examined. Many times
+            STDIN from previous 'openssl s_client ...' is preferred.
+            $ openssl s_client ... | openssl ...
+  * -noout: prevents encoded version output (of request/response)
+  * -text : Show OUTPUT in human readable text (vs hex formated binary)
+  * -nodes: flag: DO NOT pass-phrase-encrypt Pub.Key
+
+* openssl summary:
+ 
 
 
 * Commonly used script/batch ENV.VARs:
@@ -197,16 +251,34 @@ OpenSSL  provider options:
  |<https://alexanderzeitler.com/articles/Fixing-Chrome-missing_subjectAltName-selfsigned-cert-openssl/>
  |- getting-chrome-to-accept-self-signed-localhost-certificate
  |<https://stackoverflow.com/questions/7580508/getting-chrome-to-accept-self-signed-localhost-certificate/43666288#43666288>
- | create_root_cert_and_key.sh
- | |#!/usr/bin/env bash
- | |openssl genrsa -out rootCA.key 2048
- | |openssl req -x509 -nodes \
- | |    -days $NUM_OF_DAYS \
- | |    -key rootCA.key -sha256 \
- | |    -out rootCA.pem
- | |    -new
- |      ^^^^
- |      replace with -in $DOMAIN.csr to reuse crt
+ | $ cat create_root_cert_and_key.sh
+ |  #!/usr/bin/env bash
+ |
+ |  # For further details -> `man 1 openssl-req`
+ |
+ |  openssl req -x509 -nodes -newkey rsa:4096 -keyout private.pem -out novnc.pem -days 365
+ |              ·   ·  ·   · ·     ·     ·  ·         └─────────┴─ ¹ ──┴───────┘
+ |              ·   ·  ·   · ·     ·     └──┴─ Minimum (private asymmetric) key length for RSA as of 2024
+ |              ·   ·  ·   · └─────┴─ alternative use existing key with ─key signatureKey01.key
+ |              ·   ·  └───┴─ DO NOT protect output keys with pass-phrase.
+ |              └───┴─ alt 1: -x509: Generate new self-signed ("root") certificate. 
+ |                     alt 2: -new : Generate new self-signed Cert. Signed Request *csr 
+ |                                   (to be signed by some 'parent' CA)
+ |                     alt 3: -x509 -in child_req.csr: As a 'parent' CA sign child_req.csr from client
+ |
+ |   ¹: We could, but we must NOT use the same output both for the private key and the output certificate.
+ |      The output would be splited like:
+ |      $ cat my_private_key_and_public_certificate.pem  # <·· WARN: DON'T DO THAT!!!. 
+ |      -----BEGIN PRIVATE KEY-----                            When distributed to peers the public certificate
+ |      ...                                                    we don't want to distribute the private key in
+ |      ( lot of byte64 encoded lines )                        the same file by mistake.
+ |      ...
+ |      -----END PRIVATE KEY-----
+ |      -----BEGIN CERTIFICATE-----
+ |      ...
+ |      ( lot of byte64 encoded lines )
+ |      ...
+ |      -----END CERTIFICATE-----
  ```
 
  ```
